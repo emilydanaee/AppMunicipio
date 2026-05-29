@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiMunicipio.Data
 {
-    public class TallerContext : DbContext
+    public class MunicipioContext : DbContext
     {
-        public TallerContext(DbContextOptions<TallerContext> options) : base(options) { }
+        public MunicipioContext(DbContextOptions<MunicipioContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
