@@ -1,0 +1,25 @@
+﻿@model List<WebMunicipio.Models.Taller>
+
+<h1>Talleres</h1>
+<h1>@Model.Count</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Sector</th>
+            <th>Cupos</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var taller in Model)
+        {
+            <tr>
+                <td>@taller.NombreTaller</td>
+                <td>@taller.SectorTaller</td>
+                <td>@taller.CuposTaller</td>
+            </tr>
+        }
+    </tbody>
+</table>

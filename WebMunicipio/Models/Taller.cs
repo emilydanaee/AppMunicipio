@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ApiMunicipio.Models
+namespace WebMunicipio.Models
 {
     public class Taller
     {
-        [Key]
         public int IdTaller { get; set; }
         public string NombreTaller { get; set; }
         public string DescripcionTaller { get; set; }
@@ -12,8 +11,6 @@ namespace ApiMunicipio.Models
         public DateOnly FechaFin { get; set; }
         public TimeOnly HoraInicio { get; set; }
         public TimeOnly HoraFin { get; set; }
-
-        [Required]
         public string SectorTaller { get; set; }
         public int CuposTaller { get; set; }
 

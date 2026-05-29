@@ -1,7 +1,16 @@
+using WebMunicipio.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddHttpClient<TallerService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7061/");
+});
+
+
 
 var app = builder.Build();
 

@@ -1,17 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ApiMunicipio.Models
+namespace WebMunicipio.Models
 {
     public class Feria
     {
-        [Key]
         public int IdFeria { get; set; }
-        [Required]
         public string NombreFeria { get; set; }
         public string DescripcionFeria { get; set; }
         public DateOnly FechaFeria { get; set; }
 
-        [Required]
         public string SectorFeria { get; set; }
         public int NumeroEmprendedores { get; set; }
 

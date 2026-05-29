@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiMunicipio.Migrations
 {
     [DbContext(typeof(MunicipioContext))]
-    [Migration("20260529033745_Datos añadidos")]
-    partial class Datosañadidos
+    [Migration("20260529175326_CrearModelos")]
+    partial class CrearModelos
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,97 @@ namespace ApiMunicipio.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ApiMunicipio.Models.Feria", b =>
+                {
+                    b.Property<int>("IdFeria")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdFeria"));
+
+                    b.Property<string>("DescripcionFeria")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("FechaFeria")
+                        .HasColumnType("date");
+
+                    b.Property<string>("NombreFeria")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumeroEmprendedores")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SectorFeria")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdFeria");
+
+                    b.ToTable("Ferias");
+                });
+
+            modelBuilder.Entity("ApiMunicipio.Models.Reporte", b =>
+                {
+                    b.Property<int>("IdReporte")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReporte"));
+
+                    b.Property<string>("DescripcionReporte")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EstadoReporte")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaReporte")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TipoReporte")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UbicacionReporte")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdReporte");
+
+                    b.ToTable("Reportes");
+                });
+
+            modelBuilder.Entity("ApiMunicipio.Models.Solicitud", b =>
+                {
+                    b.Property<int>("IdSolicitud")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdSolicitud"));
+
+                    b.Property<string>("DescripcionSolicitud")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EstadoSolicitud")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaSolicitud")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TipoSolicitud")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdSolicitud");
+
+                    b.ToTable("Solicitudes");
+                });
 
             modelBuilder.Entity("ApiMunicipio.Models.Taller", b =>
                 {

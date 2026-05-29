@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ApiMunicipio.Models
+namespace WebMunicipio.Models
 {
     public class Solicitud
     {
-        [Key]
         public int IdSolicitud { get; set; }
         public string TipoSolicitud { get; set; }
         public string DescripcionSolicitud { get; set; }

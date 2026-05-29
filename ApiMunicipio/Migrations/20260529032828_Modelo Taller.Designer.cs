@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiMunicipio.Migrations
 {
-    [DbContext(typeof(TallerContext))]
+    [DbContext(typeof(MunicipioContext))]
     [Migration("20260529032828_Modelo Taller")]
     partial class ModeloTaller
     {

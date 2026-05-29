@@ -10,10 +10,14 @@ namespace ApiMunicipio.Controllers
     [ApiController]
     public class TallerController : ControllerBase
     {
+        private readonly MunicipioContext _context;
+        public TallerController(MunicipioContext context)
+        {
+            _context = context;
+        }
 
-        private readonly TallerContext _context;
         [HttpGet]
-        public async Task<ActionResult<List<Taller>>> GetTaller()
+        public async Task<ActionResult<IEnumerable<Taller>>> GetTaller()
         {
             return Ok(await _context.Talleres.ToListAsync());
         }
