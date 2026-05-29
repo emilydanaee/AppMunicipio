@@ -4,3 +4,44 @@ GET {{ApiMunicipio_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+GET {{ApiMunicipio_HostAddress}}/api/Taller
+Accept: application/json
+
+###
+
+GET {{ApiMunicipio_HostAddress}}/api/Taller/2
+Accept: application/json
+
+###
+POST {{ApiMunicipio_HostAddress}}/api/Taller
+Content-Type: application/json
+{
+  "idTaller": 3,
+  "nombreTaller": "Taller de Baile",
+  "descripcionTaller": "Capacitación comunitaria",
+  "fechaInicio": "2026-07-01",
+  "fechaFin": "2026-11-30",
+  "horaInicio": "11:00:00",
+  "horaFin": "13:00:00",
+  "sectorTaller": "Quitumbe",
+  "cuposTaller": 54
+}
+
+###
+PUT {{ApiMunicipio_HostAddress}}/api/Taller/2
+Content-Type: application/json
+{
+  "idTaller": 2,
+  "nombreTaller": "Taller de Karate",
+  "descripcionTaller": "Capacitación comunitaria",
+  "fechaInicio": "2026-07-01",
+  "fechaFin": "2026-11-30",
+  "horaInicio": "11:00:00",
+  "horaFin": "13:00:00",
+  "sectorTaller": "Quitumbe",
+  "cuposTaller": 54
+}
+
+  ###
+DELETE {{ApiMunicipio_HostAddress}}/api/Taller/2
+
