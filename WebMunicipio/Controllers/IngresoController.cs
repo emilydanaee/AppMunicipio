@@ -9,7 +9,7 @@ namespace WebMunicipio.Controllers
             return View();
         }
 
-        public IActionResult Register()
+        public IActionResult Registro()
         {
             return View();
         }

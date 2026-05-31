@@ -1,14 +1,22 @@
 ﻿@model List<WebMunicipio.Models.Taller>
 
 <h1>Talleres</h1>
-<h1>@Model.Count</h1>
+
+<a asp-action="Create"
+   class="btn btn-success mb-3">
+    Nuevo Taller
+</a>
 
 <table class="table">
     <thead>
         <tr>
             <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Inicio Taller</th>
+            <th>Horario</th>
             <th>Sector</th>
             <th>Cupos</th>
+            <th>Acciones</th>
         </tr>
     </thead>
 
@@ -17,8 +25,25 @@
         {
             <tr>
                 <td>@taller.NombreTaller</td>
+                <td>@taller.DescripcionTaller</td>
+                <th>@taller.FechaInicio</th>
+                <th>@taller.HoraInicio - @taller.HoraFin </th>
                 <td>@taller.SectorTaller</td>
                 <td>@taller.CuposTaller</td>
+
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@taller.IdTaller"
+                       class="btn btn-warning btn-sm">
+                        Editar
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@taller.IdTaller"
+                       class="btn btn-danger btn-sm">
+                        Eliminar
+                    </a>
+                </td>
             </tr>
         }
     </tbody>

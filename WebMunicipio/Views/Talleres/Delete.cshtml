@@ -1,0 +1,19 @@
+﻿@model WebMunicipio.Models.Taller
+
+<h2>Eliminar Taller</h2>
+
+<h4>
+    ¿Desea eliminar este taller?
+</h4>
+
+<p>@Model.NombreTaller</p>
+
+<form asp-action="Delete">
+
+    <input asp-for="IdTaller" type="hidden" />
+
+    <button type="submit" class="btn btn-danger">
+        Eliminar
+    </button>
+
+</form>

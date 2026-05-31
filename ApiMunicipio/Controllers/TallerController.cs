@@ -43,19 +43,12 @@ namespace ApiMunicipio.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTaller(int id, Taller upTaller)
+        public async Task<IActionResult> UpdateTaller(int id, Taller taller)
         {
-            var taller = await _context.Talleres.FindAsync(id);
-            if (taller == null)
-                return NotFound();
-            
-            taller.IdTaller = upTaller.IdTaller;
-            taller.NombreTaller = upTaller.NombreTaller;
-            taller.DescripcionTaller = upTaller.DescripcionTaller;
-            taller.FechaInicio = upTaller.FechaInicio;
-            taller.FechaFin = upTaller.FechaFin;
-            taller.SectorTaller = upTaller.SectorTaller;
-            taller.CuposTaller = upTaller.CuposTaller;
+            if (id != taller.IdTaller)
+                return BadRequest();
+
+            _context.Entry(taller).State = EntityState.Modified;
 
             await _context.SaveChangesAsync();  
 

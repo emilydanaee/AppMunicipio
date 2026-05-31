@@ -1,0 +1,52 @@
+﻿@model WebMunicipio.Models.Taller
+
+<h2>Editar Taller</h2>
+
+<form asp-action="Edit">
+
+    <div class="mb-3">
+        <input asp-for="IdTaller" type="hidden" />
+    </div>
+
+    <div class="mb-3">
+        <label>Nombre</label>
+        <input asp-for="NombreTaller" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Descripción</label>
+        <textarea asp-for="DescripcionTaller"
+                  class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label>Fecha Inicio</label>
+        <input asp-for="FechaInicio"
+               type="date"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Fecha Fin</label>
+        <input asp-for="FechaFin"
+               type="date"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Sector</label>
+        <input asp-for="SectorTaller"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Cupos</label>
+        <input asp-for="CuposTaller"
+               class="form-control" />
+    </div>
+
+    <button class="btn btn-success">
+        Guardar
+    </button>
+
+</form>

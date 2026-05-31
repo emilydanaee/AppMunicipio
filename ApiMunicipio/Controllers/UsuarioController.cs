@@ -17,8 +17,8 @@ namespace ApiMunicipio.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(RegistroDTO model)
+        [HttpPost("registro")]
+        public async Task<IActionResult> Registro(RegistroDTO model)
         {
             var user = new Usuario
             {

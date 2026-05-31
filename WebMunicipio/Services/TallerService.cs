@@ -27,5 +27,31 @@ namespace WebMunicipio.Services
 
             return new List<Taller>();
         }
+
+        public async Task<bool> CrearTaller(Taller taller)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/Taller", taller);
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<Taller> ObtenerTaller(int id)
+        {
+            return await _httpClient.GetFromJsonAsync<Taller>($"api/Taller/{id}");
+        }
+
+        public async Task<bool> EditarTaller(Taller taller)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/Taller/{taller.IdTaller}", taller);
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> EliminarTaller(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"api/Taller/{id}");
+
+            return response.IsSuccessStatusCode;
+        }
     }
 }

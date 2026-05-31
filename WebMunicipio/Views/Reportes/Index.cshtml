@@ -1,0 +1,29 @@
+﻿@model List<WebMunicipio.Models.Reporte>
+
+<h1>Reportes</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tipo </th>
+            <th>Descripción</th>
+            <th>Fecha</th>
+            <th>Ubicación</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var reporte in Model)
+        {
+            <tr>
+                <td>@reporte.TipoReporte</td>
+                <td>@reporte.DescripcionReporte</td>
+                <th>@reporte.FechaReporte</th>
+                <td>@reporte.UbicacionReporte</td>
+                <th>@reporte.EstadoReporte</th>
+                
+            </tr>
+        }
+    </tbody>
+</table>
