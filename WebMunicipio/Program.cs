@@ -10,6 +10,18 @@ builder.Services.AddHttpClient<TallerService>(client =>
     client.BaseAddress = new Uri("https://localhost:7061/");
 });
 
+builder.Services.AddHttpClient<FeriaService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7061/");
+});
+builder.Services.AddHttpClient<SolicitudService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7061/");
+});
+builder.Services.AddHttpClient<ReporteService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7061/");
+});
 
 
 var app = builder.Build();

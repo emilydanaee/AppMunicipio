@@ -57,9 +57,9 @@ namespace WebMunicipio.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(Reporte reporte)
         {
-            await _reporteService.EliminarReporte(id);
+            await _reporteService.EliminarReporte(reporte.IdReporte);
 
             return RedirectToAction(nameof(Index));
         }

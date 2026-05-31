@@ -7,7 +7,8 @@ namespace WebMunicipio.Models
         public int IdFeria { get; set; }
         public string NombreFeria { get; set; }
         public string DescripcionFeria { get; set; }
-        public DateOnly FechaFeria { get; set; }
+        public DateOnly FechaInicio { get; set; }
+        public DateOnly FechaFin { get; set; }
 
         public string SectorFeria { get; set; }
         public int NumeroEmprendedores { get; set; }

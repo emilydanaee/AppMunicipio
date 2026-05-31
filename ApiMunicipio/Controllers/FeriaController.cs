@@ -17,7 +17,7 @@ namespace ApiMunicipio.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Feria>>> GetFerias()
+        public async Task<ActionResult<IEnumerable<Feria>>> GetFerias()
         {
             return Ok(await _context.Ferias.ToListAsync());
         }
@@ -36,6 +36,8 @@ namespace ApiMunicipio.Controllers
         [HttpPost]
         public async Task<ActionResult<Feria>> AddFeria(Feria newFeria)
         {
+            if (newFeria == null)
+                return BadRequest();
             _context.Ferias.Add(newFeria);
 
             await _context.SaveChangesAsync();
@@ -45,18 +47,12 @@ namespace ApiMunicipio.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateFeria(int id, Feria upFeria)
+        public async Task<IActionResult> UpdateFeria(int id, Feria feria)
         {
-            var feria = await _context.Ferias.FindAsync(id);
+            if (id != feria.IdFeria)
+                return BadRequest();
 
-            if (feria == null)
-                return NotFound();
-
-            feria.NombreFeria = upFeria.NombreFeria;
-            feria.DescripcionFeria = upFeria.DescripcionFeria;
-            feria.FechaFeria = upFeria.FechaFeria;
-            feria.SectorFeria = upFeria.SectorFeria;
-            feria.NumeroEmprendedores = upFeria.NumeroEmprendedores;
+            _context.Entry(feria).State = EntityState.Modified;
 
             await _context.SaveChangesAsync();
 

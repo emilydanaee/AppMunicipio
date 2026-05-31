@@ -1,0 +1,19 @@
+﻿@model WebMunicipio.Models.Reporte
+
+<h2>Eliminar Reporte</h2>
+
+<h4>
+    ¿Desea eliminar este reporte?
+</h4>
+
+<p>@Model.TipoReporte</p>
+
+<form asp-action="Delete">
+
+    <input asp-for="IdReporte" type="hidden" />
+
+    <button type="submit" class="btn btn-danger">
+        Eliminar
+    </button>
+
+</form>

@@ -46,19 +46,12 @@ namespace ApiMunicipio.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateReporte(int id, Reporte upReporte)
+        public async Task<IActionResult> UpdateReporte(int id, Reporte reporte)
         {
-            var reporte = await _context.Reportes.FindAsync(id);
+            if (id != reporte.IdReporte)
+                return BadRequest();
 
-            if (reporte == null)
-                return NotFound();
-
-            reporte.TipoReporte = upReporte.TipoReporte;
-            reporte.DescripcionReporte = upReporte.DescripcionReporte;
-            reporte.FechaReporte = upReporte.FechaReporte;
-            reporte.UbicacionReporte = upReporte.UbicacionReporte;
-            reporte.EstadoReporte = upReporte.EstadoReporte;
-
+            _context.Entry(reporte).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return NoContent();

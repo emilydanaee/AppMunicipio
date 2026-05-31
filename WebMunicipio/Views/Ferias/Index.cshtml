@@ -2,6 +2,12 @@
 
 <h1>Ferias</h1>
 
+<a asp-action="Create"
+   class="btn btn-success mb-3">
+    Nueva Feria
+</a>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -9,6 +15,7 @@
             <th>Descripción</th>
             <th>Fecha</th>
             <th>Ubicación</th>
+            <th>Acciones</th>
         </tr>
     </thead>
 
@@ -18,8 +25,23 @@
             <tr>
                 <td>@feria.NombreFeria</td>
                 <td>@feria.DescripcionFeria</td>
-                <td>@feria.FechaFeria</td>
+                <th>@feria.FechaInicio - @feria.FechaFin </th>
                 <td>@feria.SectorFeria</td>
+
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@feria.IdFeria"
+                       class="btn btn-warning btn-sm">
+                        Editar
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@feria.IdFeria"
+                       class="btn btn-danger btn-sm">
+                        Eliminar
+                    </a>
+                </td>
+
             </tr>
         }
     </tbody>

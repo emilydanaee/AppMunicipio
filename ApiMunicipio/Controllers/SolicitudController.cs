@@ -46,18 +46,12 @@ namespace ApiMunicipio.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateSolicitud(int id, Solicitud upSolicitud)
+        public async Task<IActionResult> UpdateSolicitud(int id, Solicitud solicitud)
         {
-            var solicitud = await _context.Solicitudes.FindAsync(id);
+            if (id != solicitud.IdSolicitud)
+                return BadRequest();
 
-            if (solicitud == null)
-                return NotFound();
-
-            solicitud.TipoSolicitud = upSolicitud.TipoSolicitud;
-            solicitud.DescripcionSolicitud = upSolicitud.DescripcionSolicitud;
-            solicitud.FechaSolicitud = upSolicitud.FechaSolicitud;
-            solicitud.EstadoSolicitud = upSolicitud.EstadoSolicitud;
-
+            _context.Entry(solicitud).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return NoContent();

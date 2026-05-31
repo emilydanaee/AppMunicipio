@@ -1,0 +1,19 @@
+﻿@model WebMunicipio.Models.Feria
+
+<h2>Eliminar Feria</h2>
+
+<h4>
+    ¿Desea eliminar esta feria?
+</h4>
+
+<p>@Model.NombreFeria</p>
+
+<form asp-action="Delete">
+
+    <input asp-for="IdFeria" type="hidden" />
+
+    <button type="submit" class="btn btn-danger">
+        Eliminar
+    </button>
+
+</form>

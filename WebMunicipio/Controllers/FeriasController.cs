@@ -56,9 +56,9 @@ namespace WebMunicipio.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(Feria feria)
         {
-            await _feriaService.EliminarFeria(id);
+            await _feriaService.EliminarFeria(feria.IdFeria);
 
             return RedirectToAction(nameof(Index));
         }

@@ -1,0 +1,43 @@
+﻿@model WebMunicipio.Models.Reporte
+
+<h2>Editar Reporte</h2>
+
+<form asp-action="Create">
+
+    <input asp-for="IdReporte" type="hidden" />
+
+    <div class="mb-3">
+        <label>Nombre</label>
+        <input asp-for="TipoReporte" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Descripción</label>
+        <textarea asp-for="DescripcionReporte"
+                  class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label>Fecha Reporte</label>
+        <input asp-for="FechaReporte"
+               type="date"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Ubicación</label>
+        <input asp-for="UbicacionReporte"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Estado</label>
+        <input asp-for="EstadoReporte"
+               class="form-control" />
+    </div>
+
+    <button class="btn btn-success">
+        Guardar
+    </button>
+
+</form>

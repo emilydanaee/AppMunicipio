@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace ApiMunicipio.Migrations
 {
     /// <inheritdoc />
-    public partial class IngresoUsuarios : Migration
+    public partial class TallerFeriaSolicitudReporte : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,6 +51,77 @@ namespace ApiMunicipio.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ferias",
+                columns: table => new
+                {
+                    IdFeria = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NombreFeria = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DescripcionFeria = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaInicio = table.Column<DateOnly>(type: "date", nullable: false),
+                    FechaFin = table.Column<DateOnly>(type: "date", nullable: false),
+                    SectorFeria = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NumeroEmprendedores = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ferias", x => x.IdFeria);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reportes",
+                columns: table => new
+                {
+                    IdReporte = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TipoReporte = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DescripcionReporte = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaReporte = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UbicacionReporte = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EstadoReporte = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reportes", x => x.IdReporte);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Solicitudes",
+                columns: table => new
+                {
+                    IdSolicitud = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TipoSolicitud = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DescripcionSolicitud = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaSolicitud = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EstadoSolicitud = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Solicitudes", x => x.IdSolicitud);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Talleres",
+                columns: table => new
+                {
+                    IdTaller = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NombreTaller = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DescripcionTaller = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaInicio = table.Column<DateOnly>(type: "date", nullable: false),
+                    FechaFin = table.Column<DateOnly>(type: "date", nullable: false),
+                    HoraInicio = table.Column<TimeOnly>(type: "time", nullable: false),
+                    HoraFin = table.Column<TimeOnly>(type: "time", nullable: false),
+                    SectorTaller = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CuposTaller = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Talleres", x => x.IdTaller);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,6 +230,15 @@ namespace ApiMunicipio.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Talleres",
+                columns: new[] { "IdTaller", "CuposTaller", "DescripcionTaller", "FechaFin", "FechaInicio", "HoraFin", "HoraInicio", "NombreTaller", "SectorTaller" },
+                values: new object[,]
+                {
+                    { 1, 40, "Capacitación comunitaria", new DateOnly(2026, 7, 30), new DateOnly(2026, 6, 1), new TimeOnly(20, 0, 0), new TimeOnly(18, 0, 0), "Taller de Cocina", "Quitumbe" },
+                    { 2, 40, "Capacitación comunitaria", new DateOnly(2026, 12, 30), new DateOnly(2026, 7, 1), new TimeOnly(12, 0, 0), new TimeOnly(10, 0, 0), "Taller de Baile", "Solanda" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -214,6 +296,18 @@ namespace ApiMunicipio.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Ferias");
+
+            migrationBuilder.DropTable(
+                name: "Reportes");
+
+            migrationBuilder.DropTable(
+                name: "Solicitudes");
+
+            migrationBuilder.DropTable(
+                name: "Talleres");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

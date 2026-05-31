@@ -1,0 +1,48 @@
+﻿@model WebMunicipio.Models.Feria
+
+<h2>Crear Feria</h2>
+
+<form asp-action="Create">
+
+    <div class="mb-3">
+        <label>Nombre</label>
+        <input asp-for="NombreFeria" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Descripción</label>
+        <textarea asp-for="DescripcionFeria"
+                  class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label>Fecha Inicio</label>
+        <input asp-for="FechaInicio"
+               type="date"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Fecha Fin</label>
+        <input asp-for="FechaFin"
+               type="date"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Sector</label>
+        <input asp-for="SectorFeria"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Número de Emprendedores</label>
+        <input asp-for="NumeroEmprendedores"
+               class="form-control" />
+    </div>
+
+    <button class="btn btn-success">
+        Guardar
+    </button>
+
+</form>

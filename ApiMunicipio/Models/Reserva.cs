@@ -6,7 +6,7 @@ namespace ApiMunicipio.Models
     {
         [Key]
         public int IdReserva { get; set; }
-        public string EspacioPublico { get; set; }
+        public string EspacioReserva { get; set; }
         public DateOnly FechaReserva { get; set; }
         public TimeOnly HoraInicio { get; set; }
         public TimeOnly HoraFin { get; set; }

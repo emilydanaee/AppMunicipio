@@ -9,7 +9,8 @@ namespace ApiMunicipio.Models
         [Required]
         public string NombreFeria { get; set; }
         public string DescripcionFeria { get; set; }
-        public DateOnly FechaFeria { get; set; }
+        public DateOnly FechaInicio { get; set; }
+        public DateOnly FechaFin { get; set; }
 
         [Required]
         public string SectorFeria { get; set; }
