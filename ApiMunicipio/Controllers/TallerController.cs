@@ -1,4 +1,5 @@
 ﻿using ApiMunicipio.Data;
+using ApiMunicipio.DTO;
 using ApiMunicipio.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -67,5 +68,100 @@ namespace ApiMunicipio.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("Inscribirse")]
+        public async Task<IActionResult> Inscribirse(
+    InscripcionTallerDTO dto)
+        {
+            // Buscar el taller
+
+            var taller = await _context.Talleres
+                .FindAsync(dto.IdTaller);
+
+            if (taller == null)
+            {
+                return NotFound("El taller no existe.");
+            }
+
+            // Verificar cupos
+
+            if (taller.Inscritos >= taller.CuposTaller)
+            {
+                return BadRequest("No existen cupos disponibles.");
+            }
+
+            // Verificar si la persona ya está inscrita
+
+            bool existe = await _context.InscripcionesTaller.AnyAsync(i =>
+                i.IdTaller == dto.IdTaller &&
+                i.Cedula == dto.Cedula);
+
+            if (existe)
+            {
+                return BadRequest("La persona ya se encuentra inscrita.");
+            }
+
+            // Crear inscripción
+
+            var inscripcion = new InscripcionTaller
+            {
+                IdTaller = dto.IdTaller,
+                Nombre = dto.Nombre,
+                Cedula = dto.Cedula,
+                Correo = dto.Correo,
+                Telefono = dto.Telefono,
+                Fecha = DateTime.Now
+            };
+
+            _context.InscripcionesTaller.Add(inscripcion);
+
+            // Incrementar inscritos
+
+            taller.Inscritos++;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                mensaje = "Inscripción realizada correctamente."
+            });
+        }
+
+        [HttpGet("{id}/Inscritos")]
+        public async Task<ActionResult<IEnumerable<InscripcionTaller>>> GetInscritos(int id)
+        {
+            var inscritos = await _context.InscripcionesTaller
+                .Where(i => i.IdTaller == id)
+                .OrderBy(i => i.Nombre)
+                .ToListAsync();
+
+            return Ok(inscritos);
+        }
+
+        [HttpDelete("Cancelar/{id}")]
+        public async Task<IActionResult> CancelarInscripcion(int id)
+        {
+            var inscripcion = await _context.InscripcionesTaller
+                .FindAsync(id);
+
+            if (inscripcion == null)
+                return NotFound();
+
+            var taller = await _context.Talleres
+                .FindAsync(inscripcion.IdTaller);
+
+            if (taller != null && taller.Inscritos > 0)
+            {
+                taller.Inscritos--;
+            }
+
+            _context.InscripcionesTaller.Remove(inscripcion);
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+
     }
 }

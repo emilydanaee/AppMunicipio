@@ -1,48 +1,121 @@
 ﻿@model List<WebMunicipio.Models.Feria>
 
-<h1>Ferias</h1>
+@{
+    ViewData["Title"] = "Ferias de Emprendimiento";
+}
 
-<a asp-action="Create"
-   class="btn btn-success mb-3">
-    Nueva Feria
-</a>
+<div class="container mt-4">
 
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Fecha</th>
-            <th>Ubicación</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
+        <div>
 
-    <tbody>
+            <h2 class="fw-bold text-primary">
+                Ferias de Emprendimiento
+            </h2>
+
+            <p class="text-muted">
+                Consulta las ferias activas organizadas por el Municipio.
+            </p>
+
+        </div>
+
+        @if (Context.Session.GetString("Rol") == "Admin")
+        {
+            <a asp-action="Create"
+               class="btn btn-success">
+                + Nueva Feria
+            </a>
+        }
+
+    </div>
+
+    <div class="row">
+
         @foreach (var feria in Model)
         {
-            <tr>
-                <td>@feria.NombreFeria</td>
-                <td>@feria.DescripcionFeria</td>
-                <th>@feria.FechaInicio - @feria.FechaFin </th>
-                <td>@feria.SectorFeria</td>
 
-                <td>
-                    <a asp-action="Edit"
-                       asp-route-id="@feria.IdFeria"
-                       class="btn btn-warning btn-sm">
-                        Editar
-                    </a>
+            <div class="col-lg-4 col-md-6 mb-4">
 
-                    <a asp-action="Delete"
-                       asp-route-id="@feria.IdFeria"
-                       class="btn btn-danger btn-sm">
-                        Eliminar
-                    </a>
-                </td>
+                <div class="card shadow h-100">
 
-            </tr>
+                    <img src="~/images/feria.jpg"
+                         class="card-img-top"
+                         style="height:220px; object-fit:cover;" />
+
+                    <div class="card-body">
+
+                        <h4 class="fw-bold">
+
+                            @feria.NombreFeria
+
+                        </h4>
+
+                        <p class="text-muted">
+
+                            @feria.DescripcionFeria
+
+                        </p>
+
+                        <hr />
+
+                        <p>
+
+                            <strong>Sector</strong>
+
+                            <br />
+
+                            @feria.SectorFeria
+
+                        </p>
+
+                        <p>
+
+                            <strong>Fechas</strong>
+
+                            <br />
+
+                            @feria.FechaInicio.ToShortDateString()
+
+                            -
+
+                            @feria.FechaFin.ToShortDateString()
+
+                        </p>
+
+                    </div>
+
+                    @if (Context.Session.GetString("Rol") == "Admin")
+                    {
+
+                        <div class="card-footer text-center">
+
+                            <a asp-action="Edit"
+                               asp-route-id="@feria.IdFeria"
+                               class="btn btn-warning btn-sm">
+
+                                Editar
+
+                            </a>
+
+                            <a asp-action="Delete"
+                               asp-route-id="@feria.IdFeria"
+                               class="btn btn-danger btn-sm">
+
+                                Eliminar
+
+                            </a>
+
+                        </div>
+
+                    }
+
+                </div>
+
+            </div>
+
         }
-    </tbody>
-</table>
+
+    </div>
+
+</div>

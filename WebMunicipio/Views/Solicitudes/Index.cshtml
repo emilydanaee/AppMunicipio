@@ -1,26 +1,37 @@
-﻿@model List<WebMunicipio.Models.Solicitud>
+﻿@model List<WebMunicipio.Models.Permiso>
 
-<h1>Solicitudes</h1>
+<h1>Permisos Municpales</h1>
+@if (Context.Session.GetString("Rol") == "Admin" || Context.Session.GetString("Rol") == "Usuario")
+{
+    <a asp-action="Create"
+       class="btn btn-success mb-3">
+        Nueva Solicitud
+    </a>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Tipo</th>
-            <th>Descripción</th>
-            <th>Fecha de Solicitud</th>
-            <th>Estado</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var solicitud in Model)
-        {
+    <table class="table">
+        <thead>
             <tr>
-                <td>@solicitud.TipoSolicitud</td>
-                <td>@solicitud.DescripcionSolicitud</td>
-                <td>@solicitud.FechaSolicitud</td>
-                <td>@solicitud.EstadoSolicitud</td>
+                <th>Tipo</th>
+                <th>Descripción</th>
+                <th>Fecha de Solicitud</th>
+                <th>Estado</th>
+                @if (Context.Session.GetString("Rol") == "Admin")
+                {
+                    <th>Acciones</th>
+                }
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+
+        <tbody>
+            @foreach (var solicitud in Model)
+            {
+                <tr>
+                    <td>@solicitud.TipoPermiso</td>
+                    <td>@solicitud.DescripcionPermiso</td>
+                    <td>@solicitud.FechaPermiso</td>
+                    <td>@solicitud.EstadoPermiso</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

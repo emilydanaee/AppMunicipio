@@ -1,48 +1,232 @@
 ﻿@model WebMunicipio.Models.Taller
 
-<h2>Crear Taller</h2>
+@{
+    ViewData["Title"] = "Crear Taller";
+}
 
-<form asp-action="Create">
+<div class="container mt-4">
 
-    <div class="mb-3">
-        <label>Nombre</label>
-        <input asp-for="NombreTaller" class="form-control" />
+    <div class="card shadow-lg border-0">
+
+        <div class="card-header text-white"
+             style="background-color:#0A2A65;">
+
+            <h3 class="mb-0">
+                ➕ Crear Nuevo Taller Casa Somos
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+
+                <!-- INFORMACIÓN GENERAL -->
+                <h5 class="text-primary mb-3">Información General</h5>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="NombreTaller" class="form-label"></label>
+                        <input asp-for="NombreTaller" class="form-control" />
+                        <span asp-validation-for="NombreTaller" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="SectorTaller" class="form-label"></label>
+
+                        <select asp-for="SectorTaller" class="form-select">
+                            <option value="">Seleccione un sector</option>
+                            <option>Calderón</option>
+                            <option>Centro</option>
+                            <option>Chillogallo</option>
+                            <option>Cotocollao</option>
+                            <option>Eloy Alfaro</option>
+                            <option>La Delicia</option>
+                            <option>La Mariscal</option>
+                            <option>Quitumbe</option>
+                            <option>Tumbaco</option>
+                            <option>Valle de Los Chillos</option>
+                        </select>
+
+                        <span asp-validation-for="SectorTaller" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label asp-for="Instructor"></label>
+                        <input asp-for="Instructor"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+
+                        <label class="form-label">Días del Taller</label>
+
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <input class="form-check-input dia" type="checkbox" value="Lunes" />
+                                <label class="form-check-label">Lunes</label>
+                            </div>
+
+                            <div class="col-md-3">
+                                <input class="form-check-input dia" type="checkbox" value="Martes" />
+                                <label class="form-check-label">Martes</label>
+                            </div>
+
+                            <div class="col-md-3">
+                                <input class="form-check-input dia" type="checkbox" value="Miércoles" />
+                                <label class="form-check-label">Miércoles</label>
+                            </div>
+
+                            <div class="col-md-3">
+                                <input class="form-check-input dia" type="checkbox" value="Jueves" />
+                                <label class="form-check-label">Jueves</label>
+                            </div>
+
+                            <div class="col-md-3 mt-2">
+                                <input class="form-check-input dia" type="checkbox" value="Viernes" />
+                                <label class="form-check-label">Viernes</label>
+                            </div>
+
+                            <div class="col-md-3 mt-2">
+                                <input class="form-check-input dia" type="checkbox" value="Sábado" />
+                                <label class="form-check-label">Sábado</label>
+                            </div>
+
+                            <div class="col-md-3 mt-2">
+                                <input class="form-check-input dia" type="checkbox" value="Domingo" />
+                                <label class="form-check-label">Domingo</label>
+                            </div>
+
+                        </div>
+
+                        <input asp-for="Dias" type="hidden" />
+
+                    </div>
+
+                    <select asp-for="Modalidad"
+                            class="form-select">
+
+                        <option>Presencial</option>
+
+                        <option>Virtual</option>
+
+                        <option>Híbrida</option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="DescripcionTaller" class="form-label"></label>
+                    <textarea asp-for="DescripcionTaller" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="DescripcionTaller" class="text-danger"></span>
+                </div>
+
+                <hr />
+
+                <!-- PROGRAMACIÓN -->
+                <h5 class="text-primary mb-3">Programación</h5>
+
+                <div class="row">
+
+                    <div class="col-md-3 mb-3">
+                        <label asp-for="FechaInicio"></label>
+                        <input asp-for="FechaInicio" type="date" class="form-control" />
+                        <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label asp-for="FechaFin"></label>
+                        <input asp-for="FechaFin" type="date" class="form-control" />
+                        <span asp-validation-for="FechaFin" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label asp-for="HoraInicio"></label>
+                        <input asp-for="HoraInicio" type="time" class="form-control" />
+                        <span asp-validation-for="HoraInicio" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label asp-for="HoraFin"></label>
+                        <input asp-for="HoraFin" type="time" class="form-control" />
+                        <span asp-validation-for="HoraFin" class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <hr />
+
+                <!-- CUPOS -->
+                <h5 class="text-primary mb-3">Capacidad</h5>
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="CuposTaller"></label>
+                        <input asp-for="CuposTaller" class="form-control" />
+                        <span asp-validation-for="CuposTaller" class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <hr />
+
+                <!-- IMAGEN -->
+                <h5 class="text-primary mb-3">Imagen del Taller</h5>
+
+                <div class="mb-3">
+                    <input type="file" name="imagenFile" class="form-control" />
+                    <small class="text-muted">Selecciona una imagen desde tu computador</small>
+                </div>
+
+                <!-- BOTONES -->
+                <div class="d-flex justify-content-end">
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary me-2">
+                        Cancelar
+                    </a>
+
+                    <button type="submit"
+                            class="btn text-white"
+                            style="background-color:#1E8A4C;">
+                        Guardar Taller
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
 
-    <div class="mb-3">
-        <label>Descripción</label>
-        <textarea asp-for="DescripcionTaller"
-                  class="form-control"></textarea>
-    </div>
+</div>
 
-    <div class="mb-3">
-        <label>Fecha Inicio</label>
-        <input asp-for="FechaInicio"
-               type="date"
-               class="form-control" />
-    </div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 
-    <div class="mb-3">
-        <label>Fecha Fin</label>
-        <input asp-for="FechaFin"
-               type="date"
-               class="form-control" />
-    </div>
+    <script>
 
-    <div class="mb-3">
-        <label>Sector</label>
-        <input asp-for="SectorTaller"
-               class="form-control" />
-    </div>
+        document.querySelectorAll(".dia").forEach(c => {
 
-    <div class="mb-3">
-        <label>Cupos</label>
-        <input asp-for="CuposTaller"
-               class="form-control" />
-    </div>
+            c.addEventListener("change", function () {
 
-    <button class="btn btn-success">
-        Guardar
-    </button>
+                let dias = [];
 
-</form>
+                document.querySelectorAll(".dia:checked").forEach(x => {
+                    dias.push(x.value);
+                });
+
+                document.getElementById("Dias").value = dias.join(", ");
+
+            });
+
+        });
+
+    </script>
+}

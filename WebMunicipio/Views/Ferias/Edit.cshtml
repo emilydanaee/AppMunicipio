@@ -1,50 +1,96 @@
 ﻿@model WebMunicipio.Models.Feria
 
-<h2>Editar Feria</h2>
+@{
+    ViewData["Title"] = "Editar Feria";
+}
 
-<form asp-action="Create">
+<div class="container mt-4">
 
-    <input asp-for="IdFeria" type="hidden" />
+    <div class="card shadow">
 
-    <div class="mb-3">
-        <label>Nombre</label>
-        <input asp-for="NombreFeria" class="form-control" />
+        <div class="card-header bg-warning">
+
+            <h3>Editar Feria</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form asp-action="Edit">
+
+                <input asp-for="IdFeria" hidden />
+
+                <div class="mb-3">
+
+                    <label asp-for="NombreFeria"></label>
+
+                    <input asp-for="NombreFeria"
+                           class="form-control" />
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="DescripcionFeria"></label>
+
+<textarea asp-for="DescripcionFeria"
+          rows="4"
+          class="form-control"></textarea>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <label asp-for="FechaInicio"></label>
+
+                        <input asp-for="FechaInicio"
+                               type="date"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label asp-for="FechaFin"></label>
+
+                        <input asp-for="FechaFin"
+                               type="date"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+                <br />
+
+                <div class="mb-3">
+
+                    <label asp-for="SectorFeria"></label>
+
+                    <input asp-for="SectorFeria"
+                           class="form-control" />
+
+                </div>
+
+                <button class="btn btn-warning">
+
+                    Actualizar
+
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+
+                    Cancelar
+
+                </a>
+
+            </form>
+
+        </div>
+
     </div>
 
-    <div class="mb-3">
-        <label>Descripción</label>
-        <textarea asp-for="DescripcionFeria"
-                  class="form-control"></textarea>
-    </div>
-
-    <div class="mb-3">
-        <label>Fecha Inicio</label>
-        <input asp-for="FechaInicio"
-               type="date"
-               class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label>Fecha Fin</label>
-        <input asp-for="FechaFin"
-               type="date"
-               class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label>Sector</label>
-        <input asp-for="SectorFeria"
-               class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label>Número de Emprendedores</label>
-        <input asp-for="NumeroEmprendedores"
-               class="form-control" />
-    </div>
-
-    <button class="btn btn-success">
-        Guardar
-    </button>
-
-</form>
+</div>

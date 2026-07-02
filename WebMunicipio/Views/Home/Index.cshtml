@@ -1,57 +1,249 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
+<div class="container mt-5">
 
-<div class="container mt-4">
+    <div class="text-center mb-5">
 
-    <h2 class="text-center mb-4">Módulos del Sistema</h2>
+        <img src="~/images/logo.png"
+             alt="Logo Municipio"
+             style="height:110px;" />
 
-    <div class="row">
+        <h1 class="fw-bold mt-3" style="color:#0A2A65;">
+            Municipio Digital
+        </h1>
 
-        <!-- MÓDULO 1 -->
-        <div class="col-md-4">
-            <div class="card p-3 shadow">
+        <p class="text-muted">
+            Plataforma web para acceder a servicios municipales, participación ciudadana y reportes.
+        </p>
 
-                <h4>Participación Ciudadana</h4>
+    </div>
 
-                <ul>
-                    <li><a href="/Talleres">Talleres</a></li>
-                    <li><a href="/Ferias">Ferias</a></li>
-                    <li><a href="/CasaSomos">Casa Somos</a></li>
-                </ul>
+    <div class="row gy-4">
+
+        <!-- PARTICIPACIÓN -->
+        <div class="col-lg-4">
+
+            <div class="card shadow h-100 border-0">
+
+                <div class="card-header text-white text-center"
+                     style="background:#0A2A65;">
+
+                    <h3>Participación Ciudadana</h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-3">
+
+                        <div class="col-6">
+
+                            <a href="/Talleres"
+                               class="text-decoration-none">
+
+                                <div class="card text-center h-100">
+
+                                    <img src="~/images/talleres.png"
+                                         class="card-img-top p-3"
+                                         style="height:120px;object-fit:contain;" />
+
+                                    <div class="card-body">
+
+                                        <strong>Talleres</strong>
+
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                        <div class="col-6">
+
+                            <a href="/Ferias"
+                               class="text-decoration-none">
+
+                                <div class="card text-center h-100">
+
+                                    <img src="~/images/ferias.png"
+                                         class="card-img-top p-3"
+                                         style="height:120px;object-fit:contain;" />
+
+                                    <div class="card-body">
+
+                                        <strong>Ferias</strong>
+
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                        <div class="col-6">
+
+                            <a href="/Campanias"
+                               class="text-decoration-none">
+
+                                <div class="card text-center h-100">
+
+                                    <img src="~/images/campanias.png"
+                                         class="card-img-top p-3"
+                                         style="height:120px;object-fit:contain;" />
+
+                                    <div class="card-body">
+
+                                        <strong>Campañas</strong>
+
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                        <div class="col-6">
+
+                            <a href="/Inscripciones"
+                               class="text-decoration-none">
+
+                                <div class="card text-center h-100">
+
+                                    <img src="~/images/inscripcion.png"
+                                         class="card-img-top p-3"
+                                         style="height:120px;object-fit:contain;" />
+
+                                    <div class="card-body">
+
+                                        <strong>Inscripciones</strong>
+
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
+
         </div>
 
-        <!-- MÓDULO 2 -->
-        <div class="col-md-4">
-            <div class="card p-3 shadow">
+        <!-- REPORTES -->
 
-                <h4>Reportes</h4>
+        <div class="col-lg-4">
 
-                <ul>
-                    <li><a href="/Reportes">Reportes ciudadanos</a></li>
-                    <li><a href="/Alertas">Alertas</a></li>
-                </ul>
+            <div class="card shadow h-100 border-0">
+
+                <div class="card-header text-white text-center"
+                     style="background:#D2251E;">
+
+                    <h3>Reportes y Seguridad</h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="d-grid gap-3">
+
+                        <a href="/Reportes"
+                           class="btn btn-outline-danger">
+
+                            Reportes Ciudadanos
+
+                        </a>
+
+                        <a href="/Alertas"
+                           class="btn btn-outline-danger">
+
+                            Alertas
+
+                        </a>
+
+                        <a href="/SituacionCalles"
+                           class="btn btn-outline-danger">
+
+                            Situación de Calle
+
+                        </a>
+
+                        <a href="/ReporteViolencias"
+                           class="btn btn-outline-danger">
+
+                            Violencia
+
+                        </a>
+
+                    </div>
+
+                </div>
 
             </div>
+
         </div>
 
-        <!-- MÓDULO 3 -->
-        <div class="col-md-4">
-            <div class="card p-3 shadow">
+        <!-- SOLICITUDES -->
 
-                <h4>Solicitudes</h4>
+        <div class="col-lg-4">
 
-                <ul>
-                    <li><a href="/Solicitudes">Trámites</a></li>
-                    <li><a href="/Reservas">Reservas</a></li>
-                </ul>
+            <div class="card shadow h-100 border-0">
+
+                <div class="card-header text-white text-center"
+                     style="background:#1E8A4C;">
+
+                    <h3>Solicitudes Ciudadanas</h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="d-grid gap-3">
+
+                        <a href="/Obras"
+                           class="btn btn-outline-success">
+
+                            Obras Prioritarias
+
+                        </a>
+
+                        <a href="/Reservas"
+                           class="btn btn-outline-success">
+
+                            Reserva de Espacios
+
+                        </a>
+
+                        <a href="/Permisos"
+                           class="btn btn-outline-success">
+
+                            Permisos
+
+                        </a>
+
+                        <a href="/Consultas"
+                           class="btn btn-outline-success">
+
+                            Consulta de Impuestos
+
+                        </a>
+
+                    </div>
+
+                </div>
 
             </div>
+
         </div>
 
     </div>
-</div>
 
+</div>

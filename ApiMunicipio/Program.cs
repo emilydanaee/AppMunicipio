@@ -1,5 +1,6 @@
 using ApiMunicipio.Data;
 using ApiMunicipio.Models;
+using ApiMunicipio.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,8 @@ builder.Services.AddIdentity<Usuario, IdentityRole>()
     .AddEntityFrameworkStores<MunicipioContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddScoped<IImageService, ImageService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,6 +32,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+
+
 
 app.UseAuthentication();
 

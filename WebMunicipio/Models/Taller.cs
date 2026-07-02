@@ -12,7 +12,12 @@ namespace WebMunicipio.Models
         public TimeOnly HoraInicio { get; set; }
         public TimeOnly HoraFin { get; set; }
         public string SectorTaller { get; set; }
+        public string Instructor { get; set; }
+        public string Dias { get; set; }
+        public string Modalidad { get; set; }
         public int CuposTaller { get; set; }
+        public string? ImagenTaller { get; set; }
+        public int Inscritos { get; set; } = 0;
 
     }
 }

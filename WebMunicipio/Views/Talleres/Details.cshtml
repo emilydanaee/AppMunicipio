@@ -1,0 +1,371 @@
+﻿@model WebMunicipio.Models.Taller
+
+@{
+    ViewData["Title"] = "Detalle del Taller";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow-lg">
+
+        <div class="card-header text-white"
+             style="background:#0A2A65">
+
+            <h2>@Model.NombreTaller</h2>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- IMAGEN -->
+
+                <div class="col-lg-5">
+
+                    @if (!string.IsNullOrEmpty(Model.ImagenTaller))
+                    {
+                        <img src="@Model.ImagenTaller"
+                             class="img-fluid rounded shadow" />
+                    }
+                    else
+                    {
+                        <img src="~/images/sin-imagen.png"
+                             class="img-fluid rounded shadow" />
+                    }
+
+                </div>
+
+                <!-- INFORMACIÓN -->
+
+                <div class="col-lg-7">
+
+                    <h4 class="text-primary">
+
+                        Información
+
+                    </h4>
+
+                    <hr />
+
+                    <p>
+
+                        <strong>Descripción</strong>
+
+                        <br />
+
+                        @Model.DescripcionTaller
+
+                    </p>
+
+                    <p>
+
+                        <strong>Sector</strong>
+
+                        <br />
+
+                        @Model.SectorTaller
+
+                    </p>
+
+                    <p>
+
+                        <strong>Instructor</strong>
+
+                        <br />
+
+                        @Model.Instructor
+
+                    </p>
+
+                    <p>
+
+                        <strong>Dias</strong>
+
+                        <br />
+
+                        @Model.Dias
+
+                    </p>
+
+                    <p>
+
+                        <strong>Modalidad</strong>
+
+                        <br />
+
+                        @Model.Modalidad
+
+                    </p>
+
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <strong>Fecha Inicio</strong>
+
+                            <br />
+
+                            @Model.FechaInicio
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Fecha Fin</strong>
+
+                            <br />
+
+                            @Model.FechaFin
+
+                        </div>
+
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <strong>Hora Inicio</strong>
+
+                            <br />
+
+                            @Model.HoraInicio
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Hora Fin</strong>
+
+                            <br />
+
+                            @Model.HoraFin
+
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <div class="row text-center">
+
+                        <div class="col">
+
+                            <div class="alert alert-primary">
+
+                                <h5>Cupos</h5>
+
+                                <h3>
+
+                                    @Model.CuposTaller
+
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+
+                            <div class="alert alert-warning">
+
+                                <h5>Inscritos</h5>
+
+                                <h3>
+
+                                    @Model.Inscritos
+
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+
+                            <div class="alert alert-success">
+
+                                <h5>Disponibles</h5>
+
+                                <h3>
+
+                                    @Model.CuposTaller
+
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br />
+
+    <!-- FORMULARIO -->
+    @if (Model.CuposTaller > 0)
+    {
+
+        <div class="card shadow">
+
+            <div class="card-header text-white"
+                 style="background:#1E8A4C">
+
+                <h3>
+
+                    Inscribirse al Taller
+
+                </h3>
+
+            </div>
+
+            <div class="card-body">
+
+                <form asp-action="Inscribirse"
+                      method="post">
+
+                    <input type="hidden"
+                           name="IdTaller"
+                           value="@Model.IdTaller" />
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <label>
+
+                                Nombre Completo
+
+                            </label>
+
+                            <input name="Nombre"
+                                   class="form-control"
+                                   required />
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label>
+
+                                Cédula
+
+                            </label>
+
+                            <input name="Cedula"
+                                   class="form-control"
+                                   required />
+
+                        </div>
+
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <label>
+
+                                Correo Electrónico
+
+                            </label>
+
+                            <input type="email"
+                                   name="Correo"
+                                   class="form-control"
+                                   required />
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label>
+
+                                Teléfono
+
+                            </label>
+
+                            <input name="Telefono"
+                                   class="form-control"
+                                   required />
+
+                        </div>
+
+                    </div>
+
+                    <br />
+
+                    <button class="btn btn-success">
+
+                        Inscribirme
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    }
+    else
+    {
+        <div class="alert alert-danger">
+
+            <h4>
+
+                No existen cupos disponibles.
+
+            </h4>
+
+        </div>
+    }
+
+    <br />
+
+    <div class="text-end">
+
+        <a asp-action="Index"
+           class="btn btn-secondary">
+
+            Volver
+
+        </a>
+
+        @if (Context.Session.GetString("Rol") == "Admin")
+        {
+
+            <a asp-action="Edit"
+               asp-route-id="@Model.IdTaller"
+               class="btn btn-warning">
+
+                Editar
+
+            </a>
+
+            <a asp-action="Delete"
+               asp-route-id="@Model.IdTaller"
+               class="btn btn-danger">
+
+                Eliminar
+
+            </a>
+
+        }
+
+    </div>
+
+</div>

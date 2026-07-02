@@ -1,19 +1,74 @@
 ﻿@model WebMunicipio.Models.Taller
 
-<h2>Eliminar Taller</h2>
+<div class="container mt-4">
 
-<h4>
-    ¿Desea eliminar este taller?
-</h4>
+    <div class="card shadow border-danger">
 
-<p>@Model.NombreTaller</p>
+        <div class="card-header text-white bg-danger">
+            <h3>🗑 Eliminar Taller</h3>
+        </div>
 
-<form asp-action="Delete">
+        <div class="card-body">
 
-    <input asp-for="IdTaller" type="hidden" />
+            <h4 class="text-danger">
+                ¿Estás seguro de eliminar este taller?
+            </h4>
 
-    <button type="submit" class="btn btn-danger">
-        Eliminar
-    </button>
+            <hr />
 
-</form>
+            <div class="row">
+
+                <div class="col-md-5 text-center">
+
+                    @if (!string.IsNullOrEmpty(Model.ImagenTaller))
+                    {
+                        <img src="@Model.ImagenTaller"
+                             class="img-fluid rounded shadow"
+                             style="max-height:250px;" />
+                    }
+                    else
+                    {
+                        <div class="alert alert-secondary">
+                            Sin imagen disponible
+                        </div>
+                    }
+
+                </div>
+
+                <div class="col-md-7">
+
+                    <p><strong>Nombre:</strong> @Model.NombreTaller</p>
+                    <p><strong>Sector:</strong> @Model.SectorTaller</p>
+                    <p><strong>Instructor:</strong> @Model.Instructor</p>
+                    <p><strong>Dias:</strong> @Model.Dias</p>
+                    <p><strong>Modalidad:</strong> @Model.Modalidad</p>
+                    <p><strong>Descripción:</strong> @Model.DescripcionTaller</p>
+                    <p><strong>Fechas:</strong> @Model.FechaInicio - @Model.FechaFin</p>
+                    <p><strong>Horario:</strong> @Model.HoraInicio - @Model.HoraFin</p>
+                    <p><strong>Cupos:</strong> @Model.CuposTaller</p>
+
+                </div>
+
+            </div>
+
+            <hr />
+
+            <form asp-action="Delete" method="post">
+
+                <input asp-for="IdTaller" type="hidden" />
+
+                <button type="submit" class="btn btn-danger">
+                    Confirmar Eliminación
+                </button>
+
+                <a asp-action="Index" class="btn btn-secondary">
+                    Cancelar
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

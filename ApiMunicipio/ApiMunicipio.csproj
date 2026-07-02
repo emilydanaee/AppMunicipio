@@ -23,6 +23,17 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\uploads\alertas\" />
+    <Folder Include="wwwroot\uploads\campania\" />
+    <Folder Include="wwwroot\uploads\violencia\" />
+    <Folder Include="wwwroot\uploads\feria\" />
+    <Folder Include="wwwroot\uploads\calle\" />
+    <Folder Include="wwwroot\uploads\reportes\" />
+    <Folder Include="wwwroot\uploads\taller\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebMunicipio\WebMunicipio.csproj" />
   </ItemGroup>
 
 </Project>

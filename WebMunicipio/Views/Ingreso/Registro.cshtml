@@ -1,11 +1,71 @@
-﻿<h2>Registro</h2>
+﻿@model WebMunicipio.DTO.RegistroDTO
 
-<form method="post">
-    <input type="text" class="form-control" placeholder="Nombre" />
-    <br />
-    <input type="email" class="form-control" placeholder="Email" />
-    <br />
-    <input type="password" class="form-control" placeholder="Password" />
-    <br />
-    <button class="btn btn-success">Registrarse</button>
-</form>
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow">
+
+                <div class="card-header text-center text-white"
+                     style="background-color:#0A2A65;">
+
+                    <h3>Registro de Usuario</h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-action="Registro" method="post">
+
+                        <div class="mb-2">
+                            <label>Nombre Completo</label>
+                            <input asp-for="NombreCompleto" class="form-control" />
+                        </div>
+
+                        <div class="mb-2">
+                            <label>Cédula</label>
+                            <input asp-for="Cedula" class="form-control" />
+                        </div>
+
+                        <div class="mb-2">
+                            <label>Email</label>
+                            <input asp-for="Email" class="form-control" />
+                        </div>
+
+                        <div class="mb-2">
+                            <label>Sector</label>
+                            <input asp-for="Sector" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Contraseña</label>
+                            <input asp-for="Password"
+                                   type="password"
+                                   class="form-control" />
+                        </div>
+
+                        <button class="btn w-100"
+                                style="background-color:#1E8A4C; color:white;">
+                            Registrarse
+                        </button>
+
+                    </form>
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger mt-2">
+                            @ViewBag.Error
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

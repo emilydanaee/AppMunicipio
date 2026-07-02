@@ -1,19 +1,110 @@
 ﻿@model WebMunicipio.Models.Feria
 
-<h2>Eliminar Feria</h2>
+@{
+    ViewData["Title"] = "Eliminar Feria";
+}
 
-<h4>
-    ¿Desea eliminar esta feria?
-</h4>
+<div class="container mt-5">
 
-<p>@Model.NombreFeria</p>
+    <div class="card shadow">
 
-<form asp-action="Delete">
+        <div class="card-header bg-danger text-white">
 
-    <input asp-for="IdFeria" type="hidden" />
+            <h3>
 
-    <button type="submit" class="btn btn-danger">
-        Eliminar
-    </button>
+                Eliminar Feria
 
-</form>
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <h4>
+
+                ¿Desea eliminar esta feria?
+
+            </h4>
+
+            <hr />
+
+            <dl class="row">
+
+                <dt class="col-sm-3">
+
+                    Nombre
+
+                </dt>
+
+                <dd class="col-sm-9">
+
+                    @Model.NombreFeria
+
+                </dd>
+
+                <dt class="col-sm-3">
+
+                    Descripción
+
+                </dt>
+
+                <dd class="col-sm-9">
+
+                    @Model.DescripcionFeria
+
+                </dd>
+
+                <dt class="col-sm-3">
+
+                    Sector
+
+                </dt>
+
+                <dd class="col-sm-9">
+
+                    @Model.SectorFeria
+
+                </dd>
+
+                <dt class="col-sm-3">
+
+                    Fechas
+
+                </dt>
+
+                <dd class="col-sm-9">
+
+                    @Model.FechaInicio.ToShortDateString()
+
+                    -
+
+                    @Model.FechaFin.ToShortDateString()
+
+                </dd>
+
+            </dl>
+
+            <form asp-action="Delete">
+
+                <input asp-for="IdFeria" hidden />
+
+                <button class="btn btn-danger">
+
+                    Eliminar
+
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+
+                    Cancelar
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

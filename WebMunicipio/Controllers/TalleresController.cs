@@ -63,5 +63,18 @@ namespace WebMunicipio.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var taller = await _tallerService.ObtenerTaller(id);
+
+            if (taller == null)
+            {
+                return NotFound();
+            }
+
+            return View(taller);
+        }
+
     }
 }

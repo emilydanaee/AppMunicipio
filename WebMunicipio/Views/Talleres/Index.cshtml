@@ -1,50 +1,240 @@
-﻿@model List<WebMunicipio.Models.Taller>
+﻿@model IEnumerable<WebMunicipio.Models.Taller>
 
-<h1>Talleres</h1>
+@{
+    ViewData["Title"] = "Talleres Casa Somos";
+}
 
-<a asp-action="Create"
-   class="btn btn-success mb-3">
-    Nuevo Taller
-</a>
+<div class="container mt-4">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Inicio Taller</th>
-            <th>Horario</th>
-            <th>Sector</th>
-            <th>Cupos</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <tbody>
-        @foreach (var taller in Model)
+        <div>
+            <h2 class="fw-bold text-primary">
+                <i class="bi bi-mortarboard-fill"></i>
+                Talleres Casa Somos
+            </h2>
+
+            <p class="text-muted">
+                Consulte los talleres disponibles organizados por el Municipio.
+            </p>
+        </div>
+
+        @if (Context.Session.GetString("Rol") == "Admin")
         {
-            <tr>
-                <td>@taller.NombreTaller</td>
-                <td>@taller.DescripcionTaller</td>
-                <th>@taller.FechaInicio</th>
-                <th>@taller.HoraInicio - @taller.HoraFin </th>
-                <td>@taller.SectorTaller</td>
-                <td>@taller.CuposTaller</td>
+            <a asp-action="Create"
+               class="btn btn-success">
 
-                <td>
-                    <a asp-action="Edit"
-                       asp-route-id="@taller.IdTaller"
-                       class="btn btn-warning btn-sm">
-                        Editar
-                    </a>
+                <i class="bi bi-plus-circle"></i>
 
-                    <a asp-action="Delete"
-                       asp-route-id="@taller.IdTaller"
-                       class="btn btn-danger btn-sm">
-                        Eliminar
-                    </a>
-                </td>
-            </tr>
+                Nuevo Taller
+
+            </a>
         }
-    </tbody>
-</table>
+
+    </div>
+
+
+    <div class="row mb-4">
+
+        <div class="col-md-5">
+
+            <input id="buscar"
+                   class="form-control"
+                   placeholder="Buscar taller..."
+                   onkeyup="filtrarTalleres()" />
+
+        </div>
+
+    </div>
+
+
+    <div class="row" id="contenedorTalleres">
+
+        @foreach (var item in Model)
+        {
+
+            <div class="col-lg-4 col-md-6 mb-4 tarjeta">
+
+                <div class="card shadow h-100">
+
+                    @if (!string.IsNullOrEmpty(item.ImagenTaller))
+                    {
+
+                        <img src="https://localhost:7061/@item.ImagenTaller"
+                             class="card-img-top"
+                             style="height:220px; object-fit:cover;" />
+
+                    }
+                    else
+                    {
+
+                        <img src="~/images/no-image.png"
+                             class="card-img-top"
+                             style="height:220px; object-fit:cover;" />
+
+                    }
+
+                    <div class="card-body">
+
+                        <h4 class="card-title fw-bold">
+
+                            @item.NombreTaller
+
+                        </h4>
+
+                        <p class="text-muted">
+
+                            @item.DescripcionTaller
+
+                        </p>
+
+                        <hr />
+
+                        <p>
+
+                            <i class="bi bi-geo-alt-fill text-danger"></i>
+
+                            <strong>Sector:</strong>
+
+                            @item.SectorTaller
+
+                        </p>
+
+                        <p>
+                            <i class="bi bi-person-fill"></i>
+                            <strong>Instructor:</strong>
+                            @item.Instructor
+                        </p>
+
+                        <p>
+                            <i class="bi bi-calendar-week"></i>
+                            <strong>Días:</strong>
+                            @item.Dias
+                        </p>
+
+                        <p>
+                            <i class="bi bi-laptop"></i>
+                            <strong>Modalidad:</strong>
+                            @item.Modalidad
+                        </p>
+
+                        <p>
+
+                            <i class="bi bi-calendar-event"></i>
+
+                            <strong>Fechas:</strong>
+
+                            @item.FechaInicio -
+
+                            @item.FechaFin
+
+                        </p>
+
+                        <p>
+
+                            <i class="bi bi-clock"></i>
+
+                            <strong>Horario:</strong>
+
+                            @item.HoraInicio -
+
+                            @item.HoraFin
+
+                        </p>
+
+                        <p>
+
+                            <i class="bi bi-people-fill"></i>
+
+                            <strong>Cupos:</strong>
+
+                            @item.CuposTaller
+
+                        </p>
+
+                    </div>
+
+                    <div class="card-footer bg-white border-0">
+
+                        <div class="d-grid gap-2">
+
+                            <a asp-action="Details"
+                               asp-route-id="@item.IdTaller"
+                               class="btn btn-primary">
+
+                                <i class="bi bi-eye-fill"></i>
+
+                                Ver Información
+
+                            </a>
+
+                            @if (Context.Session.GetString("Rol") == "Admin")
+                            {
+
+                                <div class="d-flex justify-content-between">
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.IdTaller"
+                                       class="btn btn-warning">
+
+                                        <i class="bi bi-pencil-square"></i>
+
+                                        Editar
+
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@item.IdTaller"
+                                       class="btn btn-danger">
+
+                                        <i class="bi bi-trash-fill"></i>
+
+                                        Eliminar
+
+                                    </a>
+
+                                </div>
+
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        }
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        function filtrarTalleres(){
+
+            let texto=document.getElementById("buscar").value.toLowerCase();
+
+            let tarjetas=document.getElementsByClassName("tarjeta");
+
+            for(let i=0;i<tarjetas.length;i++){
+
+                let contenido=tarjetas[i].innerText.toLowerCase();
+
+                if(contenido.includes(texto))
+                    tarjetas[i].style.display="block";
+                else
+                    tarjetas[i].style.display="none";
+
+            }
+
+        }
+
+    </script>
+
+}

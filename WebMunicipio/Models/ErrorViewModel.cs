@@ -1,4 +1,4 @@
-namespace WebMunicipio.Models
+﻿namespace ApiMunicipio.Models
 {
     public class ErrorViewModel
     {

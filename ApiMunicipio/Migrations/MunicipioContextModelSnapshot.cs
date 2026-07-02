@@ -22,6 +22,116 @@ namespace ApiMunicipio.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ApiMunicipio.Models.Alerta", b =>
+                {
+                    b.Property<int>("IdAlerta")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAlerta"));
+
+                    b.Property<string>("Cedula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Correo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DescripcionAlerta")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EstadoAlerta")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Latitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Longitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Sector")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TipoAlerta")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdAlerta");
+
+                    b.ToTable("Alertas");
+                });
+
+            modelBuilder.Entity("ApiMunicipio.Models.Campania", b =>
+                {
+                    b.Property<int>("IdCampania")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCampania"));
+
+                    b.Property<string>("DescripcionCampania")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaFin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagenCampania")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NombreCampania")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SectorCampania")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdCampania");
+
+                    b.ToTable("Campanias");
+                });
+
+            modelBuilder.Entity("ApiMunicipio.Models.Consulta", b =>
+                {
+                    b.Property<int>("IdConsulta")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdConsulta"));
+
+                    b.Property<string>("Cedula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaConsulta")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Pagado")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("ValorPendiente")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("IdConsulta");
+
+                    b.ToTable("Consultas");
+                });
+
             modelBuilder.Entity("ApiMunicipio.Models.Feria", b =>
                 {
                     b.Property<int>("IdFeria")
@@ -34,18 +144,28 @@ namespace ApiMunicipio.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DireccionFeria")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateOnly>("FechaFin")
                         .HasColumnType("date");
 
                     b.Property<DateOnly>("FechaInicio")
                         .HasColumnType("date");
 
+                    b.Property<TimeOnly>("HoraFin")
+                        .HasColumnType("time");
+
+                    b.Property<TimeOnly>("HoraInicio")
+                        .HasColumnType("time");
+
+                    b.Property<string>("ImagenFeria")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NombreFeria")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NumeroEmprendedores")
-                        .HasColumnType("int");
 
                     b.Property<string>("SectorFeria")
                         .IsRequired()
@@ -56,13 +176,174 @@ namespace ApiMunicipio.Migrations
                     b.ToTable("Ferias");
                 });
 
-            modelBuilder.Entity("ApiMunicipio.Models.Reporte", b =>
+            modelBuilder.Entity("ApiMunicipio.Models.Inscripcion", b =>
+                {
+                    b.Property<int>("IdInscripcion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdInscripcion"));
+
+                    b.Property<string>("Cedula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Correo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DescripcionActividad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaInscripcion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NombreActividad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NombreCompleto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdInscripcion");
+
+                    b.ToTable("Inscripciones");
+                });
+
+            modelBuilder.Entity("ApiMunicipio.Models.InscripcionTaller", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Cedula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Correo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdTaller")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InscripcionesTaller");
+                });
+
+            modelBuilder.Entity("ApiMunicipio.Models.Obra", b =>
+                {
+                    b.Property<int>("IdObra")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdObra"));
+
+                    b.Property<string>("DescripcionObra")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EstadoObra")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaSolicitud")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Latitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Longitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("NombreObra")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SectorObra")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdObra");
+
+                    b.ToTable("Obras");
+                });
+
+            modelBuilder.Entity("ApiMunicipio.Models.Permiso", b =>
+                {
+                    b.Property<int>("IdPermiso")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPermiso"));
+
+                    b.Property<string>("DescripcionPermiso")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DocumentoAdjunto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EstadoPermiso")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaPermiso")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Observaciones")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TipoPermiso")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdPermiso");
+
+                    b.ToTable("Permisos");
+                });
+
+            modelBuilder.Entity("ApiMunicipio.Models.ReporteDTO", b =>
                 {
                     b.Property<int>("IdReporte")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReporte"));
+
+                    b.Property<string>("Cedula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Correo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DescripcionReporte")
                         .IsRequired()
@@ -75,11 +356,21 @@ namespace ApiMunicipio.Migrations
                     b.Property<DateTime>("FechaReporte")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TipoReporte")
+                    b.Property<string>("ImagenReporte")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UbicacionReporte")
+                    b.Property<decimal>("Latitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Longitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TipoReporte")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -88,32 +379,130 @@ namespace ApiMunicipio.Migrations
                     b.ToTable("Reportes");
                 });
 
-            modelBuilder.Entity("ApiMunicipio.Models.Solicitud", b =>
+            modelBuilder.Entity("ApiMunicipio.Models.ReporteViolencia", b =>
                 {
-                    b.Property<int>("IdSolicitud")
+                    b.Property<int>("IdReporteViolencia")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdSolicitud"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReporteViolencia"));
 
-                    b.Property<string>("DescripcionSolicitud")
+                    b.Property<string>("Cedula")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EstadoSolicitud")
+                    b.Property<string>("Correo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FechaSolicitud")
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaReporte")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TipoSolicitud")
+                    b.Property<decimal>("Latitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Longitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Referencia")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdSolicitud");
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Solicitudes");
+                    b.Property<string>("TipoViolencia")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdReporteViolencia");
+
+                    b.ToTable("ReportesViolencia");
+                });
+
+            modelBuilder.Entity("ApiMunicipio.Models.Reserva", b =>
+                {
+                    b.Property<int>("IdReserva")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReserva"));
+
+                    b.Property<string>("DocumentoAdjunto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EspacioReserva")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EstadoReserva")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("FechaReserva")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly>("HoraFin")
+                        .HasColumnType("time");
+
+                    b.Property<TimeOnly>("HoraInicio")
+                        .HasColumnType("time");
+
+                    b.Property<string>("MotivoReserva")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Observaciones")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdReserva");
+
+                    b.ToTable("Reservas");
+                });
+
+            modelBuilder.Entity("ApiMunicipio.Models.SituacionCalle", b =>
+                {
+                    b.Property<int>("IdSituacionCalle")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdSituacionCalle"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaReporte")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Latitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Longitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("NombreReportante")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdSituacionCalle");
+
+                    b.ToTable("SituacionCalle");
                 });
 
             modelBuilder.Entity("ApiMunicipio.Models.Taller", b =>
@@ -131,6 +520,10 @@ namespace ApiMunicipio.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Dias")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateOnly>("FechaFin")
                         .HasColumnType("date");
 
@@ -143,6 +536,20 @@ namespace ApiMunicipio.Migrations
                     b.Property<TimeOnly>("HoraInicio")
                         .HasColumnType("time");
 
+                    b.Property<string>("ImagenTaller")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Inscritos")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Instructor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Modalidad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NombreTaller")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -154,32 +561,6 @@ namespace ApiMunicipio.Migrations
                     b.HasKey("IdTaller");
 
                     b.ToTable("Talleres");
-
-                    b.HasData(
-                        new
-                        {
-                            IdTaller = 1,
-                            CuposTaller = 40,
-                            DescripcionTaller = "Capacitación comunitaria",
-                            FechaFin = new DateOnly(2026, 7, 30),
-                            FechaInicio = new DateOnly(2026, 6, 1),
-                            HoraFin = new TimeOnly(20, 0, 0),
-                            HoraInicio = new TimeOnly(18, 0, 0),
-                            NombreTaller = "Taller de Cocina",
-                            SectorTaller = "Quitumbe"
-                        },
-                        new
-                        {
-                            IdTaller = 2,
-                            CuposTaller = 40,
-                            DescripcionTaller = "Capacitación comunitaria",
-                            FechaFin = new DateOnly(2026, 12, 30),
-                            FechaInicio = new DateOnly(2026, 7, 1),
-                            HoraFin = new TimeOnly(12, 0, 0),
-                            HoraInicio = new TimeOnly(10, 0, 0),
-                            NombreTaller = "Taller de Baile",
-                            SectorTaller = "Solanda"
-                        });
                 });
 
             modelBuilder.Entity("ApiMunicipio.Models.Usuario", b =>
@@ -189,6 +570,10 @@ namespace ApiMunicipio.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Cedula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -200,6 +585,9 @@ namespace ApiMunicipio.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -227,6 +615,10 @@ namespace ApiMunicipio.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Sector")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

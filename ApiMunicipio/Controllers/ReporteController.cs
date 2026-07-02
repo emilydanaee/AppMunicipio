@@ -18,13 +18,13 @@ namespace ApiMunicipio.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Reporte>>> GetReportes()
+        public async Task<ActionResult<List<ReporteDTO>>> GetReportes()
         {
             return Ok(await _context.Reportes.ToListAsync());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Reporte>> GetReporteByID(int id)
+        public async Task<ActionResult<ReporteDTO>> GetReporteByID(int id)
         {
             var reporte = await _context.Reportes.FindAsync(id);
 
@@ -35,7 +35,7 @@ namespace ApiMunicipio.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Reporte>> AddReporte(Reporte newReporte)
+        public async Task<ActionResult<ReporteDTO>> AddReporte(ReporteDTO newReporte)
         {
             _context.Reportes.Add(newReporte);
 
@@ -46,7 +46,7 @@ namespace ApiMunicipio.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateReporte(int id, Reporte reporte)
+        public async Task<IActionResult> UpdateReporte(int id, ReporteDTO reporte)
         {
             if (id != reporte.IdReporte)
                 return BadRequest();

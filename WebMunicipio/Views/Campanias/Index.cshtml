@@ -1,0 +1,99 @@
+﻿@model List<WebMunicipio.Models.Campania>
+
+@{
+    ViewData["Title"] = "Campañas de Bienestar Animal";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold text-success">
+                Campañas de Bienestar Animal
+            </h2>
+
+            <p class="text-muted">
+                Conoce las campañas organizadas por el Municipio para promover el bienestar y cuidado de los animales.
+            </p>
+        </div>
+
+        @if (Context.Session.GetString("Rol") == "Admin")
+        {
+            <a asp-action="Create"
+               class="btn btn-success">
+                + Nueva Campaña
+            </a>
+        }
+
+    </div>
+
+    <div class="row">
+
+        @foreach (var campania in Model)
+        {
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="card shadow h-100">
+
+                    <img src="~/images/campania-animal.jpg"
+                         class="card-img-top"
+                         style="height:190px; object-fit:cover;" />
+
+                    <div class="card-body">
+
+                        <h5 class="fw-bold">
+                            @campania.NombreCampania
+                        </h5>
+
+                        <p class="text-muted">
+                            @campania.DescripcionCampania
+                        </p>
+
+                        <hr />
+
+                        <p>
+                            <strong>Sector</strong><br />
+                            @campania.SectorCampania
+                        </p>
+
+                        <p>
+                            <strong>Duración</strong><br />
+                            @campania.FechaInicio.ToString("dd/MM/yyyy")
+                            -
+                            @campania.FechaFin.ToString("dd/MM/yyyy")
+                        </p>
+
+                    </div>
+
+                    @if (Context.Session.GetString("Rol") == "Admin")
+                    {
+                        <div class="card-footer text-center">
+
+                            <a asp-action="Edit"
+                               asp-route-id="@campania.IdCampania"
+                               class="btn btn-warning btn-sm">
+
+                                Editar
+
+                            </a>
+
+                            <a asp-action="Delete"
+                               asp-route-id="@campania.IdCampania"
+                               class="btn btn-danger btn-sm">
+
+                                Eliminar
+
+                            </a>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</div>
