@@ -1,89 +1,149 @@
 ﻿@model WebMunicipio.Models.Feria
 
 @{
-    ViewData["Title"] = "Nueva Feria";
+    ViewData["Title"] = "Crear Feria";
 }
 
 <div class="container mt-4">
 
-    <div class="card shadow">
+    <div class="card shadow-lg border-0">
 
-        <div class="card-header bg-primary text-white">
+        <div class="card-header text-white"
+             style="background-color:#0A2A65;">
 
-            <h3>Nueva Feria</h3>
+            <h3 class="mb-0">
+                ➕ Crear Nueva Feria
+            </h3>
 
         </div>
 
+
         <div class="card-body">
 
-            <form asp-action="Create">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
 
-                <div class="mb-3">
+                <div asp-validation-summary="All" class="text-danger"></div>
 
-                    <label asp-for="NombreFeria"></label>
-
-                    <input asp-for="NombreFeria"
-                           class="form-control" />
-
-                </div>
-
-                <div class="mb-3">
-
-                    <label asp-for="DescripcionFeria"></label>
-
-<textarea asp-for="DescripcionFeria"
-          rows="4"
-          class="form-control"></textarea>
-
-                </div>
+                <!-- INFORMACIÓN GENERAL -->
+                <h5 class="text-primary mb-3">Información General</h5>
 
                 <div class="row">
 
-                    <div class="col-md-6">
-
-                        <label asp-for="FechaInicio"></label>
-
-                        <input asp-for="FechaInicio"
-                               type="date"
-                               class="form-control" />
-
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="NombreFeria" class="form-label">Nombre Feria</label>
+                        <input asp-for="NombreFeria" class="form-control" />
+                        <span asp-validation-for="NombreFeria" class="text-danger"></span>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="SectorFeria" class="form-label">Sector Feria</label>
 
-                        <label asp-for="FechaFin"></label>
+                        <select asp-for="SectorFeria" class="form-select">
+                            <option value="">Seleccione un sector</option>
+                            <option>Calderón</option>
+                            <option>Centro</option>
+                            <option>Chillogallo</option>
+                            <option>Cotocollao</option>
+                            <option>Eloy Alfaro</option>
+                            <option>La Delicia</option>
+                            <option>La Mariscal</option>
+                            <option>Quitumbe</option>
+                            <option>Tumbaco</option>
+                            <option>Valle de Los Chillos</option>
+                        </select>
 
-                        <input asp-for="FechaFin"
-                               type="date"
+                        <span asp-validation-for="SectorFeria" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label asp-for="UbicacionFeria">Ubicacion </label>
+                        <input asp-for="UbicacionFeria"
                                class="form-control" />
-
                     </div>
 
                 </div>
 
-                <br />
+                <div class="mb-3">
+                    <label asp-for="DescripcionFeria" class="form-label">Descripcion</label>
+                    <textarea asp-for="DescripcionFeria" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="DescripcionFeria" class="text-danger"></span>
+                </div>
+
+                <hr />
+
+                <!-- PROGRAMACIÓN -->
+                <h5 class="text-primary mb-3">Programación</h5>
+
+                <div class="row">
+
+                    <div class="col-md-3 mb-3">
+                        <label asp-for="FechaInicio">Fecha Inicio</label>
+                        <input asp-for="FechaInicio" type="date" class="form-control" />
+                        <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label asp-for="FechaFin">Fecha Fin</label>
+                        <input asp-for="FechaFin" type="date" class="form-control" />
+                        <span asp-validation-for="FechaFin" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label asp-for="HoraInicio">Hora Inicio</label>
+                        <input asp-for="HoraInicio" type="time" class="form-control" />
+                        <span asp-validation-for="HoraInicio" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label asp-for="HoraFin">Hora Fin</label>
+                        <input asp-for="HoraFin" type="time" class="form-control" />
+                        <span asp-validation-for="HoraFin" class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <hr />
+
+                <!-- IMAGEN -->
+                <h5 class="text-primary mb-3">Imagen de la Feria</h5>
 
                 <div class="mb-3">
 
-                    <label asp-for="SectorFeria"></label>
+                    <label asp-for="Imagen" class="form-label">
+                        Imagen de la Feria
+                    </label>
 
-                    <input asp-for="SectorFeria"
-                           class="form-control" />
+                    <input asp-for="Imagen"
+                           class="form-control"
+                           accept=".jpg,.jpeg,.png" />
+
+                    <span asp-validation-for="Imagen"
+                          class="text-danger"></span>
+
+                    <small class="text-muted">
+                        Formatos permitidos: JPG, JPEG y PNG.
+                    </small>
+
+
 
                 </div>
 
-                <button class="btn btn-success">
+                <!-- BOTONES -->
+                <div class="d-flex justify-content-end">
 
-                    Guardar
+                    <a asp-action="Index"
+                       class="btn btn-secondary me-2">
+                        Cancelar
+                    </a>
 
-                </button>
+                    <button type="submit"
+                            class="btn text-white"
+                            style="background-color:#1E8A4C;">
+                        Guardar Feria
+                    </button>
 
-                <a asp-action="Index"
-                   class="btn btn-secondary">
-
-                    Cancelar
-
-                </a>
+                </div>
 
             </form>
 
@@ -92,3 +152,40 @@
     </div>
 
 </div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        // ==========================
+        // Vista previa de la imagen
+        // ==========================
+
+        document.getElementById("Imagen").addEventListener("change", function (e) {
+
+            const archivo = e.target.files[0];
+
+            if (!archivo)
+                return;
+
+            const lector = new FileReader();
+
+            lector.onload = function (ev) {
+
+                let img = document.getElementById("preview");
+
+                img.src = ev.target.result;
+
+                img.style.display = "block";
+
+            };
+
+            lector.readAsDataURL(archivo);
+
+        });
+
+    </script>
+
+}

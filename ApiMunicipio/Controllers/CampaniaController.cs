@@ -12,12 +12,10 @@ namespace ApiMunicipio.Controllers
     public class CampaniaController : ControllerBase
     {
         private readonly MunicipioContext _context;
-        private readonly IImageService _imageService;
 
         public CampaniaController(MunicipioContext context, IImageService imageService)
         {
             _context = context;
-            _imageService = imageService;
         }
 
         [HttpGet]
@@ -38,24 +36,51 @@ namespace ApiMunicipio.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Campania>> AddCampania(
-    [FromForm] CampaniaDTO dto)
+        public async Task<ActionResult<Campania>> AddCampania([FromForm] CampaniaDTO dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            string? rutaImagen = null;
 
-            string? rutaImagen =
-                await _imageService.GuardarImagen(
-                    dto.Imagen,
-                    "campanias");
+            // Guardar imagen si existe
+            if (dto.Imagen != null && dto.Imagen.Length > 0)
+            {
+                // Nombre único para evitar archivos repetidos
+                string nombreArchivo = Guid.NewGuid().ToString() +
+                                       Path.GetExtension(dto.Imagen.FileName);
 
-            Campania nuevaCampania = new Campania
+                // Ruta física
+                string carpeta = Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "wwwroot",
+                    "images");
+
+                // Crear carpeta si no existe
+                if (!Directory.Exists(carpeta))
+                {
+                    Directory.CreateDirectory(carpeta);
+                }
+
+                string rutaCompleta = Path.Combine(carpeta, nombreArchivo);
+
+                using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+                {
+                    await dto.Imagen.CopyToAsync(stream);
+                }
+
+                // Ruta que se guardará en la BD
+                rutaImagen = "images/" + nombreArchivo;
+            }
+
+            var nuevaCampania = new Campania
             {
                 NombreCampania = dto.NombreCampania,
                 DescripcionCampania = dto.DescripcionCampania,
+                TipoCampania = dto.TipoCampania,
                 FechaInicio = dto.FechaInicio,
                 FechaFin = dto.FechaFin,
-                SectorCampania = dto.SectorCampania,
+                HoraInicio = dto.HoraInicio,
+                HoraFin = dto.HoraFin,
+                UbicacionCampania = dto.UbicacionCampania,
+                ResponsableCampania = dto.ResponsableCampania,
                 ImagenCampania = rutaImagen
             };
 

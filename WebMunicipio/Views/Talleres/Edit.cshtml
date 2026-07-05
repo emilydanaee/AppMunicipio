@@ -11,9 +11,11 @@
 
         <div class="card-body">
 
-            <form asp-action="Edit" method="post">
-
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="All" class="text-danger"></div>
                 <input asp-for="IdTaller" type="hidden" />
+                <input asp-for="ImagenTaller" type="hidden" />
+                <input asp-for="Inscritos" type="hidden" />
 
                 <div class="row">
 
@@ -42,6 +44,15 @@
                         <span asp-validation-for="SectorTaller" class="text-danger"></span>
                     </div>
 
+
+                    <div class="col-md-6 mb-3">
+
+                        <label asp-for="UbicacionTaller"></label>
+                        <input asp-for="UbicacionTaller"
+                               class="form-control" />
+                    </div>
+
+
                     <div class="col-md-6 mb-3">
 
                         <label asp-for="Instructor"></label>
@@ -50,114 +61,69 @@
                     </div>
 
                     <div class="col-md-12 mb-3">
+
                         <label class="form-label">Días del Taller</label>
 
                         <div class="row">
 
                             <div class="col-md-3">
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="checkbox"
-                                           name="DiasSeleccionados"
-                                           value="Lunes"
-                                           id="lunes">
-                                    <label class="form-check-label" for="lunes">
-                                        Lunes
-                                    </label>
-                                </div>
+                                <input class="form-check-input dia" type="checkbox" value="Lunes" />
+                                <label class="form-check-label">Lunes</label>
                             </div>
 
                             <div class="col-md-3">
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="checkbox"
-                                           name="DiasSeleccionados"
-                                           value="Martes"
-                                           id="martes">
-                                    <label class="form-check-label" for="martes">
-                                        Martes
-                                    </label>
-                                </div>
+                                <input class="form-check-input dia" type="checkbox" value="Martes" />
+                                <label class="form-check-label">Martes</label>
                             </div>
 
                             <div class="col-md-3">
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="checkbox"
-                                           name="DiasSeleccionados"
-                                           value="Miércoles"
-                                           id="miercoles">
-                                    <label class="form-check-label" for="miercoles">
-                                        Miércoles
-                                    </label>
-                                </div>
+                                <input class="form-check-input dia" type="checkbox" value="Miércoles" />
+                                <label class="form-check-label">Miércoles</label>
                             </div>
 
                             <div class="col-md-3">
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="checkbox"
-                                           name="DiasSeleccionados"
-                                           value="Jueves"
-                                           id="jueves">
-                                    <label class="form-check-label" for="jueves">
-                                        Jueves
-                                    </label>
-                                </div>
+                                <input class="form-check-input dia" type="checkbox" value="Jueves" />
+                                <label class="form-check-label">Jueves</label>
                             </div>
 
                             <div class="col-md-3 mt-2">
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="checkbox"
-                                           name="DiasSeleccionados"
-                                           value="Viernes"
-                                           id="viernes">
-                                    <label class="form-check-label" for="viernes">
-                                        Viernes
-                                    </label>
-                                </div>
+                                <input class="form-check-input dia" type="checkbox" value="Viernes" />
+                                <label class="form-check-label">Viernes</label>
                             </div>
 
                             <div class="col-md-3 mt-2">
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="checkbox"
-                                           name="DiasSeleccionados"
-                                           value="Sábado"
-                                           id="sabado">
-                                    <label class="form-check-label" for="sabado">
-                                        Sábado
-                                    </label>
-                                </div>
+                                <input class="form-check-input dia" type="checkbox" value="Sábado" />
+                                <label class="form-check-label">Sábado</label>
                             </div>
 
                             <div class="col-md-3 mt-2">
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="checkbox"
-                                           name="DiasSeleccionados"
-                                           value="Domingo"
-                                           id="domingo">
-                                    <label class="form-check-label" for="domingo">
-                                        Domingo
-                                    </label>
-                                </div>
+                                <input class="form-check-input dia" type="checkbox" value="Domingo" />
+                                <label class="form-check-label">Domingo</label>
                             </div>
 
                         </div>
+
+                        <input asp-for="Dias" type="hidden" id="Dias" />
+                        
                     </div>
 
-                    <select asp-for="Modalidad"
-                            class="form-select">
+                    <div class="col-md-6 mb-3">
 
-                        <option>Presencial</option>
+                        <label asp-for="Modalidad" class="form-label"></label>
 
-                        <option>Virtual</option>
+                        <select asp-for="Modalidad" class="form-select">
 
-                        <option>Híbrida</option>
+                            <option value="">Seleccione una modalidad</option>
 
-                    </select>
+                            <option>Presencial</option>
+                            <option>Virtual</option>
+                            <option>Híbrida</option>
+
+                        </select>
+
+                        <span asp-validation-for="Modalidad" class="text-danger"></span>
+
+                    </div>
 
                 </div>
 
@@ -198,8 +164,34 @@
                 </div>
 
                 <div class="mb-3">
-                    <label>Imagen (URL o ruta)</label>
-                    <input asp-for="ImagenTaller" class="form-control" />
+
+                    <label class="form-label">Imagen Actual</label>
+
+                    <br />
+
+                    @if (!string.IsNullOrWhiteSpace(Model.ImagenTaller))
+                    {
+                        <img src="https://localhost:7061/@Model.ImagenTaller"
+                             class="img-thumbnail mb-3"
+                             style="max-height:180px;" />
+                    }
+                    else
+                    {
+                        <div class="alert alert-secondary">
+                            Sin imagen
+                        </div>
+                    }
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">Nueva Imagen</label>
+
+                    <input asp-for="Imagen"
+                           type="file"
+                           class="form-control" />
+
                 </div>
 
                 <button type="submit" class="btn btn-warning">
@@ -216,3 +208,50 @@
     </div>
 
 </div>
+
+@section Scripts{
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        // Obtiene los días guardados en la BD
+        let diasGuardados = document.getElementById("Dias").value;
+
+        if (diasGuardados !== "") {
+
+            let lista = diasGuardados.split(",");
+
+            document.querySelectorAll(".dia").forEach(function (c) {
+
+                if (lista.map(x => x.trim()).includes(c.value))
+                    c.checked = true;
+
+            });
+
+        }
+
+        // Cuando cambian los checkboxes,
+        // actualizar el campo oculto
+
+        document.querySelectorAll(".dia").forEach(function (checkbox) {
+
+            checkbox.addEventListener("change", function () {
+
+                let dias = [];
+
+                document.querySelectorAll(".dia:checked").forEach(function (c) {
+
+                    dias.push(c.value);
+
+                });
+
+                document.getElementById("Dias").value = dias.join(", ");
+
+            });
+
+        });
+
+    </script>
+
+}

@@ -18,14 +18,18 @@ namespace ApiMunicipio.Models
         public decimal Latitud { get; set; }
 
         public decimal Longitud { get; set; }
+        public string? Direccion { get; set; }
+        [Required]
+        public string EstadoAlerta { get; set; } = "Activa";
+
         [Required]
         public string Cedula { get; set; }
+
         [Required]
-        [EmailAddress]
         public string Correo { get; set; }
 
-        public string Telefono { get; set; }
+        public string? Telefono { get; set; }
 
-        public string EstadoAlerta { get; set; }
+        public string? ImagenAlerta { get; set; }
     }
 }

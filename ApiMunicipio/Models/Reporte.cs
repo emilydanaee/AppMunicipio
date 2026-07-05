@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace ApiMunicipio.Models
 {
-    public class ReporteDTO
+    public class Reporte
     {
         // MODULO 2: REPORTE CIUDADANO
 
@@ -13,18 +14,23 @@ namespace ApiMunicipio.Models
         public string TipoReporte { get; set; }
         [Required]
         public string DescripcionReporte { get; set; }
-        public DateTime FechaReporte { get; set; } = DateTime.Now;
-        public decimal Latitud { get; set; }
 
+        public string? Parroquia { get; set; }
+        public string? AdministracionZonal { get; set; }
+        public DateTime FechaReporte { get; set; } = DateTime.Now;
+        [Column(TypeName = "decimal(18,6)")]
+        public decimal Latitud { get; set; }
+        [Column(TypeName = "decimal(18,6)")]
         public decimal Longitud { get; set; }
+        public string? Direccion { get; set; }
+        public string EstadoReporte { get; set; } = "Pendiente";
+        [Required]
         public string Cedula { get; set; }
         [Required]
-        [EmailAddress]
         public string Correo { get; set; }
-        [Required]
-        public string Telefono { get; set; }
-        [Required]
-        public string EstadoReporte { get; set; }
-        public string ImagenReporte { get; set; }
+        public string? Telefono { get; set; }
+        public string? ImagenReporte { get; set; }
+
+
     }
 }

@@ -1,19 +1,196 @@
 ﻿@model WebMunicipio.Models.Reporte
 
-<h2>Eliminar Reporte</h2>
+@{
+    ViewData["Title"] = "Eliminar Reporte";
+}
 
-<h4>
-    ¿Desea eliminar este reporte?
-</h4>
+<div class="container mt-4">
 
-<p>@Model.TipoReporte</p>
+    <div class="card shadow border-danger">
 
-<form asp-action="Delete">
+        <div class="card-header bg-danger text-white">
 
-    <input asp-for="IdReporte" type="hidden" />
+            <h3>
+                <i class="bi bi-trash-fill"></i>
+                Eliminar Reporte Ciudadano
+            </h3>
 
-    <button type="submit" class="btn btn-danger">
-        Eliminar
-    </button>
+        </div>
 
-</form>
+        <div class="card-body">
+
+            <div class="alert alert-warning">
+
+                <h5 class="mb-0">
+
+                    ¿Está seguro de eliminar este reporte?
+
+                </h5>
+
+                <small>
+                    Esta acción no se puede deshacer.
+                </small>
+
+            </div>
+
+            <div class="row">
+
+                <!-- Imagen -->
+
+                <div class="col-lg-4 text-center">
+
+                    @if (!string.IsNullOrWhiteSpace(Model.ImagenReporte))
+                    {
+                        <img src="https://localhost:7061/@Model.ImagenReporte"
+                             class="img-fluid rounded shadow"
+                             style="max-height:280px;"
+                             alt="Reporte" />
+                    }
+                    else
+                    {
+                        <img src="~/images/no-image.png"
+                             class="img-fluid rounded shadow"
+                             style="max-height:250px;"
+                             alt="Sin imagen" />
+                    }
+
+                </div>
+
+                <!-- Información -->
+
+                <div class="col-lg-8">
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th width="220">Tipo de reporte</th>
+                            <td>@Model.TipoReporte</td>
+                        </tr>
+
+                        <tr>
+                            <th>Descripción</th>
+                            <td>@Model.DescripcionReporte</td>
+                        </tr>
+
+                        <tr>
+                            <th>Estado</th>
+                            <td>
+
+                                @if (Model.EstadoReporte == "Pendiente")
+                                {
+                                    <span class="badge bg-warning text-dark">
+                                        @Model.EstadoReporte
+                                    </span>
+                                }
+                                else if (Model.EstadoReporte == "En proceso")
+                                {
+                                    <span class="badge bg-primary">
+                                        @Model.EstadoReporte
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">
+                                        @Model.EstadoReporte
+                                    </span>
+                                }
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Referencia</th>
+                            <td>@Model.Direccion</td>
+                        </tr>
+
+                        <tr>
+                            <th>Fecha</th>
+                            <td>@Model.FechaReporte.ToString("dd/MM/yyyy HH:mm")</td>
+                        </tr>
+
+                        <tr>
+                            <th>Cédula</th>
+                            <td>@Model.Cedula</td>
+                        </tr>
+
+                        <tr>
+                            <th>Correo</th>
+                            <td>@Model.Correo</td>
+                        </tr>
+
+                        <tr>
+                            <th>Teléfono</th>
+                            <td>@Model.Telefono</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <hr />
+
+            <h5 class="text-primary mb-3">
+
+                Ubicación del Reporte
+
+            </h5>
+
+            <div id="map"
+                 style="height:350px;border-radius:10px;"></div>
+
+            <hr />
+
+            <form asp-action="Delete" method="post">
+
+                <input asp-for="IdReporte" type="hidden" />
+
+                <div class="text-end">
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+
+                        Cancelar
+
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-danger">
+
+                        <i class="bi bi-trash-fill"></i>
+
+                        Confirmar Eliminación
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script>
+
+        var map = L.map('map').setView([@Model.Latitud, @Model.Longitud],16);
+
+        L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+            attribution:'© OpenStreetMap'
+        }).addTo(map);
+
+        L.marker([@Model.Latitud,@Model.Longitud])
+        .addTo(map)
+        .bindPopup("<b>@Model.TipoReporte</b><br>@Model.Direccion")
+        .openPopup();
+
+    </script>
+
+}

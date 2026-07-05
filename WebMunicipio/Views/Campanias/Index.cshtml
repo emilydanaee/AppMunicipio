@@ -10,6 +10,7 @@
 
         <div>
             <h2 class="fw-bold text-success">
+                <i class="bi bi-mortarboard-fill"></i>
                 Campañas de Bienestar Animal
             </h2>
 
@@ -22,78 +23,176 @@
         {
             <a asp-action="Create"
                class="btn btn-success">
-                + Nueva Campaña
+
+                <i class="bi bi-plus-circle"></i>
+                Nueva Campaña
             </a>
         }
 
     </div>
 
-    <div class="row">
+    <div class="row" id="contenedorCampanias">
 
-        @foreach (var campania in Model)
+        @foreach (var item in Model)
         {
-            <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="col-lg-4 col-md-6 mb-4 tarjeta">
 
                 <div class="card shadow h-100">
 
-                    <img src="~/images/campania-animal.jpg"
-                         class="card-img-top"
-                         style="height:190px; object-fit:cover;" />
+                    @if (!string.IsNullOrWhiteSpace(item.ImagenCampania))
+                    {
+                        <img src="https://localhost:7061/@item.ImagenCampania"
+                             alt="@item.NombreCampania"
+                             class="card-img-top"
+                             style="height:220px; object-fit:cover;" />
+                    }
+                    else
+                    {
+                        <img src="~/images/no-image.png"
+                             alt="Sin imagen"
+                             class="card-img-top"
+                             style="height:220px; object-fit:cover;" />
+                    }
 
                     <div class="card-body">
 
-                        <h5 class="fw-bold">
-                            @campania.NombreCampania
-                        </h5>
+                        <h4 class="card-title fw-bold">
 
-                        <p class="text-muted">
-                            @campania.DescripcionCampania
-                        </p>
+                            @item.NombreCampania
+
+                        </h4>
 
                         <hr />
 
                         <p>
-                            <strong>Sector</strong><br />
-                            @campania.SectorCampania
+
+                            <i class="bi bi-geo-alt-fill text-danger"></i>
+
+                            <strong>Tipo:</strong>
+
+                            @item.TipoCampania
+
                         </p>
 
                         <p>
-                            <strong>Duración</strong><br />
-                            @campania.FechaInicio.ToString("dd/MM/yyyy")
-                            -
-                            @campania.FechaFin.ToString("dd/MM/yyyy")
+
+                            <i class="bi bi-geo-alt-fill text-danger"></i>
+
+                            <strong>Ubicación:</strong>
+
+                            @item.UbicacionCampania
+
                         </p>
+
+                        <p>
+
+                            <i class="bi bi-calendar-event"></i>
+
+                            <strong>Fechas:</strong>
+
+                            @item.FechaInicio -
+
+                            @item.FechaFin
+
+                        </p>
+
+                        <p>
+
+                            <i class="bi bi-clock"></i>
+
+                            <strong>Horario:</strong>
+
+                            @item.HoraInicio -
+
+                            @item.HoraFin
+
+                        </p>
+
 
                     </div>
 
-                    @if (Context.Session.GetString("Rol") == "Admin")
-                    {
-                        <div class="card-footer text-center">
+                    <div class="card-footer bg-white border-0">
 
-                            <a asp-action="Edit"
-                               asp-route-id="@campania.IdCampania"
-                               class="btn btn-warning btn-sm">
+                        <div class="d-grid gap-2">
 
-                                Editar
+                            <a asp-action="Details"
+                               asp-route-id="@item.IdCampania"
+                               class="btn btn-primary">
 
-                            </a>
+                                <i class="bi bi-eye-fill"></i>
 
-                            <a asp-action="Delete"
-                               asp-route-id="@campania.IdCampania"
-                               class="btn btn-danger btn-sm">
-
-                                Eliminar
+                                Ver Información
 
                             </a>
+
+                            @if (Context.Session.GetString("Rol") == "Admin")
+                            {
+
+                                <div class="d-flex justify-content-between">
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.IdCampania"
+                                       class="btn btn-warning">
+
+                                        <i class="bi bi-pencil-square"></i>
+
+                                        Editar
+
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@item.IdCampania"
+                                       class="btn btn-danger">
+
+                                        <i class="bi bi-trash-fill"></i>
+
+                                        Eliminar
+
+                                    </a>
+
+                                </div>
+
+                            }
 
                         </div>
-                    }
+
+                    </div>
 
                 </div>
 
             </div>
+
         }
 
     </div>
 
 </div>
+
+
+@section Scripts {
+
+    <script>
+
+        function filtrarTalleres(){
+
+            let texto=document.getElementById("buscar").value.toLowerCase();
+
+            let tarjetas=document.getElementsByClassName("tarjeta");
+
+            for(let i=0;i<tarjetas.length;i++){
+
+                let contenido=tarjetas[i].innerText.toLowerCase();
+
+                if(contenido.includes(texto))
+                    tarjetas[i].style.display="block";
+                else
+                    tarjetas[i].style.display="none";
+
+            }
+
+        }
+
+    </script>
+
+}

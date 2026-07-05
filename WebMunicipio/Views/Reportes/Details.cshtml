@@ -1,0 +1,226 @@
+﻿@model WebMunicipio.Models.Reporte
+
+@{
+    ViewData["Title"] = "Detalle del Reporte";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow-lg">
+
+        <div class="card-header text-white"
+             style="background:#0A2A65">
+
+            <h2>
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                Reporte Ciudadano
+            </h2>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- Imagen -->
+
+                <div class="col-lg-5 text-center">
+
+                    @if (!string.IsNullOrWhiteSpace(Model.ImagenReporte))
+                    {
+                        <img src="https://localhost:7061/@Model.ImagenReporte"
+                             class="img-fluid rounded shadow"
+                             style="max-height:350px;" />
+                    }
+                    else
+                    {
+                        <img src="~/images/no-image.png"
+                             class="img-fluid rounded shadow" />
+                    }
+
+                </div>
+
+                <!-- Información -->
+
+                <div class="col-lg-7">
+
+                    <h4 class="text-primary">
+
+                        Información General
+
+                    </h4>
+
+                    <hr />
+
+                    <p>
+
+                        <strong>Tipo de Reporte</strong>
+
+                        <br />
+
+                        @Model.TipoReporte
+
+                    </p>
+
+                    <p>
+
+                        <strong>Descripción</strong>
+
+                        <br />
+
+                        @Model.DescripcionReporte
+
+                    </p>
+
+                    <p>
+
+                        <strong>Estado</strong>
+
+                        <br />
+
+                        @if (Model.EstadoReporte == "Pendiente")
+                        {
+                            <span class="badge bg-warning text-dark">
+                                @Model.EstadoReporte
+                            </span>
+                        }
+                        else if (Model.EstadoReporte == "En proceso")
+                        {
+                            <span class="badge bg-primary">
+                                @Model.EstadoReporte
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">
+                                @Model.EstadoReporte
+                            </span>
+                        }
+
+                    </p>
+
+                    <p>
+
+                        <strong>Dirección</strong>
+
+                        <br />
+
+                        @Model.Direccion
+
+                    </p>
+
+                    <p>
+
+                        <strong>Fecha del Reporte</strong>
+
+                        <br />
+
+                        @Model.FechaReporte.ToString("dd/MM/yyyy HH:mm")
+
+                    </p>
+
+                    
+                    @if (Context.Session.GetString("Rol") == "Admin")
+                    {
+                        <hr />
+                        <h5 class="text-primary">
+
+                            Información del Ciudadano
+
+                        </h5>
+
+                        <p>
+
+                            <strong>Cédula</strong>
+
+                            <br />
+
+                            @Model.Cedula
+
+                        </p>
+
+                        <p>
+
+                            <strong>Correo</strong>
+
+                            <br />
+
+                            @Model.Correo
+
+                        </p>
+
+                        <p>
+
+                            <strong>Teléfono</strong>
+
+                            <br />
+
+                            @Model.Telefono
+
+                        </p>
+                    }               
+
+                </div>
+
+            </div>
+
+            <hr />
+
+            <h4 class="text-primary">
+
+                Ubicación del Reporte
+
+            </h4>
+
+            <div id="map"
+                 style="height:450px;border-radius:12px;"></div>
+
+        </div>
+
+    </div>
+
+    <div class="text-end mt-3">
+
+        <a asp-action="Index"
+           class="btn btn-secondary">
+
+            Volver
+
+        </a>
+
+        @if (Context.Session.GetString("Rol") == "Admin")
+        {
+
+            <a asp-action="Delete"
+               asp-route-id="@Model.IdReporte"
+               class="btn btn-danger">
+
+                Eliminar
+
+            </a>
+        }
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script>
+
+        var map=L.map('map').setView([@Model.Latitud,@Model.Longitud],16);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+
+        attribution:'© OpenStreetMap'
+
+        }).addTo(map);
+
+        L.marker([@Model.Latitud,@Model.Longitud])
+        .addTo(map)
+        .bindPopup("@Model.TipoReporte")
+        .openPopup();
+
+    </script>
+
+}

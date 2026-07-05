@@ -1,100 +1,67 @@
 ﻿@model WebMunicipio.Models.Campania
 
-@{
-    ViewData["Title"] = "Eliminar Campaña";
-}
-
-<div class="container mt-5">
+<div class="container mt-4">
 
     <div class="card shadow border-danger">
 
-        <div class="card-header bg-danger text-white">
-
-            <h3>Eliminar Campaña</h3>
-
+        <div class="card-header text-white bg-danger">
+            <h3>🗑 Eliminar Campania</h3>
         </div>
 
         <div class="card-body">
 
-            <h5 class="text-danger">
-
-                ¿Está seguro de eliminar esta campaña?
-
-            </h5>
+            <h4 class="text-danger">
+                ¿Estás seguro de eliminar esta campania?
+            </h4>
 
             <hr />
 
-            <dl class="row">
+            <div class="row">
 
-                <dt class="col-sm-4">
+                <div class="col-md-5 text-center">
 
-                    Nombre
+                    @if (!string.IsNullOrWhiteSpace(Model.ImagenCampania))
+                    {
+                        <img src="https://localhost:7061/@Model.ImagenCampania"
+                             class="img-fluid rounded shadow"
+                             style="max-height:250px;"
+                             alt="@Model.NombreCampania" />
+                    }
+                    else
+                    {
+                        <div class="alert alert-secondary">
+                            Sin imagen disponible
+                        </div>
+                    }
 
-                </dt>
+                </div>
 
-                <dd class="col-sm-8">
+                <div class="col-md-7">
 
-                    @Model.NombreCampania
+                    <p><strong>Nombre:</strong> @Model.NombreCampania</p>
+                    <p><strong>Tipo:</strong> @Model.TipoCampania</p>
+                    <p><strong>Ubicacion:</strong> @Model.UbicacionCampania</p>
+                    <p><strong>Descripción:</strong> @Model.DescripcionCampania</p>
+                    <p><strong>Responsable:</strong> @Model.ResponsableCampania</p>
+                    <p><strong>Fechas:</strong> @Model.FechaInicio - @Model.FechaFin</p>
+                    <p><strong>Horario:</strong> @Model.HoraInicio - @Model.HoraFin</p>
 
-                </dd>
+                </div>
 
-                <dt class="col-sm-4">
+            </div>
 
-                    Descripción
+            <hr />
 
-                </dt>
+            <form asp-action="Delete" method="post">
 
-                <dd class="col-sm-8">
+                <input asp-for="IdCampania" type="hidden" />
 
-                    @Model.DescripcionCampania
-
-                </dd>
-
-                <dt class="col-sm-4">
-
-                    Sector
-
-                </dt>
-
-                <dd class="col-sm-8">
-
-                    @Model.SectorCampania
-
-                </dd>
-
-                <dt class="col-sm-4">
-
-                    Duración
-
-                </dt>
-
-                <dd class="col-sm-8">
-
-                    @Model.FechaInicio.ToString("dd/MM/yyyy")
-
-                    -
-
-                    @Model.FechaFin.ToString("dd/MM/yyyy")
-
-                </dd>
-
-            </dl>
-
-            <form asp-action="Delete">
-
-                <input asp-for="IdCampania" hidden />
-
-                <button class="btn btn-danger">
-
-                    Eliminar
-
+                <button type="submit" class="btn btn-danger">
+                    Confirmar Eliminación
                 </button>
 
-                <a asp-action="Index"
-                   class="btn btn-secondary">
-
+                <a asp-action="Index" class="btn btn-secondary">
                     Cancelar
-
                 </a>
 
             </form>

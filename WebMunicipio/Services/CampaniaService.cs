@@ -30,7 +30,29 @@ namespace WebMunicipio.Services
 
         public async Task<bool> CrearCampania(Campania campania)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/Campania", campania);
+            var contenido = new MultipartFormDataContent();
+
+            contenido.Add(new StringContent(campania.NombreCampania), "NombreCampania");
+            contenido.Add(new StringContent(campania.DescripcionCampania ?? ""), "DescripcionCampania");
+            contenido.Add(new StringContent(campania.FechaInicio!.Value.ToString("yyyy-MM-dd")), "FechaInicio");
+            contenido.Add(new StringContent(campania.FechaFin!.Value.ToString("yyyy-MM-dd")), "FechaFin");
+            contenido.Add(new StringContent(campania.HoraInicio.ToString()), "HoraInicio");
+            contenido.Add(new StringContent(campania.HoraFin.ToString()), "HoraFin");
+            contenido.Add(new StringContent(campania.ResponsableCampania), "ResponsableCampania");
+            contenido.Add(new StringContent(campania.UbicacionCampania), "UbicacionCampania");
+            contenido.Add(new StringContent(campania.TipoCampania), "TipoCampania");
+
+            if (campania.Imagen != null)
+            {
+                var stream = campania.Imagen.OpenReadStream();
+
+                contenido.Add(
+                    new StreamContent(stream),
+                    "Imagen",
+                    campania.Imagen.FileName);
+            }
+
+            var response = await _httpClient.PostAsync("api/Campania", contenido);
 
             return response.IsSuccessStatusCode;
         }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiMunicipio.Migrations
 {
     [DbContext(typeof(MunicipioContext))]
-    [Migration("20260629204848_AgregarReportesYReservas")]
-    partial class AgregarReportesYReservas
+    [Migration("20260705183152_M1")]
+    partial class M1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,8 +33,19 @@ namespace ApiMunicipio.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAlerta"));
 
+                    b.Property<string>("Cedula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Correo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DescripcionAlerta")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Direccion")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EstadoAlerta")
@@ -44,7 +55,23 @@ namespace ApiMunicipio.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TituloAlerta")
+                    b.Property<string>("ImagenAlerta")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Latitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Longitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Sector")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefono")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TipoAlerta")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -65,17 +92,34 @@ namespace ApiMunicipio.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FechaFin")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("FechaFin")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime>("FechaInicio")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("FechaInicio")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly>("HoraFin")
+                        .HasColumnType("time");
+
+                    b.Property<TimeOnly>("HoraInicio")
+                        .HasColumnType("time");
+
+                    b.Property<string>("ImagenCampania")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NombreCampania")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SectorCampania")
+                    b.Property<string>("ResponsableCampania")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TipoCampania")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UbicacionCampania")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -98,6 +142,9 @@ namespace ApiMunicipio.Migrations
 
                     b.Property<DateTime>("FechaConsulta")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("Pagado")
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("ValorPendiente")
                         .HasColumnType("decimal(18,2)");
@@ -125,11 +172,25 @@ namespace ApiMunicipio.Migrations
                     b.Property<DateOnly>("FechaInicio")
                         .HasColumnType("date");
 
+                    b.Property<TimeOnly>("HoraFin")
+                        .HasColumnType("time");
+
+                    b.Property<TimeOnly>("HoraInicio")
+                        .HasColumnType("time");
+
+                    b.Property<string>("ImagenFeria")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NombreFeria")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SectorFeria")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UbicacionFeria")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -146,6 +207,18 @@ namespace ApiMunicipio.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdInscripcion"));
 
+                    b.Property<string>("Cedula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Correo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DescripcionActividad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Estado")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -153,16 +226,94 @@ namespace ApiMunicipio.Migrations
                     b.Property<DateTime>("FechaInscripcion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TallerId")
-                        .HasColumnType("int");
+                    b.Property<string>("NombreActividad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UsuarioId")
+                    b.Property<string>("NombreCompleto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefono")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdInscripcion");
 
                     b.ToTable("Inscripciones");
+                });
+
+            modelBuilder.Entity("ApiMunicipio.Models.InscripcionTaller", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Cedula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Correo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdTaller")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InscripcionesTaller");
+                });
+
+            modelBuilder.Entity("ApiMunicipio.Models.Obra", b =>
+                {
+                    b.Property<int>("IdObra")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdObra"));
+
+                    b.Property<string>("DescripcionObra")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EstadoObra")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaSolicitud")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Latitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Longitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("NombreObra")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SectorObra")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdObra");
+
+                    b.ToTable("Obras");
                 });
 
             modelBuilder.Entity("ApiMunicipio.Models.Permiso", b =>
@@ -177,6 +328,10 @@ namespace ApiMunicipio.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DocumentoAdjunto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("EstadoPermiso")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -184,11 +339,11 @@ namespace ApiMunicipio.Migrations
                     b.Property<DateTime>("FechaPermiso")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TipoPermiso")
+                    b.Property<string>("Observaciones")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UsuarioId")
+                    b.Property<string>("TipoPermiso")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -205,8 +360,22 @@ namespace ApiMunicipio.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReporte"));
 
+                    b.Property<string>("AdministracionZonal")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Cedula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Correo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DescripcionReporte")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Direccion")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EstadoReporte")
@@ -216,11 +385,22 @@ namespace ApiMunicipio.Migrations
                     b.Property<DateTime>("FechaReporte")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TipoReporte")
-                        .IsRequired()
+                    b.Property<string>("ImagenReporte")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UbicacionReporte")
+                    b.Property<decimal>("Latitud")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<decimal>("Longitud")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<string>("Parroquia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefono")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TipoReporte")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -237,6 +417,14 @@ namespace ApiMunicipio.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReporteViolencia"));
 
+                    b.Property<string>("Cedula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Correo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Descripcion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -247,6 +435,20 @@ namespace ApiMunicipio.Migrations
 
                     b.Property<DateTime>("FechaReporte")
                         .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Latitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Longitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Referencia")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TipoViolencia")
                         .IsRequired()
@@ -265,6 +467,10 @@ namespace ApiMunicipio.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReserva"));
 
+                    b.Property<string>("DocumentoAdjunto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("EspacioReserva")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -281,6 +487,14 @@ namespace ApiMunicipio.Migrations
 
                     b.Property<TimeOnly>("HoraInicio")
                         .HasColumnType("time");
+
+                    b.Property<string>("MotivoReserva")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Observaciones")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdReserva");
 
@@ -303,11 +517,16 @@ namespace ApiMunicipio.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NombreReportado")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("FechaReporte")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Ubicacion")
+                    b.Property<decimal>("Latitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Longitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("NombreReportante")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -331,6 +550,10 @@ namespace ApiMunicipio.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Dias")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateOnly>("FechaFin")
                         .HasColumnType("date");
 
@@ -343,6 +566,20 @@ namespace ApiMunicipio.Migrations
                     b.Property<TimeOnly>("HoraInicio")
                         .HasColumnType("time");
 
+                    b.Property<string>("ImagenTaller")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Inscritos")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Instructor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Modalidad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NombreTaller")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -351,35 +588,13 @@ namespace ApiMunicipio.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UbicacionTaller")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("IdTaller");
 
                     b.ToTable("Talleres");
-
-                    b.HasData(
-                        new
-                        {
-                            IdTaller = 1,
-                            CuposTaller = 40,
-                            DescripcionTaller = "Capacitación comunitaria",
-                            FechaFin = new DateOnly(2026, 7, 30),
-                            FechaInicio = new DateOnly(2026, 6, 1),
-                            HoraFin = new TimeOnly(20, 0, 0),
-                            HoraInicio = new TimeOnly(18, 0, 0),
-                            NombreTaller = "Taller de Cocina",
-                            SectorTaller = "Quitumbe"
-                        },
-                        new
-                        {
-                            IdTaller = 2,
-                            CuposTaller = 40,
-                            DescripcionTaller = "Capacitación comunitaria",
-                            FechaFin = new DateOnly(2026, 12, 30),
-                            FechaInicio = new DateOnly(2026, 7, 1),
-                            HoraFin = new TimeOnly(12, 0, 0),
-                            HoraInicio = new TimeOnly(10, 0, 0),
-                            NombreTaller = "Taller de Baile",
-                            SectorTaller = "Solanda"
-                        });
                 });
 
             modelBuilder.Entity("ApiMunicipio.Models.Usuario", b =>
@@ -389,6 +604,10 @@ namespace ApiMunicipio.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Cedula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -400,6 +619,9 @@ namespace ApiMunicipio.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -427,6 +649,10 @@ namespace ApiMunicipio.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Sector")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

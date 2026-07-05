@@ -1,0 +1,137 @@
+﻿@model WebMunicipio.Models.Alerta
+
+@{
+    ViewData["Title"] = "Eliminar Alerta";
+}
+
+<div class="container mt-5">
+
+    <div class="card shadow border-danger">
+
+        <div class="card-header bg-danger text-white">
+
+            <h3>
+
+                <i class="bi bi-trash-fill"></i>
+
+                Eliminar Alerta
+
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="alert alert-warning">
+
+                <h5>
+
+                    ¿Está seguro de eliminar esta alerta?
+
+                </h5>
+
+                Esta acción no podrá deshacerse.
+
+            </div>
+
+            <dl class="row">
+
+                <dt class="col-sm-3">
+                    Tipo
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Model.TipoAlerta
+                </dd>
+
+                <dt class="col-sm-3">
+                    Descripción
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Model.DescripcionAlerta
+                </dd>
+
+                <dt class="col-sm-3">
+                    Sector
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Model.Sector
+                </dd>
+
+                <dt class="col-sm-3">
+                    Fecha
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Model.Fecha.ToString("dd/MM/yyyy HH:mm")
+                </dd>
+
+                <dt class="col-sm-3">
+                    Estado
+                </dt>
+
+                <dd class="col-sm-9">
+
+                    @if (Model.EstadoAlerta == "Activa")
+                    {
+                        <span class="badge bg-danger">
+                            Activa
+                        </span>
+                    }
+                    else if (Model.EstadoAlerta == "Atendida")
+                    {
+                        <span class="badge bg-warning text-dark">
+                            Atendida
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">
+                            Cerrada
+                        </span>
+                    }
+
+                </dd>
+
+            </dl>
+
+            @if (!string.IsNullOrWhiteSpace(Model.ImagenAlerta))
+            {
+                <div class="text-center mb-4">
+
+                    <img src="https://localhost:7061/@Model.ImagenAlerta"
+                         class="img-fluid rounded shadow"
+                         style="max-height:350px;" />
+
+                </div>
+            }
+
+            <form asp-action="Delete">
+
+                <input asp-for="IdAlerta" hidden />
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+
+                    Cancelar
+
+                </a>
+
+                <button type="submit"
+                        class="btn btn-danger">
+
+                    <i class="bi bi-trash-fill"></i>
+
+                    Eliminar
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

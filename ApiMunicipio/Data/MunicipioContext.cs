@@ -19,7 +19,7 @@ namespace ApiMunicipio.Data
         public DbSet<Inscripcion> Inscripciones { get; set; }
 
         // MODULO 2:
-        public DbSet<ReporteDTO> Reportes { get; set; }
+        public DbSet<Reporte> Reportes { get; set; }
         public DbSet<Alerta> Alertas{ get; set; }
         public DbSet<ReporteViolencia> ReportesViolencia { get; set; }
         public DbSet<SituacionCalle> SituacionCalle { get; set; }

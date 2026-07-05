@@ -8,7 +8,7 @@ namespace ApiMunicipio.Models
 
         [Key]
         public int IdFeria { get; set; }
-        [Required]
+        [Required(ErrorMessage = "El nombre de la feria es obligatorio.")]
         public string NombreFeria { get; set; }
         [Required]
         public string DescripcionFeria { get; set; }
@@ -24,9 +24,8 @@ namespace ApiMunicipio.Models
         [Required]
         public string SectorFeria { get; set; }
         [Required]
-        public string DireccionFeria { get; set; }
 
         public string? ImagenFeria { get; set; }
-
+        public string UbicacionFeria { get; set; }
     }
 }

@@ -1,5 +1,8 @@
 ﻿using WebMunicipio.Models;
 using Newtonsoft.Json;
+using System.Net.Http;
+using System.Net.Http.Headers;
+
 
 namespace WebMunicipio.Services
 {
@@ -30,7 +33,32 @@ namespace WebMunicipio.Services
 
         public async Task<bool> CrearTaller(Taller taller)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/Taller", taller);
+            var contenido = new MultipartFormDataContent();
+
+            contenido.Add(new StringContent(taller.NombreTaller), "NombreTaller");
+            contenido.Add(new StringContent(taller.DescripcionTaller ?? ""), "DescripcionTaller");
+            contenido.Add(new StringContent(taller.FechaInicio!.Value.ToString("yyyy-MM-dd")), "FechaInicio");
+            contenido.Add(new StringContent(taller.FechaFin!.Value.ToString("yyyy-MM-dd")), "FechaFin");
+            contenido.Add(new StringContent(taller.HoraInicio.ToString()), "HoraInicio");
+            contenido.Add(new StringContent(taller.HoraFin.ToString()), "HoraFin");
+            contenido.Add(new StringContent(taller.SectorTaller), "SectorTaller");
+            contenido.Add(new StringContent(taller.UbicacionTaller), "UbicacionTaller");
+            contenido.Add(new StringContent(taller.Instructor), "Instructor");
+            contenido.Add(new StringContent(taller.Dias), "Dias");
+            contenido.Add(new StringContent(taller.Modalidad), "Modalidad");
+            contenido.Add(new StringContent(taller.CuposTaller.ToString()), "CuposTaller");
+
+            if (taller.Imagen != null)
+            {
+                var stream = taller.Imagen.OpenReadStream();
+
+                contenido.Add(
+                    new StreamContent(stream),
+                    "Imagen",
+                    taller.Imagen.FileName);
+            }
+
+            var response = await _httpClient.PostAsync("api/Taller", contenido);
 
             return response.IsSuccessStatusCode;
         }

@@ -1,4 +1,5 @@
 ﻿using ApiMunicipio.Data;
+using ApiMunicipio.DTO;
 using ApiMunicipio.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -34,16 +35,62 @@ namespace ApiMunicipio.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Feria>> AddFeria(Feria newFeria)
+        public async Task<ActionResult<Feria>> AddFeria([FromForm] FeriaDTO dto)
         {
-            if (newFeria == null)
-                return BadRequest();
-            _context.Ferias.Add(newFeria);
+            string? rutaImagen = null;
+
+            // Guardar imagen si existe
+            if (dto.Imagen != null && dto.Imagen.Length > 0)
+            {
+                // Nombre único para evitar archivos repetidos
+                string nombreArchivo = Guid.NewGuid().ToString() +
+                                       Path.GetExtension(dto.Imagen.FileName);
+
+                // Ruta física
+                string carpeta = Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "wwwroot",
+                    "images");
+
+                // Crear carpeta si no existe
+                if (!Directory.Exists(carpeta))
+                {
+                    Directory.CreateDirectory(carpeta);
+                }
+
+                string rutaCompleta = Path.Combine(carpeta, nombreArchivo);
+
+                using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+                {
+                    await dto.Imagen.CopyToAsync(stream);
+                }
+
+                // Ruta que se guardará en la BD
+                rutaImagen = "images/" + nombreArchivo;
+            }
+
+            // Crear entidad
+            var nuevoFeria = new Feria
+            {
+                NombreFeria = dto.NombreFeria,
+                DescripcionFeria = dto.DescripcionFeria,
+                FechaInicio = dto.FechaInicio,
+                FechaFin = dto.FechaFin,
+                HoraInicio = dto.HoraInicio,
+                HoraFin = dto.HoraFin,
+                SectorFeria = dto.SectorFeria,
+                UbicacionFeria = dto.UbicacionFeria,
+                ImagenFeria = rutaImagen
+            };
+
+            _context.Ferias.Add(nuevoFeria);
 
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetFeriaByID),
-                new { id = newFeria.IdFeria }, newFeria);
+            return CreatedAtAction(
+                nameof(GetFeriaByID),
+                new { id = nuevoFeria.IdFeria },
+                nuevoFeria);
         }
 
         [HttpPut("{id}")]

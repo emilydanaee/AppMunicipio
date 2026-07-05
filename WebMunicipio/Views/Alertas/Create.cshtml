@@ -1,0 +1,165 @@
+﻿@model WebMunicipio.Models.Alerta
+
+@{
+    ViewData["Title"] = "Nueva Alerta";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow-lg">
+
+        <div class="card-header bg-danger text-white">
+
+            <h3>
+                <i class="bi bi-bell-fill"></i>
+                Nueva Alerta de Seguridad
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form asp-action="Create"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <div asp-validation-summary="All"
+                     class="text-danger"></div>
+
+                <div class="mb-3">
+
+                    <label asp-for="TipoAlerta"></label>
+
+                    <select asp-for="TipoAlerta"
+                            class="form-select">
+
+                        <option value="">Seleccione...</option>
+
+                        <option>Robo</option>
+                        <option>Asalto</option>
+                        <option>Accidente de tránsito</option>
+                        <option>Persona sospechosa</option>
+                        <option>Violencia</option>
+                        <option>Incendio</option>
+                        <option>Emergencia médica</option>
+                        <option>Desastre natural</option>
+                        <option>Otro</option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="DescripcionAlerta"></label>
+
+                    <textarea asp-for="DescripcionAlerta"
+                              class="form-control"
+                              rows="5"></textarea>
+
+                </div>
+
+                <input asp-for="Latitud"
+                       hidden
+                       id="Latitud" />
+
+                <input asp-for="Longitud"
+                       hidden
+                       id="Longitud" />
+
+                <div class="mb-3">
+
+                    <label asp-for="Sector"></label>
+
+                    <input asp-for="Sector"
+                           id="Parroquia"
+                           class="form-control"
+                           readonly />
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="Direccion"></label>
+
+                    <input asp-for="Direccion"
+                           id="Direccion"
+                           class="form-control"
+                           readonly />
+
+                </div>
+
+                <partial name="_MapaUbicacion" />
+
+                <div class="mb-3">
+
+                    <label>Fotografía</label>
+
+                    <input asp-for="Imagen"
+                           class="form-control" />
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        <label>Cédula</label>
+
+                        <input asp-for="Cedula"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label>Correo</label>
+
+                        <input asp-for="Correo"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label>Teléfono</label>
+
+                        <input asp-for="Telefono"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+                <div class="mt-4 text-end">
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+
+                        Cancelar
+
+                    </a>
+
+                    <button class="btn btn-danger">
+
+                        Publicar Alerta
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <partial name="_LeafletScripts" />
+
+}

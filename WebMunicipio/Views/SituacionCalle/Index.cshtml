@@ -1,0 +1,155 @@
+﻿@model List<WebMunicipio.Models.SituacionCalle>
+
+@{
+    ViewData["Title"] = "Situación de Calle";
+}
+
+<div class="container mt-3">
+
+    <h3 class="mb-3">👥 Situación de Calle</h3>
+
+    <!-- NAV TABS -->
+    <ul class="nav nav-tabs" id="situacionTabs" role="tablist">
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active"
+                    id="info-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#info"
+                    type="button">
+                ℹ️ Información
+            </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link"
+                    id="registros-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#registros"
+                    type="button">
+                📋 Registros
+            </button>
+        </li>
+
+    </ul>
+
+    <!-- CONTENIDO TABS -->
+    <div class="tab-content mt-3">
+
+        <!-- TAB 1: INFORMACIÓN + MAPA -->
+        <div class="tab-pane fade show active" id="info">
+
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+
+                    <h5>¿Necesitas ayuda inmediata?</h5>
+
+                    <p>
+                        Personas en situación de calle pueden acceder a atención mediante los servicios del
+                        Patronato San José del Municipio de Quito.
+                    </p>
+
+                    <ul>
+                        <li>✔ Alimentación</li>
+                        <li>✔ Atención médica</li>
+                        <li>✔ Atención psicológica</li>
+                        <li>✔ Trabajo social</li>
+                        <li>✔ Reintegración familiar</li>
+                        <li>✔ Acogida temporal</li>
+                    </ul>
+
+                    <a class="btn btn-primary"
+                       href="https://patronato.quito.gob.ec/habitantes-de-calle/"
+                       target="_blank">
+                        Conocer puntos de atención
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- MAPA DE CENTROS DE AYUDA -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    🗺️ Centros de ayuda
+                </div>
+                <div class="card-body">
+
+                    <div id="mapaAyuda" style="height: 400px;"></div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TAB 2: REGISTROS -->
+        <div class="tab-pane fade" id="registros">
+
+            <div class="row">
+
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-4 mb-3">
+
+                        <div class="card shadow-sm">
+
+                            <div class="card-body">
+
+                                <h5>👤 @item.NombreReportante</h5>
+
+                                <p>
+                                    <strong>Descripción:</strong><br />
+                                    @item.Descripcion
+                                </p>
+
+                                <p>
+                                    <strong>Estado:</strong>
+                                    <span class="badge bg-warning text-dark">
+                                        @item.Estado
+                                    </span>
+                                </p>
+
+                                <a class="btn btn-sm btn-outline-primary"
+                                   href="https://www.google.com/maps?q=@item.Latitud,@item.Longitud"
+                                   target="_blank">
+                                    📍 Ver ubicación
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var map = L.map('mapaAyuda').setView([-0.22985, -78.52495], 12);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19
+        }).addTo(map);
+
+        // Centros de ayuda ejemplo Quito
+        const centros = [
+            { nombre: "Patronato San José", lat: -0.220, lng: -78.512 },
+            { nombre: "Centro de Acogida", lat: -0.245, lng: -78.520 },
+            { nombre: "Comedor Social", lat: -0.210, lng: -78.530 }
+        ];
+
+        centros.forEach(c => {
+            L.marker([c.lat, c.lng])
+                .addTo(map)
+                .bindPopup("🏠 " + c.nombre);
+        });
+
+    });
+</script>

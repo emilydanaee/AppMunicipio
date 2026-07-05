@@ -1,104 +1,66 @@
 ﻿@model WebMunicipio.Models.Feria
 
-@{
-    ViewData["Title"] = "Eliminar Feria";
-}
+<div class="container mt-4">
 
-<div class="container mt-5">
+    <div class="card shadow border-danger">
 
-    <div class="card shadow">
-
-        <div class="card-header bg-danger text-white">
-
-            <h3>
-
-                Eliminar Feria
-
-            </h3>
-
+        <div class="card-header text-white bg-danger">
+            <h3>🗑 Eliminar Feria</h3>
         </div>
 
         <div class="card-body">
 
-            <h4>
-
-                ¿Desea eliminar esta feria?
-
+            <h4 class="text-danger">
+                ¿Estás seguro de eliminar esta feria?
             </h4>
 
             <hr />
 
-            <dl class="row">
+            <div class="row">
 
-                <dt class="col-sm-3">
+                <div class="col-md-5 text-center">
 
-                    Nombre
+                    @if (!string.IsNullOrWhiteSpace(Model.ImagenFeria))
+                    {
+                        <img src="https://localhost:7061/@Model.ImagenFeria"
+                             class="img-fluid rounded shadow"
+                             style="max-height:250px;"
+                             alt="@Model.NombreFeria" />
+                    }
+                    else
+                    {
+                        <div class="alert alert-secondary">
+                            Sin imagen disponible
+                        </div>
+                    }
 
-                </dt>
+                </div>
 
-                <dd class="col-sm-9">
+                <div class="col-md-7">
 
-                    @Model.NombreFeria
+                    <p><strong>Nombre:</strong> @Model.NombreFeria</p>
+                    <p><strong>Sector:</strong> @Model.SectorFeria</p>
+                    <p><strong>Ubicacion:</strong> @Model.UbicacionFeria</p>
+                    <p><strong>Descripción:</strong> @Model.DescripcionFeria</p>
+                    <p><strong>Fechas:</strong> @Model.FechaInicio - @Model.FechaFin</p>
+                    <p><strong>Horario:</strong> @Model.HoraInicio - @Model.HoraFin</p>
 
-                </dd>
+                </div>
 
-                <dt class="col-sm-3">
+            </div>
 
-                    Descripción
+            <hr />
 
-                </dt>
+            <form asp-action="Delete" method="post">
 
-                <dd class="col-sm-9">
+                <input asp-for="IdFeria" type="hidden" />
 
-                    @Model.DescripcionFeria
-
-                </dd>
-
-                <dt class="col-sm-3">
-
-                    Sector
-
-                </dt>
-
-                <dd class="col-sm-9">
-
-                    @Model.SectorFeria
-
-                </dd>
-
-                <dt class="col-sm-3">
-
-                    Fechas
-
-                </dt>
-
-                <dd class="col-sm-9">
-
-                    @Model.FechaInicio.ToShortDateString()
-
-                    -
-
-                    @Model.FechaFin.ToShortDateString()
-
-                </dd>
-
-            </dl>
-
-            <form asp-action="Delete">
-
-                <input asp-for="IdFeria" hidden />
-
-                <button class="btn btn-danger">
-
-                    Eliminar
-
+                <button type="submit" class="btn btn-danger">
+                    Confirmar Eliminación
                 </button>
 
-                <a asp-action="Index"
-                   class="btn btn-secondary">
-
+                <a asp-action="Index" class="btn btn-secondary">
                     Cancelar
-
                 </a>
 
             </form>

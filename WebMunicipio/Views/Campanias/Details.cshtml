@@ -1,0 +1,185 @@
+﻿@model WebMunicipio.Models.Campania
+
+@{
+    ViewData["Title"] = "Detalle de la Campania";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow-lg">
+
+        <div class="card-header text-white"
+             style="background:#0A2A65">
+
+            <h2>@Model.NombreCampania</h2>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- IMAGEN -->
+
+                <div class="col-lg-5">
+
+                    @if (!string.IsNullOrWhiteSpace(Model.ImagenCampania))
+                    {
+                        <img src="https://localhost:7061/@Model.ImagenCampania"
+                             class="img-fluid rounded shadow"
+                             alt="@Model.NombreCampania" />
+                    }
+                    else
+                    {
+                        <img src="~/images/no-image.png"
+                             class="img-fluid rounded shadow"
+                             alt="Sin imagen" />
+                    }
+
+                </div>
+
+                <!-- INFORMACIÓN -->
+
+                <div class="col-lg-7">
+
+                    <h4 class="text-primary">
+
+                        Información
+
+                    </h4>
+
+                    <hr />
+
+                    <p>
+
+                        <strong>Tipo</strong>
+
+                        <br />
+
+                        @Model.TipoCampania
+
+                    </p>
+
+                    <p>
+
+                        <strong>Responsable</strong>
+
+                        <br />
+
+                        @Model.ResponsableCampania
+
+
+                    <p>
+
+                        <strong>Descripción</strong>
+
+                        <br />
+
+                        @Model.DescripcionCampania
+
+                    </p>
+
+                    <p>
+
+                        <strong>Ubicación</strong>
+
+                        <br />
+
+                        @Model.UbicacionCampania
+
+                    </p>
+
+                    
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <strong>Fecha Inicio</strong>
+
+                            <br />
+
+                            @Model.FechaInicio
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Fecha Fin</strong>
+
+                            <br />
+
+                            @Model.FechaFin
+
+                        </div>
+
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <strong>Hora Inicio</strong>
+
+                            <br />
+
+                            @Model.HoraInicio
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Hora Fin</strong>
+
+                            <br />
+
+                            @Model.HoraFin
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="text-end">
+
+        <a asp-action="Index"
+           class="btn btn-secondary">
+
+            Volver
+
+        </a>
+
+        @if (Context.Session.GetString("Rol") == "Admin")
+        {
+
+            <a asp-action="Edit"
+               asp-route-id="@Model.IdCampania"
+               class="btn btn-warning">
+
+                Editar
+
+            </a>
+
+            <a asp-action="Delete"
+               asp-route-id="@Model.IdCampania"
+               class="btn btn-danger">
+
+                Eliminar
+
+            </a>
+
+        }
+
+    </div>
+
+</div>

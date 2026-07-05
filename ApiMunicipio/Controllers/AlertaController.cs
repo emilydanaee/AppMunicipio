@@ -1,4 +1,5 @@
 ﻿using ApiMunicipio.Data;
+using ApiMunicipio.DTO;
 using ApiMunicipio.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,13 +18,13 @@ namespace ApiMunicipio.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Alerta>>> GetAlerta()
+        public async Task<ActionResult<List<Alerta>>> GetAlertas()
         {
-            return Ok(await _context.Alertas.OrderByDescending(x => x.Fecha).ToListAsync());
+            return Ok(await _context.Alertas.ToListAsync());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Alerta>> GetAlertaByID(int id)
+        public async Task<ActionResult<Alerta>> GetAlerta(int id)
         {
             var alerta = await _context.Alertas.FindAsync(id);
 
@@ -33,72 +34,67 @@ namespace ApiMunicipio.Controllers
             return Ok(alerta);
         }
 
-        [HttpGet("buscar")]
-        public async Task<ActionResult<IEnumerable<Alerta>>> Buscar(string texto)
-        {
-            var alertas = await _context.Alertas
-                .Where(a =>
-                    a.DescripcionAlerta.Contains(texto) ||
-                    a.TipoAlerta.Contains(texto))
-                .OrderByDescending(a => a.Fecha)
-                .ToListAsync();
-
-            return Ok(alertas);
-        }
-
-        [HttpGet("estado")]
-        public async Task<ActionResult<IEnumerable<Alerta>>> Estado(string estado)
-        {
-            var alertas = await _context.Alertas
-                .Where(a => a.EstadoAlerta == estado)
-                .OrderByDescending(a => a.Fecha)
-                .ToListAsync();
-
-            return Ok(alertas);
-        }
-
-        [HttpGet("tipo")]
-        public async Task<ActionResult<IEnumerable<Alerta>>> Tipo(string tipo)
-        {
-            var alertas = await _context.Alertas
-                .Where(a => a.TipoAlerta == tipo)
-                .OrderByDescending(a => a.Fecha)
-                .ToListAsync();
-
-            return Ok(alertas);
-        }
-
-        [HttpGet("sector")]
-        public async Task<ActionResult<IEnumerable<Alerta>>> Sector(string sector)
-        {
-            var alertas = await _context.Alertas
-                .Where(a => a.Sector == sector)
-                .OrderByDescending(a => a.Fecha)
-                .ToListAsync();
-
-            return Ok(alertas);
-        }
-
         [HttpPost]
-        public async Task<ActionResult<Alerta>> AddAlerta(Alerta newAlerta)
+        public async Task<ActionResult<Alerta>> CrearAlerta([FromForm] AlertaDTO dto)
         {
-            if (newAlerta == null) return BadRequest();
+            string? rutaImagen = null;
 
-            _context.Alertas.Add(newAlerta);
+            if (dto.Imagen != null)
+            {
+                string nombre = Guid.NewGuid() +
+                                Path.GetExtension(dto.Imagen.FileName);
+
+                string carpeta = Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "wwwroot",
+                    "images");
+
+                if (!Directory.Exists(carpeta))
+                    Directory.CreateDirectory(carpeta);
+
+                string ruta = Path.Combine(carpeta, nombre);
+
+                using var stream = new FileStream(ruta, FileMode.Create);
+
+                await dto.Imagen.CopyToAsync(stream);
+
+                rutaImagen = "images/" + nombre;
+            }
+
+            var alerta = new Alerta
+            {
+                TipoAlerta = dto.TipoAlerta,
+                DescripcionAlerta = dto.DescripcionAlerta,
+                Fecha = DateTime.Now,
+                Sector = dto.Sector,
+                Latitud = dto.Latitud,
+                Longitud = dto.Longitud,
+                Direccion = dto.Direccion,
+                Cedula = dto.Cedula,
+                Correo = dto.Correo,
+                Telefono = dto.Telefono,
+                EstadoAlerta = "Activa",
+                ImagenAlerta = rutaImagen
+            };
+
+            _context.Alertas.Add(alerta);
 
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetAlertaByID),
-                new { id = newAlerta.IdAlerta }, newAlerta);
+            return CreatedAtAction(nameof(GetAlerta),
+                new { id = alerta.IdAlerta },
+                alerta);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAlerta(int id, Alerta alerta)
+        public async Task<IActionResult> ActualizarEstado(int id, Alerta alertaActualizada)
         {
-            if (id != alerta.IdAlerta)
-                return BadRequest();
+            var alerta = await _context.Alertas.FindAsync(id);
 
-            _context.Entry(alerta).State = EntityState.Modified;
+            if (alerta == null)
+                return NotFound();
+
+            alerta.EstadoAlerta = alertaActualizada.EstadoAlerta;
 
             await _context.SaveChangesAsync();
 
@@ -106,7 +102,7 @@ namespace ApiMunicipio.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAlerta(int id)
+        public async Task<IActionResult> Eliminar(int id)
         {
             var alerta = await _context.Alertas.FindAsync(id);
 

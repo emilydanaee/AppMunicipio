@@ -16,10 +16,9 @@ namespace ApiMunicipio.DTO
         public TimeOnly HoraInicio { get; set; }
 
         public TimeOnly HoraFin { get; set; }
-
         
         public string SectorFeria { get; set; }
-        public string DireccionFeria { get; set; }
+        public string UbicacionFeria { get; set; }
 
         public IFormFile? Imagen { get; set; }
 

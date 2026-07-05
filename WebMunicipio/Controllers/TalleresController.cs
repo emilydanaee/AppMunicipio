@@ -29,7 +29,26 @@ namespace WebMunicipio.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Taller taller)
         {
-            await _tallerService.CrearTaller(taller);
+            if (!ModelState.IsValid)
+            {
+                foreach (var item in ModelState)
+                {
+                    foreach (var error in item.Value.Errors)
+                    {
+                        Console.WriteLine($"{item.Key} -> {error.ErrorMessage}");
+                    }
+                }
+
+                return View(taller);
+            }
+
+            bool creado = await _tallerService.CrearTaller(taller);
+
+            if (!creado)
+            {
+                ViewBag.Error = "No se pudo crear el taller.";
+                return View(taller);
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -44,7 +63,18 @@ namespace WebMunicipio.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Taller taller)
         {
-            await _tallerService.EditarTaller(taller);
+            if (!ModelState.IsValid)
+            {
+                return View(taller);
+            }
+
+            bool actualizado = await _tallerService.EditarTaller(taller);
+
+            if (!actualizado)
+            {
+                ViewBag.Error = "No se pudo actualizar el taller.";
+                return View(taller);
+            }
 
             return RedirectToAction(nameof(Index));
         }

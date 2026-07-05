@@ -1,0 +1,166 @@
+﻿@model WebMunicipio.Models.Alerta
+
+@{
+    ViewData["Title"] = "Detalle de Alerta";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-danger text-white">
+
+            <h3>
+
+                <i class="bi bi-bell-fill"></i>
+
+                Detalle de la Alerta
+
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-8">
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th width="220">Tipo</th>
+                            <td>@Model.TipoAlerta</td>
+                        </tr>
+
+                        <tr>
+                            <th>Descripción</th>
+                            <td>@Model.DescripcionAlerta</td>
+                        </tr>
+
+                        <tr>
+                            <th>Fecha</th>
+                            <td>@Model.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
+                        </tr>
+
+                        <tr>
+                            <th>Sector</th>
+                            <td>@Model.Sector</td>
+                        </tr>
+
+                        <tr>
+                            <th>Dirección</th>
+                            <td>@Model.Direccion</td>
+                        </tr>
+
+                        <tr>
+                            <th>Estado</th>
+
+                            <td>
+
+                                @if (Model.EstadoAlerta == "Activa")
+                                {
+                                    <span class="badge bg-danger">
+                                        Activa
+                                    </span>
+                                }
+                                else if (Model.EstadoAlerta == "Atendida")
+                                {
+                                    <span class="badge bg-warning text-dark">
+                                        Atendida
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">
+                                        Cerrada
+                                    </span>
+                                }
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <th>Cédula</th>
+                            <td>@Model.Cedula</td>
+                        </tr>
+
+                        <tr>
+                            <th>Correo</th>
+                            <td>@Model.Correo</td>
+                        </tr>
+
+                        <tr>
+                            <th>Teléfono</th>
+                            <td>@Model.Telefono</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+                <div class="col-md-4 text-center">
+
+                    @if (!string.IsNullOrWhiteSpace(Model.ImagenAlerta))
+                    {
+                        <img src="https://localhost:7061/@Model.ImagenAlerta"
+                             class="img-fluid rounded shadow" />
+                    }
+                    else
+                    {
+                        <img src="https://via.placeholder.com/350x250?text=Sin+Imagen"
+                             class="img-fluid rounded" />
+                    }
+
+                </div>
+
+            </div>
+
+            <hr />
+
+            <div id="map"
+                 style="height:450px;border-radius:10px;"></div>
+
+            <div class="mt-4 text-end">
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+
+                    Regresar
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+
+        var map=L.map('map').setView(
+        [@Model.Latitud,@Model.Longitud],16);
+
+        L.tileLayer(
+        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+        maxZoom:19
+        }).addTo(map);
+
+        L.marker([
+        @Model.Latitud,
+        @Model.Longitud
+        ]).addTo(map)
+        .bindPopup("<b>@Model.TipoAlerta</b><br>@Model.Sector")
+        .openPopup();
+
+    </script>
+
+}

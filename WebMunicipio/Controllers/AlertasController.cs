@@ -15,9 +15,14 @@ namespace WebMunicipio.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var alertas = await _alertaService.ObtenerAlertas();
+            var lista = await _alertaService.ObtenerAlertas();
 
-            return View(alertas);
+            lista = lista
+                .OrderBy(a => a.EstadoAlerta != "Activa") 
+                .ThenByDescending(a => a.Fecha)          
+                .ToList();
+
+            return View(lista);
         }
 
         public IActionResult Create()
@@ -28,24 +33,26 @@ namespace WebMunicipio.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Alerta alerta)
         {
-            await _alertaService.CrearAlerta(alerta);
+            if (!ModelState.IsValid)
+                return View(alerta);
+
+            bool creado = await _alertaService.CrearAlerta(alerta);
+
+            if (!creado)
+            {
+                ViewBag.Error = "No fue posible registrar la alerta.";
+
+                return View(alerta);
+            }
 
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Details(int id)
         {
             var alerta = await _alertaService.ObtenerAlerta(id);
 
             return View(alerta);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Edit(Alerta alerta)
-        {
-            await _alertaService.EditarAlerta(alerta);
-
-            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -59,6 +66,14 @@ namespace WebMunicipio.Controllers
         public async Task<IActionResult> Delete(Alerta alerta)
         {
             await _alertaService.EliminarAlerta(alerta.IdAlerta);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ActualizarEstado(int id, string estado)
+        {
+            await _alertaService.ActualizarEstado(id, estado);
 
             return RedirectToAction(nameof(Index));
         }

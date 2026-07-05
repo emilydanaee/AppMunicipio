@@ -23,15 +23,17 @@
 
                 <div class="col-lg-5">
 
-                    @if (!string.IsNullOrEmpty(Model.ImagenTaller))
+                    @if (!string.IsNullOrWhiteSpace(Model.ImagenTaller))
                     {
-                        <img src="@Model.ImagenTaller"
-                             class="img-fluid rounded shadow" />
+                        <img src="https://localhost:7061/@Model.ImagenTaller"
+                             class="img-fluid rounded shadow"
+                             alt="@Model.NombreTaller" />
                     }
                     else
                     {
-                        <img src="~/images/sin-imagen.png"
-                             class="img-fluid rounded shadow" />
+                        <img src="~/images/no-image.png"
+                             class="img-fluid rounded shadow"
+                             alt="Sin imagen" />
                     }
 
                 </div>

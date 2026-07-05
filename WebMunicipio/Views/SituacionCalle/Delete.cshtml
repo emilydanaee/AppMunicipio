@@ -1,0 +1,89 @@
+﻿@model WebMunicipio.Models.SituacionCalle
+
+@{
+    ViewData["Title"] = "Eliminar";
+}
+
+<div class="container mt-5">
+
+    <div class="card shadow border-danger">
+
+        <div class="card-header bg-danger text-white">
+
+            <h3>
+
+                Eliminar Reporte
+
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="alert alert-warning">
+
+                ¿Está seguro de eliminar este reporte?
+
+            </div>
+
+            <table class="table">
+
+                <tr>
+
+                    <th>Sector</th>
+
+                    <td>@Model.Sector</td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Estado</th>
+
+                    <td>@Model.Estado</td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Prioridad</th>
+
+                    <td>@Model.Prioridad</td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Descripción</th>
+
+                    <td>@Model.Descripcion</td>
+
+                </tr>
+
+            </table>
+
+            <form asp-action="Delete">
+
+                <input type="hidden"
+                       asp-for="IdSituacionCalle" />
+
+                <button class="btn btn-danger">
+
+                    Eliminar
+
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+
+                    Cancelar
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

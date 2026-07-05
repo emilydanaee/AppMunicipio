@@ -6,19 +6,21 @@ namespace WebMunicipio.Controllers
 {
     public class SituacionCalleController : Controller
     {
-        private readonly SituacionCalleService _situacionCalleService;
+        private readonly SituacionCalleService _service;
 
-        public SituacionCalleController(SituacionCalleService situacionCalleService)
+        public SituacionCalleController(
+            SituacionCalleService service)
         {
-            _situacionCalleService = situacionCalleService;
+            _service = service;
         }
 
         public async Task<IActionResult> Index()
         {
-            var situacionCalle = await _situacionCalleService.ObtenerSituacionCalle();
+            var lista = await _service.ObtenerSituaciones();
 
-            return View(situacionCalle);
+            return View(lista);
         }
+
 
         public IActionResult Create()
         {
@@ -26,39 +28,81 @@ namespace WebMunicipio.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(SituacionCalle situacionCalle)
+        public async Task<IActionResult> Create(
+            SituacionCalle situacion)
         {
-            await _situacionCalleService.CrearSituacionCalle(situacionCalle);
+            if (!ModelState.IsValid)
+                return View(situacion);
+
+            bool creado = await _service.CrearSituacion(situacion);
+
+            if (!creado)
+            {
+                ViewBag.Error = "No fue posible registrar el reporte.";
+
+                return View(situacion);
+            }
 
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> Details(int id)
+        {
+            var situacion = await _service.ObtenerSituacion(id);
+
+            if (situacion == null)
+                return NotFound();
+
+            return View(situacion);
+        }
+
         public async Task<IActionResult> Edit(int id)
         {
-            var situacionCalle = await _situacionCalleService.ObtenerSituacionCalle(id);
+            var situacion = await _service.ObtenerSituacion(id);
 
-            return View(situacionCalle);
+            if (situacion == null)
+                return NotFound();
+
+            return View(situacion);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(SituacionCalle situacionCalle)
+        public async Task<IActionResult> Edit(
+            SituacionCalle situacion)
         {
-            await _situacionCalleService.EditarSituacionCalle(situacionCalle);
+            if (!ModelState.IsValid)
+                return View(situacion);
+
+            await _service.EditarSituacion(situacion);
 
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            var situacionCalle = await _situacionCalleService.ObtenerSituacionCalle(id);
+            var situacion = await _service.ObtenerSituacion(id);
 
-            return View(situacionCalle);
+            if (situacion == null)
+                return NotFound();
+
+            return View(situacion);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(SituacionCalle situacionCalle)
+        public async Task<IActionResult> Delete(
+            SituacionCalle situacion)
         {
-            await _situacionCalleService.EliminarSituacionCalle(situacionCalle.IdSituacionCalle);
+            await _service.EliminarSituacion(
+                situacion.IdSituacionCalle);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ActualizarEstado(int id, string estado)
+        {
+            await _service.ActualizarEstado(id, estado);
 
             return RedirectToAction(nameof(Index));
         }

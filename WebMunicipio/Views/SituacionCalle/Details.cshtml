@@ -1,0 +1,173 @@
+﻿@model WebMunicipio.Models.SituacionCalle
+
+@{
+    ViewData["Title"] = "Detalle del Reporte";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3>
+                <i class="bi bi-person-raised-hand"></i>
+                Detalle del Reporte
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <p>
+                        <strong>Reportante:</strong><br />
+                        @Model.NombreReportante
+                    </p>
+
+                    <p>
+                        <strong>Fecha:</strong><br />
+                        @Model.FechaReporte.ToString("dd/MM/yyyy HH:mm")
+                    </p>
+
+                    <p>
+                        <strong>Sector:</strong><br />
+                        @Model.Sector
+                    </p>
+
+                    <p>
+                        <strong>Dirección:</strong><br />
+                        @Model.Direccion
+                    </p>
+
+                    <p>
+                        <strong>Estado:</strong><br />
+
+                        @if (Model.Estado == "Pendiente")
+                        {
+                            <span class="badge bg-warning">@Model.Estado</span>
+                        }
+                        else if (Model.Estado == "En revisión")
+                        {
+                            <span class="badge bg-info">@Model.Estado</span>
+                        }
+                        else if (Model.Estado == "Atendido")
+                        {
+                            <span class="badge bg-success">@Model.Estado</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@Model.Estado</span>
+                        }
+
+                    </p>
+
+                    <p>
+                        <strong>Prioridad:</strong><br />
+
+                        @if (Model.Prioridad == "Urgente")
+                        {
+                            <span class="badge bg-danger">@Model.Prioridad</span>
+                        }
+                        else if (Model.Prioridad == "Alta")
+                        {
+                            <span class="badge bg-warning">@Model.Prioridad</span>
+                        }
+                        else if (Model.Prioridad == "Media")
+                        {
+                            <span class="badge bg-info">@Model.Prioridad</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">@Model.Prioridad</span>
+                        }
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <p>
+
+                        <strong>Condición observada</strong>
+
+                    </p>
+
+                    <p>
+
+                        <strong>Descripción</strong>
+
+                    </p>
+
+                    <div class="border rounded p-3">
+
+                        @Model.Descripcion
+
+                    </div>
+
+                    @if (Model.RiesgoInmediato)
+                    {
+                        <div class="alert alert-danger mt-3">
+
+                            🚑 La persona requiere atención inmediata.
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+            <hr />
+
+            <h5>Ubicación</h5>
+
+            <div id="mapaDetalle" style="height:450px;"></div>
+
+            <div class="mt-4">
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+
+                    Volver
+
+                </a>
+
+                <a target="_blank"
+                   href="https://www.google.com/maps?q=@Model.Latitud,@Model.Longitud"
+                   class="btn btn-success">
+
+                    Abrir en Google Maps
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+
+    var mapa=L.map("mapaDetalle")
+    .setView([@Model.Latitud,@Model.Longitud],17);
+
+    L.tileLayer(
+    'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+    ).addTo(mapa);
+
+    L.marker([@Model.Latitud,@Model.Longitud])
+    .addTo(mapa);
+
+</script>

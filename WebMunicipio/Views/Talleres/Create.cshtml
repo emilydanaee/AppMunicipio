@@ -16,10 +16,13 @@
             </h3>
 
         </div>
+        
 
         <div class="card-body">
 
             <form asp-action="Create" method="post" enctype="multipart/form-data">
+
+                <div asp-validation-summary="All" class="text-danger"></div>
 
                 <!-- INFORMACIÓN GENERAL -->
                 <h5 class="text-primary mb-3">Información General</h5>
@@ -27,13 +30,13 @@
                 <div class="row">
 
                     <div class="col-md-6 mb-3">
-                        <label asp-for="NombreTaller" class="form-label"></label>
+                        <label asp-for="NombreTaller" class="form-label">Nombre Taller</label>
                         <input asp-for="NombreTaller" class="form-control" />
                         <span asp-validation-for="NombreTaller" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label asp-for="SectorTaller" class="form-label"></label>
+                        <label asp-for="SectorTaller" class="form-label">Sector Taller</label>
 
                         <select asp-for="SectorTaller" class="form-select">
                             <option value="">Seleccione un sector</option>
@@ -50,6 +53,13 @@
                         </select>
 
                         <span asp-validation-for="SectorTaller" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label asp-for="UbicacionTaller">Ubicacion Taller</label>
+                        <input asp-for="UbicacionTaller"
+                               class="form-control" />
                     </div>
 
                     <div class="col-md-6 mb-3">
@@ -106,21 +116,28 @@
 
                     </div>
 
-                    <select asp-for="Modalidad"
-                            class="form-select">
+                    <div class="col-md-6 mb-3">
 
-                        <option>Presencial</option>
+                        <label asp-for="Modalidad" class="form-label"></label>
 
-                        <option>Virtual</option>
+                        <select asp-for="Modalidad" class="form-select">
 
-                        <option>Híbrida</option>
+                            <option value="">Seleccione una modalidad</option>
 
-                    </select>
+                            <option>Presencial</option>
+                            <option>Virtual</option>
+                            <option>Híbrida</option>
+
+                        </select>
+
+                        <span asp-validation-for="Modalidad" class="text-danger"></span>
+
+                    </div>
 
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="DescripcionTaller" class="form-label"></label>
+                    <label asp-for="DescripcionTaller" class="form-label">Descripcion</label>
                     <textarea asp-for="DescripcionTaller" class="form-control" rows="4"></textarea>
                     <span asp-validation-for="DescripcionTaller" class="text-danger"></span>
                 </div>
@@ -133,25 +150,25 @@
                 <div class="row">
 
                     <div class="col-md-3 mb-3">
-                        <label asp-for="FechaInicio"></label>
+                        <label asp-for="FechaInicio">Fecha Inicio</label>
                         <input asp-for="FechaInicio" type="date" class="form-control" />
                         <span asp-validation-for="FechaInicio" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-3 mb-3">
-                        <label asp-for="FechaFin"></label>
+                        <label asp-for="FechaFin">Fecha Fin</label>
                         <input asp-for="FechaFin" type="date" class="form-control" />
                         <span asp-validation-for="FechaFin" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-3 mb-3">
-                        <label asp-for="HoraInicio"></label>
+                        <label asp-for="HoraInicio">Hora Inicio</label>
                         <input asp-for="HoraInicio" type="time" class="form-control" />
                         <span asp-validation-for="HoraInicio" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-3 mb-3">
-                        <label asp-for="HoraFin"></label>
+                        <label asp-for="HoraFin">Hora Fin</label>
                         <input asp-for="HoraFin" type="time" class="form-control" />
                         <span asp-validation-for="HoraFin" class="text-danger"></span>
                     </div>
@@ -166,7 +183,7 @@
                 <div class="row">
 
                     <div class="col-md-4 mb-3">
-                        <label asp-for="CuposTaller"></label>
+                        <label asp-for="CuposTaller">Cupos Taller</label>
                         <input asp-for="CuposTaller" class="form-control" />
                         <span asp-validation-for="CuposTaller" class="text-danger"></span>
                     </div>
@@ -179,8 +196,24 @@
                 <h5 class="text-primary mb-3">Imagen del Taller</h5>
 
                 <div class="mb-3">
-                    <input type="file" name="imagenFile" class="form-control" />
-                    <small class="text-muted">Selecciona una imagen desde tu computador</small>
+
+                    <label asp-for="Imagen" class="form-label">
+                        Imagen del Taller
+                    </label>
+
+                    <input asp-for="Imagen"
+                           class="form-control"
+                           accept=".jpg,.jpeg,.png" />
+
+                    <span asp-validation-for="Imagen"
+                          class="text-danger"></span>
+
+                    <small class="text-muted">
+                        Formatos permitidos: JPG, JPEG y PNG.
+                    </small>
+
+
+
                 </div>
 
                 <!-- BOTONES -->
@@ -208,18 +241,23 @@
 </div>
 
 @section Scripts {
+
     <partial name="_ValidationScriptsPartial" />
 
     <script>
 
-        document.querySelectorAll(".dia").forEach(c => {
+        // ==========================
+        // Selección de días
+        // ==========================
 
-            c.addEventListener("change", function () {
+        document.querySelectorAll(".dia").forEach(function (checkbox) {
+
+            checkbox.addEventListener("change", function () {
 
                 let dias = [];
 
-                document.querySelectorAll(".dia:checked").forEach(x => {
-                    dias.push(x.value);
+                document.querySelectorAll(".dia:checked").forEach(function (c) {
+                    dias.push(c.value);
                 });
 
                 document.getElementById("Dias").value = dias.join(", ");
@@ -228,5 +266,34 @@
 
         });
 
+
+        // ==========================
+        // Vista previa de la imagen
+        // ==========================
+
+        document.getElementById("Imagen").addEventListener("change", function (e) {
+
+            const archivo = e.target.files[0];
+
+            if (!archivo)
+                return;
+
+            const lector = new FileReader();
+
+            lector.onload = function (ev) {
+
+                let img = document.getElementById("preview");
+
+                img.src = ev.target.result;
+
+                img.style.display = "block";
+
+            };
+
+            lector.readAsDataURL(archivo);
+
+        });
+
     </script>
+
 }

@@ -1,5 +1,6 @@
-﻿using WebMunicipio.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Globalization;
+using WebMunicipio.Models;
 
 namespace WebMunicipio.Services
 {
@@ -30,7 +31,34 @@ namespace WebMunicipio.Services
 
         public async Task<bool> CrearReporte(Reporte reporte)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/Reporte", reporte);
+            var contenido = new MultipartFormDataContent();
+
+            contenido.Add(new StringContent(reporte.TipoReporte),"TipoReporte");
+            contenido.Add(new StringContent(reporte.DescripcionReporte),"DescripcionReporte");
+            contenido.Add(new StringContent(reporte.AdministracionZonal), "AdministracionZonal");
+            contenido.Add(new StringContent(reporte.Parroquia), "Parroquia");
+            contenido.Add(new StringContent(reporte.Latitud.ToString(CultureInfo.InvariantCulture)),"Latitud");
+            contenido.Add(new StringContent(reporte.Longitud.ToString(CultureInfo.InvariantCulture)),"Longitud");
+            contenido.Add(new StringContent(reporte.Cedula),"Cedula");
+            contenido.Add(new StringContent(reporte.Correo),"Correo");
+            contenido.Add(new StringContent(reporte.Telefono ?? ""),"Telefono");
+
+            if (!string.IsNullOrWhiteSpace(reporte.Direccion))
+            {
+                contenido.Add( new StringContent(reporte.Direccion), "Direccion");
+            }
+
+            if (reporte.Imagen != null)
+            {
+                var stream = reporte.Imagen.OpenReadStream();
+
+                contenido.Add(
+                    new StreamContent(stream),
+                    "Imagen",
+                    reporte.Imagen.FileName);
+            }
+
+            var response = await _httpClient.PostAsync("api/Reporte", contenido);
 
             return response.IsSuccessStatusCode;
         }
@@ -50,6 +78,20 @@ namespace WebMunicipio.Services
         public async Task<bool> EliminarReporte(int id)
         {
             var response = await _httpClient.DeleteAsync($"api/Reporte/{id}");
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> ActualizarEstado(int id, string estado)
+        {
+            var contenido = JsonContent.Create(new
+            {
+                EstadoReporte = estado
+            });
+
+            var response = await _httpClient.PatchAsync(
+                $"api/Reporte/{id}/estado",
+                contenido);
 
             return response.IsSuccessStatusCode;
         }

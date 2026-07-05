@@ -20,11 +20,12 @@
 
                 <div class="col-md-5 text-center">
 
-                    @if (!string.IsNullOrEmpty(Model.ImagenTaller))
+                    @if (!string.IsNullOrWhiteSpace(Model.ImagenTaller))
                     {
-                        <img src="@Model.ImagenTaller"
+                        <img src="https://localhost:7061/@Model.ImagenTaller"
                              class="img-fluid rounded shadow"
-                             style="max-height:250px;" />
+                             style="max-height:250px;"
+                             alt="@Model.NombreTaller" />
                     }
                     else
                     {
@@ -39,6 +40,7 @@
 
                     <p><strong>Nombre:</strong> @Model.NombreTaller</p>
                     <p><strong>Sector:</strong> @Model.SectorTaller</p>
+                    <p><strong>Ubicacion:</strong> @Model.UbicacionTaller</p>
                     <p><strong>Instructor:</strong> @Model.Instructor</p>
                     <p><strong>Dias:</strong> @Model.Dias</p>
                     <p><strong>Modalidad:</strong> @Model.Modalidad</p>

@@ -1,100 +1,134 @@
 ﻿@model WebMunicipio.Models.Campania
 
-@{
-    ViewData["Title"] = "Editar Campaña";
-}
-
 <div class="container mt-4">
 
     <div class="card shadow">
 
-        <div class="card-header bg-warning">
-
-            <h3>Editar Campaña</h3>
-
+        <div class="card-header text-white"
+             style="background-color:#0A2A65;">
+            <h3>✏ Editar Campania</h3>
         </div>
 
         <div class="card-body">
 
-            <form asp-action="Edit">
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
 
-                <input asp-for="IdCampania" hidden />
+                <input asp-for="IdCampania" type="hidden" />
+                <input asp-for="ImagenCampania" type="hidden" />
 
-                <div class="mb-3">
+                <div class="row">
 
-                    <label asp-for="NombreCampania"></label>
+                    <div class="col-md-6 mb-3">
+                        <label>Nombre del Campania</label>
+                        <input asp-for="NombreCampania" class="form-control" />
+                    </div>
 
-                    <input asp-for="NombreCampania"
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="TipoCampania" class="form-label">Tipo Campania</label>
+
+                        <select asp-for="TipoCampania" class="form-select">
+                            <option value="">Seleccione tipo</option>
+                            <option>Esterilización</option>
+                            <option>Adopción</option>
+                            <option>Vacunación</option>
+                            <option>Desparasitación</option>
+                            <option>Donaciones</option>
+                            <option>Educación y Tenencia Responsable</option>
+                            <option>Otro</option>
+                        </select>
+
+                        <span asp-validation-for="TipoCampania" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="UbicacionCampania"></label>
+                    <input asp-for="UbicacionCampania"
                            class="form-control" />
+                </div>
 
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="ResponsableCampania"></label>
+                    <input asp-for="ResponsableCampania"
+                           class="form-control" />
                 </div>
 
                 <div class="mb-3">
-
-                    <label asp-for="DescripcionCampania"></label>
-
-<textarea asp-for="DescripcionCampania"
-          rows="4"
-          class="form-control"></textarea>
-
+                    <label>Descripción</label>
+                    <textarea asp-for="DescripcionCampania"
+                              class="form-control"
+                              rows="4"></textarea>
                 </div>
 
                 <div class="row">
 
-                    <div class="col-md-6">
-
-                        <label asp-for="FechaInicio"></label>
-
-                        <input asp-for="FechaInicio"
-                               type="date"
-                               class="form-control" />
-
+                    <div class="col-md-3 mb-3">
+                        <label>Fecha Inicio</label>
+                        <input asp-for="FechaInicio" type="date" class="form-control" />
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-3 mb-3">
+                        <label>Fecha Fin</label>
+                        <input asp-for="FechaFin" type="date" class="form-control" />
+                    </div>
 
-                        <label asp-for="FechaFin"></label>
+                    <div class="col-md-3 mb-3">
+                        <label>Hora Inicio</label>
+                        <input asp-for="HoraInicio" type="time" class="form-control" />
+                    </div>
 
-                        <input asp-for="FechaFin"
-                               type="date"
-                               class="form-control" />
-
+                    <div class="col-md-3 mb-3">
+                        <label>Hora Fin</label>
+                        <input asp-for="HoraFin" type="time" class="form-control" />
                     </div>
 
                 </div>
 
-                <br />
 
                 <div class="mb-3">
 
-                    <label asp-for="SectorCampania"></label>
+                    <label class="form-label">Imagen Actual</label>
 
-                    <input asp-for="SectorCampania"
+                    <br />
+
+                    @if (!string.IsNullOrWhiteSpace(Model.ImagenCampania))
+                    {
+                        <img src="https://localhost:7061/@Model.ImagenCampania"
+                             class="img-thumbnail mb-3"
+                             style="max-height:180px;" />
+                    }
+                    else
+                    {
+                        <div class="alert alert-secondary">
+                            Sin imagen
+                        </div>
+                    }
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">Nueva Imagen</label>
+
+                    <input asp-for="Imagen"
+                           type="file"
                            class="form-control" />
 
                 </div>
 
-                <button class="btn btn-warning">
-
-                    Actualizar
-
+                <button type="submit" class="btn btn-warning">
+                    Guardar Cambios
                 </button>
 
-                <a asp-action="Index"
-                   class="btn btn-secondary">
-
+                <a asp-action="Index" class="btn btn-secondary">
                     Cancelar
-
                 </a>
 
             </form>
 
         </div>
-
     </div>
 
 </div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

@@ -28,7 +28,26 @@ namespace WebMunicipio.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Campania campania)
         {
-            await _campaniaService.CrearCampania(campania);
+            if (!ModelState.IsValid)
+            {
+                foreach (var item in ModelState)
+                {
+                    foreach (var error in item.Value.Errors)
+                    {
+                        Console.WriteLine($"{item.Key} -> {error.ErrorMessage}");
+                    }
+                }
+
+                return View(campania);
+            }
+
+            bool creado = await _campaniaService.CrearCampania(campania);
+
+            if (!creado)
+            {
+                ViewBag.Error = "No se pudo crear la campaña.";
+                return View(campania);
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -43,7 +62,18 @@ namespace WebMunicipio.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Campania campania)
         {
-            await _campaniaService.EditarCampania(campania);
+            if (!ModelState.IsValid)
+            {
+                return View(campania);
+            }
+
+            bool actualizado = await _campaniaService.EditarCampania(campania);
+
+            if (!actualizado)
+            {
+                ViewBag.Error = "No se pudo actualizar la campaña.";
+                return View(campania);
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -61,6 +91,19 @@ namespace WebMunicipio.Controllers
             await _campaniaService.EliminarCampania(campania.IdCampania);
 
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var campania = await _campaniaService.ObtenerCampania(id);
+
+            if (campania == null)
+            {
+                return NotFound();
+            }
+
+            return View(campania);
         }
     }
 }

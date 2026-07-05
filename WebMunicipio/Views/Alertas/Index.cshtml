@@ -1,0 +1,371 @@
+﻿@model List<WebMunicipio.Models.Alerta>
+
+@{
+    ViewData["Title"] = "Alertas";
+}
+
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold text-danger">
+
+                <i class="bi bi-bell-fill"></i>
+
+                Alertas de Seguridad
+
+            </h2>
+
+            <p class="text-muted">
+
+                Consulte las alertas activas reportadas por la comunidad.
+
+            </p>
+
+        </div>
+
+        <a asp-action="Create"
+           class="btn btn-danger">
+
+            <i class="bi bi-plus-circle"></i>
+
+            Nueva Alerta
+
+        </a>
+
+    </div>
+
+    <ul class="nav nav-tabs">
+
+        <li class="nav-item">
+
+            <button class="nav-link active"
+                    data-bs-toggle="tab"
+                    data-bs-target="#lista">
+
+                Lista
+
+            </button>
+
+        </li>
+
+        <li class="nav-item">
+
+            <button class="nav-link"
+                    data-bs-toggle="tab"
+                    data-bs-target="#mapa">
+
+                Mapa
+
+            </button>
+
+        </li>
+
+    </ul>
+
+    <div class="tab-content mt-3">
+
+        <div class="tab-pane fade show active"
+             id="lista">
+
+            <div class="card shadow">
+
+                <div class="card-body">
+
+                    <div class="row mb-3">
+
+                        <div class="col-md-4">
+
+                            <input id="buscar"
+                                   class="form-control"
+                                   placeholder="Buscar..."
+                                   onkeyup="filtrar()" />
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <select id="estado"
+                                    class="form-select"
+                                    onchange="filtrar()">
+
+                                <option value="">Todos</option>
+
+                                <option>Activa</option>
+                                <option>Atendida</option>
+                                <option>Cerrada</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <table class="table table-hover">
+
+                        <thead class="table-dark">
+
+                            <tr>
+
+                                <th>Tipo</th>
+                                <th>Sector</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th></th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr class="fila">
+
+                                    <td>@item.TipoAlerta</td>
+
+                                    <td>@item.Sector</td>
+
+                                    <td>@TiempoTranscurrido(item.Fecha)</td>
+
+                                    <td>
+
+                                        @if (Context.Session.GetString("Rol") == "Admin")
+                                        {
+                                            <form asp-action="ActualizarEstado"
+                                                  method="post"
+                                                  class="d-flex">
+
+                                                <input type="hidden"
+                                                       name="id"
+                                                       value="@item.IdAlerta" />
+
+                                                <select name="estado"
+                                                        class="form-select form-select-sm me-2">
+
+                                                    <option selected="@(item.EstadoAlerta == "Activa")">
+                                                        Activa
+                                                    </option>
+
+                                                    <option selected="@(item.EstadoAlerta == "Atendida")">
+                                                        Atendida
+                                                    </option>
+
+                                                    <option selected="@(item.EstadoAlerta == "Cerrada")">
+                                                        Cerrada
+                                                    </option>
+
+                                                </select>
+
+                                                <button class="btn btn-success btn-sm">
+
+                                                    <i class="bi bi-check-lg"></i>
+
+                                                </button>
+
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            if (item.EstadoAlerta == "Activa")
+                                            {
+                                                <span class="badge bg-danger">
+                                                    Activa
+                                                </span>
+                                            }
+                                            else if (item.EstadoAlerta == "Atendida")
+                                            {
+                                                <span class="badge bg-warning text-dark">
+                                                    Atendida
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-success">
+                                                    Cerrada
+                                                </span>
+                                            }
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        <a asp-action="Details"
+                                           asp-route-id="@item.IdAlerta"
+                                           class="btn btn-primary btn-sm">
+
+                                            Ver
+
+                                        </a>
+
+                                        @if (Context.Session.GetString("Rol") == "Admin")
+                                        {
+                                            <a asp-action="Delete"
+                                               asp-route-id="@item.IdAlerta"
+                                               class="btn btn-danger btn-sm">
+
+                                                Eliminar
+
+                                            </a>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade"
+             id="mapa">
+
+            <div class="card shadow">
+
+                <div class="card-body">
+
+                    <div id="map"
+                         style="height:650px;"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+
+        function filtrar(){
+
+        let texto=document.getElementById("buscar").value.toLowerCase();
+
+        let estado=document.getElementById("estado").value.toLowerCase();
+
+        let filas=document.getElementsByClassName("fila");
+
+        for(let fila of filas){
+
+        let contenido=fila.innerText.toLowerCase();
+
+        let mostrar=true;
+
+        if(texto!="" && !contenido.includes(texto))
+        mostrar=false;
+
+        if(estado!="" && !contenido.includes(estado))
+        mostrar=false;
+
+        fila.style.display=mostrar?"":"none";
+
+        }
+
+        }
+
+        var map=L.map('map').setView([-0.22985,-78.52495],12);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
+        maxZoom:19
+        }).addTo(map);
+
+        document.querySelector('button[data-bs-target="#mapa"]').addEventListener('shown.bs.tab',function(){
+        map.invalidateSize();
+        });
+
+        @foreach (var item in Model)
+        {
+            <text>
+
+            var color="red";
+
+            if("@item.EstadoAlerta"=="Atendida")
+            color="orange";
+
+            if("@item.EstadoAlerta"=="Cerrada")
+            color="green";
+
+            var marker=L.circleMarker(
+            [@item.Latitud,@item.Longitud],
+            {
+            radius:8,
+            color:color,
+            fillColor:color,
+            fillOpacity:0.8
+            }).addTo(map);
+
+            marker.bindPopup(`
+
+            <b>@item.TipoAlerta</b><br>
+
+            <b>Sector:</b> @item.Sector<br>
+
+            <b>Estado:</b> @item.EstadoAlerta<br>
+
+            <b>Fecha:</b> @item.Fecha.ToShortDateString()<br>
+
+            @item.DescripcionAlerta
+
+            <br><br>
+
+            @if (!string.IsNullOrWhiteSpace(item.ImagenAlerta))
+            {
+                <text>
+
+                <img src="https://localhost:7061/@item.ImagenAlerta"
+                style="width:220px;border-radius:8px;">
+
+                </text>
+            }
+
+            `);
+
+            </text>
+        }
+
+    </script>
+
+}
+
+@functions {
+
+    public string TiempoTranscurrido(DateTime fecha)
+    {
+        var tiempo = DateTime.Now - fecha;
+
+        if (tiempo.TotalSeconds < 60)
+            return $"Hace {(int)tiempo.TotalSeconds} segundos";
+
+        if (tiempo.TotalMinutes < 60)
+            return $"Hace {(int)tiempo.TotalMinutes} minutos";
+
+        if (tiempo.TotalHours < 24)
+            return $"Hace {(int)tiempo.TotalHours} horas";
+
+        if (tiempo.TotalDays < 7)
+            return $"Hace {(int)tiempo.TotalDays} días";
+
+        return fecha.ToString("dd/MM/yyyy HH:mm");
+    }
+
+}

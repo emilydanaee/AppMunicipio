@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiMunicipio.Migrations
 {
     [DbContext(typeof(MunicipioContext))]
-    [Migration("20260702215929_r")]
-    partial class r
+    [Migration("20260705201018_M2")]
+    partial class M2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,12 +45,18 @@ namespace ApiMunicipio.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Direccion")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("EstadoAlerta")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagenAlerta")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Latitud")
                         .HasColumnType("decimal(18,2)");
@@ -63,7 +69,6 @@ namespace ApiMunicipio.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telefono")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TipoAlerta")
@@ -87,11 +92,17 @@ namespace ApiMunicipio.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FechaFin")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("FechaFin")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime>("FechaInicio")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("FechaInicio")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly>("HoraFin")
+                        .HasColumnType("time");
+
+                    b.Property<TimeOnly>("HoraInicio")
+                        .HasColumnType("time");
 
                     b.Property<string>("ImagenCampania")
                         .HasColumnType("nvarchar(max)");
@@ -100,7 +111,15 @@ namespace ApiMunicipio.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SectorCampania")
+                    b.Property<string>("ResponsableCampania")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TipoCampania")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UbicacionCampania")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -147,10 +166,6 @@ namespace ApiMunicipio.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DireccionFeria")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateOnly>("FechaFin")
                         .HasColumnType("date");
 
@@ -164,6 +179,7 @@ namespace ApiMunicipio.Migrations
                         .HasColumnType("time");
 
                     b.Property<string>("ImagenFeria")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NombreFeria")
@@ -171,6 +187,10 @@ namespace ApiMunicipio.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SectorFeria")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UbicacionFeria")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -332,13 +352,16 @@ namespace ApiMunicipio.Migrations
                     b.ToTable("Permisos");
                 });
 
-            modelBuilder.Entity("ApiMunicipio.Models.ReporteDTO", b =>
+            modelBuilder.Entity("ApiMunicipio.Models.Reporte", b =>
                 {
                     b.Property<int>("IdReporte")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReporte"));
+
+                    b.Property<string>("AdministracionZonal")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cedula")
                         .IsRequired()
@@ -352,6 +375,9 @@ namespace ApiMunicipio.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Direccion")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("EstadoReporte")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -360,17 +386,18 @@ namespace ApiMunicipio.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ImagenReporte")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Latitud")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<decimal>("Longitud")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<string>("Parroquia")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telefono")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TipoReporte")
@@ -482,8 +509,15 @@ namespace ApiMunicipio.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdSituacionCalle"));
 
+                    b.Property<string>("Condicion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Descripcion")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Direccion")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Estado")
@@ -494,12 +528,23 @@ namespace ApiMunicipio.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("Latitud")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<decimal>("Longitud")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<string>("NombreReportante")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Prioridad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("RiesgoInmediato")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Sector")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -523,6 +568,10 @@ namespace ApiMunicipio.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Dias")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateOnly>("FechaFin")
                         .HasColumnType("date");
 
@@ -541,6 +590,14 @@ namespace ApiMunicipio.Migrations
                     b.Property<int>("Inscritos")
                         .HasColumnType("int");
 
+                    b.Property<string>("Instructor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Modalidad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NombreTaller")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -549,37 +606,13 @@ namespace ApiMunicipio.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UbicacionTaller")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("IdTaller");
 
                     b.ToTable("Talleres");
-
-                    b.HasData(
-                        new
-                        {
-                            IdTaller = 1,
-                            CuposTaller = 40,
-                            DescripcionTaller = "Capacitación comunitaria",
-                            FechaFin = new DateOnly(2026, 7, 30),
-                            FechaInicio = new DateOnly(2026, 6, 1),
-                            HoraFin = new TimeOnly(20, 0, 0),
-                            HoraInicio = new TimeOnly(18, 0, 0),
-                            Inscritos = 0,
-                            NombreTaller = "Taller de Cocina",
-                            SectorTaller = "Quitumbe"
-                        },
-                        new
-                        {
-                            IdTaller = 2,
-                            CuposTaller = 40,
-                            DescripcionTaller = "Capacitación comunitaria",
-                            FechaFin = new DateOnly(2026, 12, 30),
-                            FechaInicio = new DateOnly(2026, 7, 1),
-                            HoraFin = new TimeOnly(12, 0, 0),
-                            HoraInicio = new TimeOnly(10, 0, 0),
-                            Inscritos = 0,
-                            NombreTaller = "Taller de Baile",
-                            SectorTaller = "Solanda"
-                        });
                 });
 
             modelBuilder.Entity("ApiMunicipio.Models.Usuario", b =>

@@ -11,14 +11,19 @@ namespace ApiMunicipio.DTO
         public int IdCampania { get; set; }
         
         public string NombreCampania { get; set; }
+        public string TipoCampania { get; set; }
 
         public string DescripcionCampania { get; set; }
 
-        public DateTime FechaInicio { get; set; }
+        public DateOnly FechaInicio { get; set; }
 
-        public DateTime FechaFin { get; set; }
+        public DateOnly FechaFin { get; set; }
+        public TimeOnly HoraInicio { get; set; }
 
-        public string SectorCampania { get; set; }
+        public TimeOnly HoraFin { get; set; }
+
+        public string UbicacionCampania { get; set; }
+        public string ResponsableCampania { get; set; }
         public IFormFile? Imagen { get; set; }
     }
 }

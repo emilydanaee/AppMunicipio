@@ -57,21 +57,19 @@
 
                 <div class="card shadow h-100">
 
-                    @if (!string.IsNullOrEmpty(item.ImagenTaller))
+                    @if (!string.IsNullOrWhiteSpace(item.ImagenTaller))
                     {
-
                         <img src="https://localhost:7061/@item.ImagenTaller"
+                             alt="@item.NombreTaller"
                              class="card-img-top"
                              style="height:220px; object-fit:cover;" />
-
                     }
                     else
                     {
-
                         <img src="~/images/no-image.png"
+                             alt="Sin imagen"
                              class="card-img-top"
                              style="height:220px; object-fit:cover;" />
-
                     }
 
                     <div class="card-body">
@@ -101,21 +99,9 @@
                         </p>
 
                         <p>
-                            <i class="bi bi-person-fill"></i>
-                            <strong>Instructor:</strong>
-                            @item.Instructor
-                        </p>
-
-                        <p>
                             <i class="bi bi-calendar-week"></i>
                             <strong>Días:</strong>
                             @item.Dias
-                        </p>
-
-                        <p>
-                            <i class="bi bi-laptop"></i>
-                            <strong>Modalidad:</strong>
-                            @item.Modalidad
                         </p>
 
                         <p>

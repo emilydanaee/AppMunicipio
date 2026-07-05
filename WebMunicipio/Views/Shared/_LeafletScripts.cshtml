@@ -1,0 +1,317 @@
+﻿<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+<script>
+
+    let mapa;
+    let marcador;
+
+    const zonas = {
+
+        "Calderón":"Calderón",//
+        "Llano Chico":"Calderón",//
+        "Cotocollao":"La Delicia",//
+        "Ponceano":"La Delicia",
+        "Carcelén":"La Delicia",//
+        "Comite del Pueblo":"La Delicia",
+        "El Condado":"La Delicia",//
+        "San Antonio":"La Delicia",//
+        "Calacali":"La Delicia",//
+        "Nanegal":"La Delicia",
+        "Nanegalito":"La Delicia",
+        "Pacto":"La Delicia",
+        "Gualea":"La Delicia",
+        "Pomasqui":"La Delicia",//
+        "Nono":"La Delicia",//
+        "Iñaquito":"Eugenio Espejo",//
+        "Jipijapa":"Eugenio Espejo",
+        "Kennedy":"Eugenio Espejo",//
+        "Rumipamba":"Eugenio Espejo",
+        "Concepción":"Eugenio Espejo",//
+        "Cochapamba":"Eugenio Espejo",//
+        "Belisario Quevedo":"Eugenio Espejo",//
+        "San Isidro del Inca":"Eugenio Espejo",
+        "Mariscal Sucre":"Eugenio Espejo",
+        "Nayón":"Eugenio Espejo",//
+        "Zámbiza":"Eugenio Espejo",//
+        "Atahualpa":"Eugenio Espejo",
+        "Chavezpamba":"Eugenio Espejo",
+        "Perucho":"Eugenio Espejo",
+        "Puéllaro":"Eugenio Espejo",//
+        "San Jose de Minas":"Eugenio Espejo",
+        "Centro Histórico":"Centro",//
+        "San Juan":"Centro",//
+        "Itchimbia":"Centro",
+        "Puengasí":"Centro",//
+        "La Libertad":"Centro",//
+        "La Magdalena":"Eloy Alfaro",//
+        "Chimbacalle":"Eloy Alfaro",
+        "La Argelia":"Eloy Alfaro",//
+        "San Bartolo":"Eloy Alfaro",
+        "Solanda":"Eloy Alfaro",//
+        "La Ferroviaria":"Eloy Alfaro",
+        "La Mena":"Eloy Alfaro",//
+        "Chilibulo":"Eloy Alfaro",
+        "Lloa":"Eloy Alfaro",
+        "Chillogallo":"Quitumbe",//
+        "Quitumbe":"Quitumbe",//
+        "Turubamba":"Quitumbe",//
+        "Guamaní":"Quitumbe",//
+        "La Ecuatoriana":"Quitumbe",//
+        "Cumbaya":"Tumbaco",//
+        "Tumbaco":"Tumbaco",//
+        "Puembo":"Tumbaco",//
+        "Pifo":"Tumbaco",//
+        "Checa":"Tumbaco",//
+        "Tababela":"Tumbaco",//
+        "Yaruquí":"Tumbaco",//
+        "El Quinche":"Tumbaco",//
+        "Guayllabamba":"Tumbaco",//
+        "Conocoto":"Los Chillos",//
+        "Alangasi":"Los Chillos",//
+        "Guangopolo":"Los Chillos",
+        "La Merced":"Los Chillos",//
+        "Pintag":"Los Chillos",
+        "Amaguaña":"Los Chillos"//
+    };
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+        const contenedor = document.getElementById("mapaUbicacion");
+
+        if (!contenedor)
+            return;
+
+        mapa = L.map("mapaUbicacion").setView([-0.22985, -78.52495], 13);
+
+        L.tileLayer(
+            "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                maxZoom: 19,
+                attribution: "© OpenStreetMap"
+            }
+        ).addTo(mapa);
+
+        setTimeout(function () {
+
+            mapa.invalidateSize();
+
+        }, 300);
+
+        mapa.on("click", function (e) {
+
+            colocarMarcador(
+                e.latlng.lat,
+                e.latlng.lng
+            );
+
+        });
+
+    });
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+        const form = document.querySelector("form");
+
+        if(form){
+
+            form.addEventListener("submit", function(e){
+
+                let parroquia = document.getElementById("Parroquia").value;
+
+                if(parroquia==""){
+
+                    alert("Seleccione una ubicación dentro del Distrito Metropolitano de Quito.");
+
+                    e.preventDefault();
+
+                }
+
+            });
+
+        }
+
+    });
+
+    function colocarMarcador(lat,lng){
+
+        if(marcador==null){
+
+            marcador=L.marker(
+                [lat,lng],
+                {
+                    draggable:true
+                });
+
+            marcador.addTo(mapa);
+
+            marcador.on("dragend",function(e){
+
+                let p=e.target.getLatLng();
+
+                actualizarCampos(
+                    p.lat,
+                    p.lng
+                );
+
+                obtenerDireccion(
+                    p.lat,
+                    p.lng
+                );
+
+            });
+
+        }
+        else{
+
+            marcador.setLatLng([lat,lng]);
+
+        }
+
+        mapa.setView([lat,lng],17);
+
+        actualizarCampos(lat,lng);
+
+        obtenerDireccion(lat,lng);
+
+    }
+
+    function actualizarCampos(lat,lng){
+
+        let txtLat=document.getElementById("Latitud");
+        let txtLng=document.getElementById("Longitud");
+
+        if(txtLat) txtLat.value=lat;
+
+        if(txtLng) txtLng.value=lng;
+
+    }
+
+     async function obtenerDireccion(lat,lng){
+
+        let url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`;
+
+        let respuesta = await fetch(url);
+
+        let datos = await respuesta.json();
+
+        const txtDireccion=document.getElementById("Direccion");
+
+        if(txtDireccion){
+
+            txtDireccion.value=datos.display_name;
+
+        }
+
+        detectarParroquia(datos.display_name);
+     }
+
+     function normalizar(texto){
+
+        return texto
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g,"")
+            .toLowerCase();
+
+    }
+
+    function detectarParroquia(direccion) {
+
+        for (let parroquia in zonas) {
+
+            if (direccion.toLowerCase().includes(parroquia.toLowerCase())) {
+
+                let txtParroquia = document.getElementById("Parroquia");
+                let txtSector = document.getElementById("Sector");
+                let txtAdmin = document.getElementById("AdministracionZonal");
+
+                if (txtParroquia)
+                    txtParroquia.value = parroquia;
+
+                if (txtSector)
+                    txtSector.value = parroquia;
+
+                if (txtAdmin)
+                    txtAdmin.value = zonas[parroquia];
+
+                return;
+            }
+        }
+
+        // limpiar si no encuentra
+        if (document.getElementById("Parroquia"))
+            document.getElementById("Parroquia").value = "";
+
+        if (document.getElementById("Sector"))
+            document.getElementById("Sector").value = "";
+
+        if (document.getElementById("AdministracionZonal"))
+            document.getElementById("AdministracionZonal").value = "";
+    }
+
+
+    async function buscarLugar(){
+
+        let texto=document.getElementById("txtBuscarLugar").value;
+
+        if(texto.trim()=="")
+            return;
+
+        let url=
+    `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(texto)}`;
+
+        let respuesta=await fetch(url);
+
+        let datos=await respuesta.json();
+
+        if(datos.length==0){
+
+            alert("No se encontró la ubicación.");
+
+            return;
+
+        }
+
+        colocarMarcador(
+            parseFloat(datos[0].lat),
+            parseFloat(datos[0].lon)
+        );
+
+    }
+
+    function usarMiUbicacion(){
+
+        if(!navigator.geolocation){
+
+            alert("El navegador no soporta geolocalización.");
+
+            return;
+
+        }
+
+        navigator.geolocation.getCurrentPosition(
+
+            function(pos){
+
+                colocarMarcador(
+
+                    pos.coords.latitude,
+
+                    pos.coords.longitude
+
+                );
+
+            },
+            
+            function(){
+
+                alert("No fue posible obtener tu ubicación.");
+
+            }
+
+        );
+
+    }
+
+</script>
