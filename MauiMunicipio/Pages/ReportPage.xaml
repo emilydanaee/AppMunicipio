@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.ReportPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Reportar">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:MunicipalHeader />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="0">
+                <Border BackgroundColor="{StaticResource Red}" StrokeThickness="0" Padding="18,17">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Reportar caso" FontFamily="OpenSansSemibold" FontSize="22" TextColor="White" />
+                            <Label Text="Tu reporte es confidencial y seguro" FontSize="12" TextColor="#FFE1DF" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1" Text="Mis reportes" Clicked="OnMyReportsClicked"
+                                BackgroundColor="White" TextColor="{StaticResource Red}" CornerRadius="12"
+                                FontFamily="OpenSansSemibold" Padding="12,8" />
+                    </Grid>
+                </Border>
+
+                <VerticalStackLayout Padding="18,18,18,32" Spacing="14">
+                    <Border BackgroundColor="{StaticResource YellowSoft}" Stroke="#E8CF58" Padding="13">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="13" /></Border.StrokeShape>
+                        <Label Text="Importante: si se trata de una emergencia inmediata, llama al 911. Este formulario es para casos que requieren seguimiento municipal." FontSize="12" TextColor="#735B00" />
+                    </Border>
+
+                    <Label Text="Tipo de caso" FontFamily="OpenSansSemibold" FontSize="13" />
+                    <Border Stroke="{StaticResource BorderColor}" BackgroundColor="White" Padding="10,0">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                        <Picker x:Name="TypePicker" Title="Seleccionar" />
+                    </Border>
+
+                    <Label Text="Descripción" FontFamily="OpenSansSemibold" FontSize="13" />
+                    <Border Stroke="{StaticResource BorderColor}" BackgroundColor="White" Padding="10,4">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                        <Editor x:Name="DescriptionEditor" Placeholder="Describe la situación con el mayor detalle posible..." AutoSize="TextChanges" />
+                    </Border>
+
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <VerticalStackLayout>
+                            <Label Text="Dirección o referencia" FontFamily="OpenSansSemibold" FontSize="13" />
+                            <Border Stroke="{StaticResource BorderColor}" BackgroundColor="White" Padding="10,0">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                                <Entry x:Name="AddressEntry" Placeholder="Calle, barrio o referencia" />
+                            </Border>
+                        </VerticalStackLayout>
+                        <Button x:Name="GpsButton" Grid.Column="1" Text="⌖ GPS" VerticalOptions="End" HeightRequest="48" CornerRadius="12"
+                                BackgroundColor="{StaticResource OrangeSoft}" TextColor="{StaticResource Orange}"
+                                FontFamily="OpenSansSemibold" Clicked="OnGpsClicked" />
+                    </Grid>
+                    <Label x:Name="LocationLabel" Text="Ubicación no capturada" Style="{StaticResource CaptionLabel}" />
+
+                    <Label Text="Administración zonal" FontFamily="OpenSansSemibold" FontSize="13" />
+                    <Entry x:Name="ZonalEntry" Placeholder="Ej.: Quitumbe" />
+
+                    <Label Text="Parroquia" FontFamily="OpenSansSemibold" FontSize="13" />
+                    <Entry x:Name="ParishEntry" Placeholder="Ej.: Chillogallo" />
+
+                    <Label Text="Teléfono de contacto" FontFamily="OpenSansSemibold" FontSize="13" />
+                    <Entry x:Name="PhoneEntry" Placeholder="Opcional" Keyboard="Telephone" />
+
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <VerticalStackLayout>
+                            <Label Text="Fotografía" FontFamily="OpenSansSemibold" FontSize="13" />
+                            <Label x:Name="PhotoLabel" Text="No se ha seleccionado una imagen" Style="{StaticResource CaptionLabel}" LineBreakMode="TailTruncation" />
+                        </VerticalStackLayout>
+                        <Button x:Name="PhotoButton" Grid.Column="1" Text="📷 Adjuntar" Style="{StaticResource OutlineButton}" HeightRequest="45" Clicked="OnPhotoClicked" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout>
+                            <Label Text="Reportar de forma anónima" FontFamily="OpenSansSemibold" FontSize="13" />
+                            <Label Text="No se enviarán tus datos personales." Style="{StaticResource CaptionLabel}" />
+                        </VerticalStackLayout>
+                        <Switch x:Name="AnonymousSwitch" Grid.Column="1" OnColor="{StaticResource Red}" />
+                    </Grid>
+
+                    <ActivityIndicator x:Name="LoadingIndicator" IsVisible="False" IsRunning="False" Color="{StaticResource Red}" />
+                    <Label x:Name="ErrorLabel" IsVisible="False" TextColor="{StaticResource Red}" FontSize="12" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Button x:Name="SubmitButton" Grid.Column="0" Text="Enviar reporte" Style="{StaticResource PrimaryButton}" BackgroundColor="{StaticResource Red}" Clicked="OnSubmitClicked" />
+                        <Button Grid.Column="1" Text="Limpiar" Style="{StaticResource OutlineButton}" BorderColor="{StaticResource Red}" TextColor="{StaticResource Red}" Clicked="OnClearClicked" />
+                    </Grid>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

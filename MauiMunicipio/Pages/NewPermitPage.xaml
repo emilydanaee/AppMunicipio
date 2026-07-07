@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.NewPermitPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Nuevo trámite">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:MunicipalHeader ShowBack="True" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,22,20,32" Spacing="14" MaximumWidthRequest="620" HorizontalOptions="Center">
+                <Label Text="Nueva solicitud de trámite" Style="{StaticResource TitleLabel}" />
+                <Label Text="Completa la información y podrás seguir el estado desde Mis solicitudes." Style="{StaticResource CaptionLabel}" FontSize="13" />
+
+                <Border Style="{StaticResource CardBorder}" Padding="18">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Tipo de trámite" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Picker x:Name="TypePicker" Title="Selecciona una opción" />
+
+                        <Label Text="Descripción" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Editor x:Name="DescriptionEditor" Placeholder="Describe lo que necesitas solicitar..." AutoSize="TextChanges" />
+
+                        <Label Text="Referencia o documento" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Entry x:Name="ReferenceEntry" Placeholder="Opcional: número, enlace o referencia" />
+
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <VerticalStackLayout>
+                                <Label Text="Confirmación" FontFamily="OpenSansSemibold" FontSize="13" />
+                                <Label Text="Declaro que los datos ingresados son correctos." Style="{StaticResource CaptionLabel}" />
+                            </VerticalStackLayout>
+                            <Switch x:Name="ConfirmSwitch" Grid.Column="1" OnColor="{StaticResource SecondaryBlue}" />
+                        </Grid>
+
+                        <ActivityIndicator x:Name="LoadingIndicator" IsVisible="False" IsRunning="False" Color="{StaticResource SecondaryBlue}" />
+                        <Label x:Name="ErrorLabel" IsVisible="False" TextColor="{StaticResource Red}" FontSize="12" />
+                        <Button x:Name="SubmitButton" Text="Enviar solicitud" Style="{StaticResource PrimaryButton}" BackgroundColor="{StaticResource SecondaryBlue}" Clicked="OnSubmitClicked" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

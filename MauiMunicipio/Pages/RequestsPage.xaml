@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.RequestsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Solicitudes">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*">
+        <controls:MunicipalHeader Grid.Row="0" ShowBack="True" />
+        <Border Grid.Row="1" BackgroundColor="{StaticResource SecondaryBlue}" StrokeThickness="0" Padding="18,16">
+            <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout Spacing="3">
+                    <Label Text="Solicitudes Ciudadanas" FontFamily="OpenSansSemibold" FontSize="21" TextColor="White" />
+                    <Label Text="Consulta y seguimiento de trámites" FontSize="12" TextColor="#DDEEFF" />
+                </VerticalStackLayout>
+                <Button Grid.Column="1" x:Name="NewButton" Text="＋ Nueva" Clicked="OnNewClicked" BackgroundColor="White" TextColor="{StaticResource SecondaryBlue}" CornerRadius="12" FontFamily="OpenSansSemibold" />
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="2" ColumnDefinitions="*,*,*" Padding="16,12,16,7" ColumnSpacing="8">
+            <Button x:Name="PermitsButton" Grid.Column="0" Text="Trámites" Style="{StaticResource PillButton}" Clicked="OnPermitsClicked" />
+            <Button x:Name="ReservationsButton" Grid.Column="1" Text="Reservas" Style="{StaticResource PillButton}" Clicked="OnReservationsClicked" />
+            <Button x:Name="TaxesButton" Grid.Column="2" Text="Impuestos" Style="{StaticResource PillButton}" Clicked="OnTaxesClicked" />
+        </Grid>
+
+        <RefreshView Grid.Row="3" x:Name="RefreshControl" Refreshing="OnRefreshing">
+            <CollectionView ItemsSource="{Binding Items}" Margin="16,4,16,18" SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout Padding="34" Spacing="10" HorizontalOptions="Center">
+                        <Label Text="▤" FontSize="44" TextColor="{StaticResource Gray300}" HorizontalTextAlignment="Center" />
+                        <Label x:Name="EmptyTitle" Text="No hay solicitudes" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
+                        <Label x:Name="EmptySubtitle" Text="Usa el botón Nueva para registrar una solicitud." Style="{StaticResource CaptionLabel}" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardBorder}" Margin="0,6">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                <Border WidthRequest="44" HeightRequest="44" BackgroundColor="#E9F4FF" StrokeThickness="0">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="13" /></Border.StrokeShape>
+                                    <Label Text="{Binding Icon}" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="{Binding Title}" FontFamily="OpenSansSemibold" FontSize="15" />
+                                        <Border Grid.Column="1" BackgroundColor="{Binding StatusColor}" StrokeThickness="0" Padding="8,3">
+                                            <Border.StrokeShape><RoundRectangle CornerRadius="9" /></Border.StrokeShape>
+                                            <Label Text="{Binding Status}" FontSize="9" TextColor="White" />
+                                        </Border>
+                                    </Grid>
+                                    <Label Text="{Binding Description}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                                    <Label Text="{Binding DateText}" FontSize="11" TextColor="{StaticResource Gray500}" />
+                                    <Button Text="Cancelar solicitud"
+                                            IsVisible="{Binding CanCancel}"
+                                            CommandParameter="{Binding .}"
+                                            Clicked="OnCancelClicked"
+                                            Style="{StaticResource OutlineButton}"
+                                            BorderColor="{StaticResource Red}"
+                                            TextColor="{StaticResource Red}"
+                                            HeightRequest="40" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        <ActivityIndicator x:Name="LoadingIndicator" Grid.Row="3" IsVisible="False" IsRunning="False"
+                           Color="{StaticResource SecondaryBlue}" VerticalOptions="Center" HorizontalOptions="Center" />
+    </Grid>
+</ContentPage>

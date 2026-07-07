@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.DashboardPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Inicio">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:MunicipalHeader Grid.Row="0" />
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="18,18,18,28" Spacing="18">
+                <VerticalStackLayout Spacing="3">
+                    <Label x:Name="WelcomeLabel"
+                           Text="Bienvenido"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="25" />
+                    <Label Text="Tu ciudad al alcance de tu mano"
+                           Style="{StaticResource CaptionLabel}"
+                           FontSize="13" />
+                </VerticalStackLayout>
+
+                <Border Style="{StaticResource CardBorder}" Padding="12,2">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="14" />
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                        <Label Text="⌕" FontSize="24" VerticalOptions="Center" TextColor="{StaticResource Gray500}" />
+                        <Entry x:Name="SearchEntry"
+                               Grid.Column="1"
+                               Placeholder="Buscar trámites, servicios..."
+                               ReturnType="Search"
+                               Completed="OnSearchCompleted" />
+                    </Grid>
+                </Border>
+
+                <Label Text="Accesos rápidos" Style="{StaticResource SectionTitle}" />
+
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource CardBorder}" Padding="14">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnRequestsTapped" />
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="8">
+                            <Border WidthRequest="42" HeightRequest="42" HorizontalOptions="Start" BackgroundColor="#E9F4FF" StrokeThickness="0">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                                <Label Text="⌕" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource PrimaryBlue}" />
+                            </Border>
+                            <Label Text="Consultar trámites" FontFamily="OpenSansSemibold" FontSize="14" />
+                            <Label Text="Información sin registro" Style="{StaticResource CaptionLabel}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource CardBorder}" Padding="14">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnRequestsTapped" />
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="8">
+                            <Border WidthRequest="42" HeightRequest="42" HorizontalOptions="Start" BackgroundColor="{StaticResource GreenSoft}" StrokeThickness="0">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                                <Label Text="▤" FontSize="21" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource Green}" />
+                            </Border>
+                            <Label Text="Mis solicitudes" FontFamily="OpenSansSemibold" FontSize="14" />
+                            <Label Text="Requiere inicio de sesión" Style="{StaticResource CaptionLabel}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource CardBorder}" Padding="14">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnReportTapped" />
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="8">
+                            <Border WidthRequest="42" HeightRequest="42" HorizontalOptions="Start" BackgroundColor="{StaticResource OrangeSoft}" StrokeThickness="0">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                                <Label Text="⌖" FontSize="21" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource Orange}" />
+                            </Border>
+                            <Label Text="Reportar problema" FontFamily="OpenSansSemibold" FontSize="14" />
+                            <Label Text="Ayuda a mejorar tu ciudad" Style="{StaticResource CaptionLabel}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource CardBorder}" Padding="14">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnParticipationTapped" />
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="8">
+                            <Border WidthRequest="42" HeightRequest="42" HorizontalOptions="Start" BackgroundColor="{StaticResource PurpleSoft}" StrokeThickness="0">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                                <Label Text="▣" FontSize="21" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource Purple}" />
+                            </Border>
+                            <Label Text="Eventos y talleres" FontFamily="OpenSansSemibold" FontSize="14" />
+                            <Label Text="Participa en tu comunidad" Style="{StaticResource CaptionLabel}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Button Text="▦  Abrir todos los módulos y funciones"
+                        Clicked="OnModulesClicked"
+                        Style="{StaticResource PrimaryButton}"
+                        BackgroundColor="{StaticResource SecondaryBlue}" />
+
+                <Border BackgroundColor="{StaticResource YellowSoft}" Stroke="#E6C747" StrokeThickness="1" Padding="14">
+                    <Border.GestureRecognizers><TapGestureRecognizer Tapped="OnAlertsTapped" /></Border.GestureRecognizers>
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Text="ⓘ" FontSize="20" TextColor="#B08900" />
+                        <VerticalStackLayout Grid.Column="1" Spacing="3">
+                            <Label Text="Aviso importante" FontFamily="OpenSansSemibold" FontSize="13" TextColor="#7B6000" />
+                            <Label Text="Consulta las alertas ciudadanas y novedades vigentes en tu sector." FontSize="12" TextColor="#7B6000" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <Label Text="Contacto y horarios" Style="{StaticResource SectionTitle}" />
+                <Border Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="9">
+                        <Label Text="☎  Emergencias: 911" FontSize="13" />
+                        <Label Text="☎  Municipio: 1800-QUITO" FontSize="13" />
+                        <Label Text="◷  Lunes a viernes: 08:00 - 17:00" FontSize="13" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button x:Name="SessionButton"
+                        Text="Iniciar sesión"
+                        Style="{StaticResource OutlineButton}"
+                        Clicked="OnSessionClicked" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

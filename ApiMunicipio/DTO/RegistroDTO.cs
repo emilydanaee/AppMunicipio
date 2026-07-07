@@ -1,11 +1,21 @@
-﻿namespace ApiMunicipio.DTO
+using System.ComponentModel.DataAnnotations;
+
+namespace ApiMunicipio.DTO;
+
+public class RegistroDTO
 {
-    public class RegistroDTO
-    {
-        public string NombreCompleto { get; set; }
-        public string Cedula { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Sector { get; set; }
-    }
+    [Required]
+    public string NombreCompleto { get; set; } = string.Empty;
+
+    [Required]
+    public string Cedula { get; set; } = string.Empty;
+
+    [Required, EmailAddress]
+    public string Email { get; set; } = string.Empty;
+
+    [Required, MinLength(6)]
+    public string Password { get; set; } = string.Empty;
+
+    [Required]
+    public string Sector { get; set; } = string.Empty;
 }

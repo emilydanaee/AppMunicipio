@@ -1,0 +1,20 @@
+CORRECCIÓN DE “RESERVAR CUPO”
+
+Se corrigieron estos archivos:
+- MauiMunicipio/Pages/ActivityDetailPage.xaml
+- MauiMunicipio/Pages/ActivityDetailPage.xaml.cs
+- ApiMunicipio/Controllers/TallerController.cs
+
+Cambios principales:
+1. El teléfono ahora se escribe directamente en la pantalla del taller.
+2. Ya no se abre el cuadro nativo DisplayPromptAsync al pulsar Reservar cupo.
+3. Todos los eventos async del botón tienen manejo de excepciones.
+4. El indicador de carga siempre se apaga mediante finally.
+5. La API valida datos nulos y devuelve mensajes JSON sin cerrar el servidor.
+6. Después de reservar o cancelar, los cupos se actualizan en la misma pantalla.
+
+EJECUCIÓN
+1. Inicia ApiMunicipio y deja abierta la terminal donde dice:
+   Now listening on: http://localhost:5279
+2. Inicia MauiMunicipio con Windows Machine.
+3. Abre un taller, escribe el teléfono y pulsa Reservar cupo.

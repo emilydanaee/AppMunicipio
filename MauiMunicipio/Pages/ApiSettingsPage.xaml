@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.ApiSettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Configuración API">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:MunicipalHeader ShowBack="True" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,24,20,32" Spacing="16" MaximumWidthRequest="600" HorizontalOptions="Center">
+                <Label Text="Conexión con la API" Style="{StaticResource TitleLabel}" />
+                <Label Text="La aplicación móvil consume los servicios REST del proyecto ApiMunicipio." Style="{StaticResource CaptionLabel}" FontSize="13" />
+
+                <Border Style="{StaticResource CardBorder}" Padding="18">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="17" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="URL base" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Entry x:Name="UrlEntry" Placeholder="http://192.168.1.10:5279" Keyboard="Url" />
+                        <Label Text="Emulador Android: http://10.0.2.2:5279&#10;Windows: http://localhost:5279&#10;Celular físico: usa la IP local de tu computador." Style="{StaticResource CaptionLabel}" />
+                        <Button Text="Guardar" Style="{StaticResource PrimaryButton}" Clicked="OnSaveClicked" />
+                        <Button x:Name="TestButton" Text="Probar conexión" Style="{StaticResource OutlineButton}" Clicked="OnTestClicked" />
+                        <Button Text="Usar dirección predeterminada" Style="{StaticResource OutlineButton}" Clicked="OnDefaultClicked" />
+                        <ActivityIndicator x:Name="LoadingIndicator" IsVisible="False" IsRunning="False" Color="{StaticResource PrimaryBlue}" />
+                        <Label x:Name="ResultLabel" IsVisible="False" FontSize="13" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="{StaticResource YellowSoft}" Stroke="#E8CF58" Padding="14">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                    <Label Text="Para un celular físico, la API debe ejecutarse con acceso a la red local y el firewall de Windows debe permitir el puerto 5279." FontSize="12" TextColor="#735B00" />
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

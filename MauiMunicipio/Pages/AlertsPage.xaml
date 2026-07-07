@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.AlertsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Alertas">
+
+    <Grid RowDefinitions="Auto,Auto,*">
+        <controls:MunicipalHeader Grid.Row="0" />
+        <Border Grid.Row="1" BackgroundColor="{StaticResource PrimaryBlueDark}" StrokeThickness="0" Padding="18,16">
+            <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout Spacing="3">
+                    <Label Text="Alertas ciudadanas" FontFamily="OpenSansSemibold" FontSize="21" TextColor="White" />
+                    <Label Text="Información importante para tu sector" FontSize="12" TextColor="#D7E8F5" />
+                </VerticalStackLayout>
+                <Button Grid.Column="1" Text="↻" Clicked="OnRefreshClicked" BackgroundColor="#22FFFFFF" TextColor="White" WidthRequest="42" HeightRequest="42" CornerRadius="21" FontSize="20" />
+            </Grid>
+        </Border>
+
+        <RefreshView Grid.Row="2" x:Name="RefreshControl" Refreshing="OnRefreshing">
+            <CollectionView ItemsSource="{Binding Alerts}" Margin="16,12,16,18" SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout Padding="30" Spacing="10" HorizontalOptions="Center">
+                        <Label Text="🔔" FontSize="42" HorizontalTextAlignment="Center" />
+                        <Label Text="No hay alertas disponibles" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
+                        <Label Text="Desliza hacia abajo para actualizar." Style="{StaticResource CaptionLabel}" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardBorder}" Margin="0,6">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                <Border WidthRequest="44" HeightRequest="44" BackgroundColor="{StaticResource RedSoft}" StrokeThickness="0">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="13" /></Border.StrokeShape>
+                                    <Label Text="!" FontFamily="OpenSansSemibold" FontSize="22" TextColor="{StaticResource Red}" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="{Binding TipoAlerta}" FontFamily="OpenSansSemibold" FontSize="15" />
+                                        <Border Grid.Column="1" BackgroundColor="{StaticResource GreenSoft}" StrokeThickness="0" Padding="8,3">
+                                            <Border.StrokeShape><RoundRectangle CornerRadius="9" /></Border.StrokeShape>
+                                            <Label Text="{Binding EstadoAlerta}" FontSize="9" TextColor="{StaticResource Green}" />
+                                        </Border>
+                                    </Grid>
+                                    <Label Text="{Binding DescripcionAlerta}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                                    <Label Text="{Binding Sector, StringFormat='⌖  {0}'}" FontSize="11" />
+                                    <Label Text="{Binding Fecha, StringFormat='▣  {0:dd MMM yyyy HH:mm}'}" FontSize="11" TextColor="{StaticResource Gray500}" />
+                                    <Button Text="Ver ubicación" Style="{StaticResource OutlineButton}" HeightRequest="40"
+                                            CommandParameter="{Binding .}" Clicked="OnMapClicked" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

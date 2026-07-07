@@ -1,163 +1,137 @@
-﻿using ApiMunicipio.Data;
+using ApiMunicipio.Data;
 using ApiMunicipio.DTO;
 using ApiMunicipio.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ApiMunicipio.Controllers
+namespace ApiMunicipio.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class ReporteController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ReporteController : ControllerBase
+    private readonly MunicipioContext _context;
+
+    public ReporteController(MunicipioContext context)
     {
-        private readonly MunicipioContext _context;
+        _context = context;
+    }
 
-        public ReporteController(MunicipioContext context)
+    [HttpGet]
+    public async Task<ActionResult<List<Reporte>>> GetReportes()
+    {
+        return Ok(await _context.Reportes.AsNoTracking()
+            .OrderByDescending(r => r.FechaReporte)
+            .ToListAsync());
+    }
+
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<Reporte>> GetReporteById(int id)
+    {
+        var reporte = await _context.Reportes.AsNoTracking().FirstOrDefaultAsync(r => r.IdReporte == id);
+        return reporte is null
+            ? NotFound(new { message = "El reporte no existe." })
+            : Ok(reporte);
+    }
+
+    [HttpGet("usuario/{cedula}")]
+    public async Task<ActionResult<List<Reporte>>> GetReportesPorCedula(string cedula)
+    {
+        return Ok(await _context.Reportes.AsNoTracking()
+            .Where(r => r.Cedula == cedula)
+            .OrderByDescending(r => r.FechaReporte)
+            .ToListAsync());
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Reporte>> AddReporte([FromForm] ReporteDTO dto)
+    {
+        if (string.IsNullOrWhiteSpace(dto.TipoReporte) || string.IsNullOrWhiteSpace(dto.DescripcionReporte))
+            return BadRequest(new { message = "Selecciona el tipo de reporte y escribe una descripción." });
+        if (string.IsNullOrWhiteSpace(dto.Direccion) && dto.Latitud == 0 && dto.Longitud == 0)
+            return BadRequest(new { message = "Ingresa una dirección o adjunta la ubicación GPS." });
+        if (string.IsNullOrWhiteSpace(dto.Cedula) || string.IsNullOrWhiteSpace(dto.Correo))
+            return BadRequest(new { message = "Inicia sesión o activa el reporte anónimo." });
+
+        var nuevoReporte = new Reporte
         {
-            _context = context;
-        }
+            TipoReporte = dto.TipoReporte.Trim(),
+            DescripcionReporte = dto.DescripcionReporte.Trim(),
+            FechaReporte = DateTime.Now,
+            AdministracionZonal = dto.AdministracionZonal?.Trim(),
+            Parroquia = dto.Parroquia?.Trim(),
+            Latitud = dto.Latitud,
+            Longitud = dto.Longitud,
+            Direccion = dto.Direccion?.Trim(),
+            Cedula = dto.Cedula.Trim(),
+            Correo = dto.Correo.Trim().ToLowerInvariant(),
+            Telefono = dto.Telefono?.Trim(),
+            EstadoReporte = "Pendiente",
+            ImagenReporte = await SaveImageAsync(dto.Imagen)
+        };
 
-        [HttpGet]
-        public async Task<ActionResult<List<Reporte>>> GetReportes()
-        {
-            return Ok(await _context.Reportes.ToListAsync());
-        }
+        _context.Reportes.Add(nuevoReporte);
+        await _context.SaveChangesAsync();
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Reporte>> GetReporteByID(int id)
-        {
-            var reporte = await _context.Reportes.FindAsync(id);
+        return CreatedAtAction(nameof(GetReporteById), new { id = nuevoReporte.IdReporte }, nuevoReporte);
+    }
 
-            if (reporte == null)
-                return NotFound();
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdateReporte(int id, [FromBody] ReporteDTO dto)
+    {
+        var reporte = await _context.Reportes.FindAsync(id);
+        if (reporte is null)
+            return NotFound(new { message = "El reporte no existe." });
 
-            return Ok(reporte);
-        }
+        reporte.TipoReporte = dto.TipoReporte;
+        reporte.DescripcionReporte = dto.DescripcionReporte;
+        reporte.AdministracionZonal = dto.AdministracionZonal;
+        reporte.Parroquia = dto.Parroquia;
+        reporte.Latitud = dto.Latitud;
+        reporte.Longitud = dto.Longitud;
+        reporte.Direccion = dto.Direccion;
+        reporte.Cedula = dto.Cedula;
+        reporte.Correo = dto.Correo;
+        reporte.Telefono = dto.Telefono;
 
-        [HttpPost]
-        public async Task<ActionResult<Reporte>> AddReporte([FromForm] ReporteDTO dto)
-        {
-            
-            string? rutaImagen = null;
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
 
-            // Guardar imagen si existe
-            if (dto.Imagen != null && dto.Imagen.Length > 0)
-            {
-                // Nombre único para evitar archivos repetidos
-                string nombreArchivo = Guid.NewGuid().ToString() +
-                                       Path.GetExtension(dto.Imagen.FileName);
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteReporte(int id)
+    {
+        var reporte = await _context.Reportes.FindAsync(id);
+        if (reporte is null)
+            return NotFound(new { message = "El reporte no existe." });
 
-                // Ruta física
-                string carpeta = Path.Combine(
-                    Directory.GetCurrentDirectory(),
-                    "wwwroot",
-                    "images");
+        _context.Reportes.Remove(reporte);
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
 
-                // Crear carpeta si no existe
-                if (!Directory.Exists(carpeta))
-                {
-                    Directory.CreateDirectory(carpeta);
-                }
+    [HttpPatch("{id:int}/estado")]
+    public async Task<IActionResult> ActualizarEstado(int id, EstadoReporteDTO dto)
+    {
+        var reporte = await _context.Reportes.FindAsync(id);
+        if (reporte is null)
+            return NotFound(new { message = "El reporte no existe." });
 
-                string rutaCompleta = Path.Combine(carpeta, nombreArchivo);
+        reporte.EstadoReporte = dto.EstadoReporte;
+        await _context.SaveChangesAsync();
+        return Ok(reporte);
+    }
 
-                using (var stream = new FileStream(rutaCompleta, FileMode.Create))
-                {
-                    await dto.Imagen.CopyToAsync(stream);
-                }
+    private static async Task<string?> SaveImageAsync(IFormFile? image)
+    {
+        if (image is null || image.Length == 0)
+            return null;
 
-                // Ruta que se guardará en la BD
-                rutaImagen = "images/" + nombreArchivo;
-            }
-
-            // Crear entidad
-            var nuevoReporte = new Reporte
-            {
-                TipoReporte = dto.TipoReporte,
-                DescripcionReporte = dto.DescripcionReporte,
-                FechaReporte = DateTime.Now,
-                AdministracionZonal = dto.AdministracionZonal,
-                Parroquia = dto.Parroquia,
-                Latitud = dto.Latitud,
-                Longitud = dto.Longitud,
-                Direccion=dto.Direccion,
-                Cedula = dto.Cedula,
-                Correo = dto.Correo,
-                Telefono = dto.Telefono,
-                EstadoReporte = "Pendiente",
-                ImagenReporte = rutaImagen
-            };
-;
-            Console.WriteLine(dto.Latitud);
-            Console.WriteLine(dto.Longitud);
-
-            Console.WriteLine(nuevoReporte.Latitud);
-            Console.WriteLine(nuevoReporte.Longitud);
-
-            _context.Reportes.Add(nuevoReporte);
-
-            await _context.SaveChangesAsync();
-
-            Console.WriteLine(nuevoReporte.Latitud);
-            Console.WriteLine(nuevoReporte.Longitud);
-
-
-            var guardado = await _context.Reportes
-            .OrderByDescending(x => x.IdReporte)
-            .FirstAsync();
-
-            Console.WriteLine($"BD Latitud: {guardado.Latitud}");
-            Console.WriteLine($"BD Longitud: {guardado.Longitud}");
-
-            return CreatedAtAction(
-                nameof(GetReporteByID),
-                new { id = nuevoReporte.IdReporte },
-                nuevoReporte);
-
-            
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateReporte(int id, ReporteDTO reporte)
-        {
-            if (id != reporte.IdReporte)
-                return BadRequest();
-
-            _context.Entry(reporte).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteReporte(int id)
-        {
-            var reporte = await _context.Reportes.FindAsync(id);
-
-            if (reporte == null)
-                return NotFound();
-
-            _context.Reportes.Remove(reporte);
-
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        [HttpPatch("{id}/estado")]
-        public async Task<IActionResult> ActualizarEstado(int id, EstadoReporteDTO dto)
-        {
-            var reporte = await _context.Reportes.FindAsync(id);
-
-            if (reporte == null)
-                return NotFound();
-
-            reporte.EstadoReporte = dto.EstadoReporte;
-
-            await _context.SaveChangesAsync();
-
-            return Ok(reporte);
-        }
+        var folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+        Directory.CreateDirectory(folder);
+        var fileName = $"{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
+        await using var stream = System.IO.File.Create(Path.Combine(folder, fileName));
+        await image.CopyToAsync(stream);
+        return $"images/{fileName}";
     }
 }

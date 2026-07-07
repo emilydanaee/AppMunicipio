@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.ModulesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Módulos">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:MunicipalHeader Grid.Row="0" />
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="16,14,16,32" Spacing="16">
+                <Border BackgroundColor="{StaticResource PrimaryBlue}" StrokeThickness="0" Padding="20">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="20" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Todos los módulos municipales" FontFamily="OpenSansSemibold" FontSize="23" TextColor="White" />
+                        <Label Text="Participación, seguridad, bienestar social y solicitudes desde una sola aplicación MAUI." FontSize="12" TextColor="#DDEEFF" />
+                        <Label x:Name="RoleLabel" Margin="0,8,0,0" FontFamily="OpenSansSemibold" FontSize="12" TextColor="#FFF1A6" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="{StaticResource PurpleSoft}" Stroke="#D4A5FF" Padding="16">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="11">
+                        <Label Text="Módulo 1 · Participación Ciudadana" FontFamily="OpenSansSemibold" FontSize="19" TextColor="{StaticResource Purple}" />
+                        <Label Text="Casa Somos, ferias, inscripciones y bienestar animal." Style="{StaticResource CaptionLabel}" />
+                        <Button Text="▣  Ver agenda, cronogramas y reservar cupos" CommandParameter="agenda" Clicked="OnDirectClicked" Style="{StaticResource PrimaryButton}" BackgroundColor="{StaticResource Purple}" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="9" RowDefinitions="Auto,Auto">
+                            <Button Grid.Row="0" Grid.Column="0" Text="Casa Somos\nTalleres CRUD" CommandParameter="taller" Clicked="OnManagementClicked" Style="{StaticResource OutlineButton}" BorderColor="{StaticResource Purple}" TextColor="{StaticResource Purple}" />
+                            <Button Grid.Row="0" Grid.Column="1" Text="Ferias de\nemprendimiento" CommandParameter="feria" Clicked="OnManagementClicked" Style="{StaticResource OutlineButton}" BorderColor="{StaticResource Purple}" TextColor="{StaticResource Purple}" />
+                            <Button Grid.Row="1" Grid.Column="0" Text="Inscripciones y\nvoluntariado" CommandParameter="inscripcion" Clicked="OnManagementClicked" Style="{StaticResource OutlineButton}" BorderColor="{StaticResource Purple}" TextColor="{StaticResource Purple}" />
+                            <Button Grid.Row="1" Grid.Column="1" Text="Bienestar\nanimal" CommandParameter="campania" Clicked="OnManagementClicked" Style="{StaticResource OutlineButton}" BorderColor="{StaticResource Purple}" TextColor="{StaticResource Purple}" />
+                        </Grid>
+                        <Label Text="Incluye crear, consultar, actualizar y eliminar; los talleres también muestran inscritos y control de cupos." FontSize="11" TextColor="#684080" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="{StaticResource RedSoft}" Stroke="#F2AAA5" Padding="16">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="11">
+                        <Label Text="Módulo 2 · Reportes, Seguridad y Bienestar" FontFamily="OpenSansSemibold" FontSize="19" TextColor="{StaticResource Red}" />
+                        <Label Text="Reportes con GPS, alertas barriales y gestión de casos sociales." Style="{StaticResource CaptionLabel}" />
+                        <Button Text="⌖  Crear reporte ciudadano con GPS y fotografía" CommandParameter="reportar" Clicked="OnDirectClicked" Style="{StaticResource PrimaryButton}" BackgroundColor="{StaticResource Red}" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="9" RowDefinitions="Auto,Auto,Auto">
+                            <Button Grid.Row="0" Grid.Column="0" Text="Reportes\nciudadanos" CommandParameter="reporte" Clicked="OnManagementClicked" Style="{StaticResource OutlineButton}" BorderColor="{StaticResource Red}" TextColor="{StaticResource Red}" />
+                            <Button Grid.Row="0" Grid.Column="1" Text="Alertas de\nseguridad" CommandParameter="alerta" Clicked="OnManagementClicked" Style="{StaticResource OutlineButton}" BorderColor="{StaticResource Red}" TextColor="{StaticResource Red}" />
+                            <Button Grid.Row="1" Grid.Column="0" Text="Situación\nde calle" CommandParameter="calle" Clicked="OnManagementClicked" Style="{StaticResource OutlineButton}" BorderColor="{StaticResource Red}" TextColor="{StaticResource Red}" />
+                            <Button Grid.Row="1" Grid.Column="1" Text="Situación de\nviolencia" CommandParameter="violencia" Clicked="OnManagementClicked" Style="{StaticResource OutlineButton}" BorderColor="{StaticResource Red}" TextColor="{StaticResource Red}" />
+                            <Button Grid.Row="2" Grid.ColumnSpan="2" Text="▥  Panel estadístico y seguimiento" CommandParameter="estadisticas" Clicked="OnDirectClicked" Style="{StaticResource OutlineButton}" BorderColor="{StaticResource Red}" TextColor="{StaticResource Red}" />
+                        </Grid>
+                        <Label Text="Los casos permiten consultar, cambiar estado, cerrar o eliminar; el GPS está disponible al registrar." FontSize="11" TextColor="#7E3A36" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="#E9F4FF" Stroke="#A8D4F5" Padding="16">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="11">
+                        <Label Text="Módulo 3 · Solicitudes Ciudadanas" FontFamily="OpenSansSemibold" FontSize="19" TextColor="{StaticResource SecondaryBlue}" />
+                        <Label Text="Obras barriales, reservas, permisos, documentos e impuestos." Style="{StaticResource CaptionLabel}" />
+                        <Button Text="▤  Ver mis trámites y consultar avance" CommandParameter="solicitudes" Clicked="OnDirectClicked" Style="{StaticResource PrimaryButton}" BackgroundColor="{StaticResource SecondaryBlue}" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="9" RowDefinitions="Auto,Auto">
+                            <Button Grid.Row="0" Grid.Column="0" Text="Obras\nprioritarias" CommandParameter="obra" Clicked="OnManagementClicked" Style="{StaticResource OutlineButton}" />
+                            <Button Grid.Row="0" Grid.Column="1" Text="Reserva de\nespacios" CommandParameter="reserva" Clicked="OnManagementClicked" Style="{StaticResource OutlineButton}" />
+                            <Button Grid.Row="1" Grid.Column="0" Text="Permisos y\ndocumentos" CommandParameter="permiso" Clicked="OnManagementClicked" Style="{StaticResource OutlineButton}" />
+                            <Button Grid.Row="1" Grid.Column="1" Text="Obligaciones e\nimpuestos" CommandParameter="consulta" Clicked="OnManagementClicked" Style="{StaticResource OutlineButton}" />
+                        </Grid>
+                        <Label Text="Incluye disponibilidad de espacios, carga de PDF/Word/imagen, edición, cancelación y estado del trámite." FontSize="11" TextColor="#315F82" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="7">
+                        <Label Text="Acceso de demostración" Style="{StaticResource SectionTitle}" />
+                        <Label Text="Administrador: admin@quito.gob.ec · Admin123" FontSize="12" />
+                        <Label Text="Ciudadano: ciudadano@quito.gob.ec · Ciudadano123" FontSize="12" />
+                        <Label Text="La cuenta administradora habilita los botones de creación, edición, eliminación y seguimiento institucional." Style="{StaticResource CaptionLabel}" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

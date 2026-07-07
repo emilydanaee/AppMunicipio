@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.ActivityDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Detalle">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:MunicipalHeader ShowBack="True" />
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="18,18,18,30" Spacing="16">
+                <ActivityIndicator
+                    x:Name="LoadingIndicator"
+                    IsRunning="False"
+                    IsVisible="False"
+                    Color="{StaticResource PrimaryBlue}" />
+
+                <Border
+                    x:Name="HeroBorder"
+                    Padding="20"
+                    BackgroundColor="{StaticResource Purple}"
+                    StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="8">
+                        <Label
+                            x:Name="BadgeLabel"
+                            FontSize="11"
+                            Text="Actividad"
+                            TextColor="#EFD8FF" />
+                        <Label
+                            x:Name="TitleLabel"
+                            FontFamily="OpenSansSemibold"
+                            FontSize="23"
+                            Text="Detalle de actividad"
+                            TextColor="White" />
+                        <Label
+                            x:Name="DescriptionLabel"
+                            FontSize="13"
+                            Text=""
+                            TextColor="#F8F0FF" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="17" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Style="{StaticResource SectionTitle}" Text="Información" />
+                        <Grid
+                            ColumnDefinitions="Auto,*"
+                            ColumnSpacing="10"
+                            RowDefinitions="Auto,Auto,Auto,Auto"
+                            RowSpacing="10">
+                            <Label Grid.Row="0" Text="▣" TextColor="{StaticResource PrimaryBlue}" />
+                            <Label x:Name="DateLabel" Grid.Row="0" Grid.Column="1" />
+                            <Label Grid.Row="1" Text="◷" TextColor="{StaticResource PrimaryBlue}" />
+                            <Label x:Name="TimeLabel" Grid.Row="1" Grid.Column="1" />
+                            <Label Grid.Row="2" Text="⌖" TextColor="{StaticResource PrimaryBlue}" />
+                            <Label x:Name="LocationLabel" Grid.Row="2" Grid.Column="1" />
+                            <Label Grid.Row="3" Text="♙" TextColor="{StaticResource PrimaryBlue}" />
+                            <Label x:Name="CapacityLabel" Grid.Row="3" Grid.Column="1" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- El teléfono se escribe en la página. Esto evita abrir un diálogo nativo
+                     al pulsar Reservar cupo y permite validar el dato antes de llamar a la API. -->
+                <Border
+                    x:Name="PhoneSection"
+                    IsVisible="False"
+                    Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="17" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Style="{StaticResource SectionTitle}" Text="Datos para la reserva" />
+                        <Label
+                            FontSize="12"
+                            Text="Teléfono de contacto"
+                            TextColor="#5E6B78" />
+                        <Entry
+                            x:Name="PhoneEntry"
+                            Keyboard="Telephone"
+                            MaxLength="15"
+                            Placeholder="Ejemplo: 0991234567"
+                            ReturnType="Done" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button
+                    x:Name="PrimaryActionButton"
+                    Clicked="OnPrimaryActionClicked"
+                    Style="{StaticResource PrimaryButton}"
+                    Text="Inscribirme" />
+
+                <Button
+                    x:Name="MyRegistrationsButton"
+                    Clicked="OnMyRegistrationsClicked"
+                    Style="{StaticResource OutlineButton}"
+                    Text="Ver mis inscripciones" />
+
+                <Button
+                    Clicked="OnShareClicked"
+                    Style="{StaticResource OutlineButton}"
+                    Text="Compartir actividad" />
+
+                <Border
+                    x:Name="ErrorBorder"
+                    Padding="14"
+                    BackgroundColor="{StaticResource RedSoft}"
+                    IsVisible="False"
+                    Stroke="#F2AAA5">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="13" />
+                    </Border.StrokeShape>
+                    <Label
+                        x:Name="ErrorLabel"
+                        FontSize="13"
+                        TextColor="{StaticResource Red}" />
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

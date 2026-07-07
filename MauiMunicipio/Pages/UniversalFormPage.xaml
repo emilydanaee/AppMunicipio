@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.UniversalFormPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Formulario">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:MunicipalHeader Grid.Row="0" ShowBack="True" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="16,14,16,32" Spacing="13">
+                <Border x:Name="HeroBorder" BackgroundColor="{StaticResource SecondaryBlue}" StrokeThickness="0" Padding="18">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="4">
+                        <Label x:Name="TitleLabel" Text="Nuevo registro" FontFamily="OpenSansSemibold" FontSize="22" TextColor="White" />
+                        <Label x:Name="SubtitleLabel" Text="Completa la información solicitada" FontSize="12" TextColor="#E4F1FC" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="NameSection" Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="5">
+                        <Label x:Name="NameFieldLabel" Text="Nombre" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Entry x:Name="NameEntry" Placeholder="Escribe el nombre" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="TypeSection" Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="5">
+                        <Label x:Name="TypeFieldLabel" Text="Tipo" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Picker x:Name="TypePicker" Title="Seleccionar" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="DescriptionSection" Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="5">
+                        <Label x:Name="DescriptionFieldLabel" Text="Descripción" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Editor x:Name="DescriptionEditor" Placeholder="Describe la solicitud o actividad" AutoSize="TextChanges" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="DatesSection" Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Fecha y horario" Style="{StaticResource SectionTitle}" FontSize="15" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                            <VerticalStackLayout><Label Text="Fecha inicio" FontSize="11" /><DatePicker x:Name="StartDatePicker" /></VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1"><Label Text="Fecha fin" FontSize="11" /><DatePicker x:Name="EndDatePicker" /></VerticalStackLayout>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                            <VerticalStackLayout><Label Text="Hora inicio" FontSize="11" /><TimePicker x:Name="StartTimePicker" /></VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1"><Label Text="Hora fin" FontSize="11" /><TimePicker x:Name="EndTimePicker" /></VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="SectorSection" Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="5">
+                        <Label x:Name="SectorFieldLabel" Text="Sector" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Entry x:Name="SectorEntry" Placeholder="Sector, parroquia o administración zonal" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="LocationSection" Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="7">
+                        <Label x:Name="LocationFieldLabel" Text="Ubicación o referencia" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Entry x:Name="LocationEntry" Placeholder="Dirección o referencia" />
+                        <Button x:Name="GpsButton" Text="⌖ Usar ubicación GPS" Clicked="OnGpsClicked" Style="{StaticResource OutlineButton}" HeightRequest="43" BorderColor="{StaticResource Orange}" TextColor="{StaticResource Orange}" />
+                        <Label x:Name="GpsLabel" Text="Ubicación GPS no capturada" Style="{StaticResource CaptionLabel}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="ActivityExtraSection" Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="7">
+                        <Label Text="Información adicional" Style="{StaticResource SectionTitle}" FontSize="15" />
+                        <VerticalStackLayout x:Name="InstructorField"><Label Text="Instructor" FontSize="11" /><Entry x:Name="InstructorEntry" Placeholder="Nombre del instructor" /></VerticalStackLayout>
+                        <VerticalStackLayout x:Name="DaysField"><Label Text="Días" FontSize="11" /><Entry x:Name="DaysEntry" Placeholder="Ej.: lunes y miércoles" /></VerticalStackLayout>
+                        <VerticalStackLayout x:Name="ModalityField"><Label Text="Modalidad" FontSize="11" /><Picker x:Name="ModalityPicker" Title="Seleccionar" /></VerticalStackLayout>
+                        <VerticalStackLayout x:Name="ResponsibleField"><Label Text="Responsable" FontSize="11" /><Entry x:Name="ResponsibleEntry" Placeholder="Unidad o persona responsable" /></VerticalStackLayout>
+                        <VerticalStackLayout x:Name="CapacityField"><Label Text="Cupos" FontSize="11" /><Entry x:Name="CapacityEntry" Placeholder="Cantidad de cupos" Keyboard="Numeric" /></VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="PersonalSection" Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Datos del ciudadano" Style="{StaticResource SectionTitle}" FontSize="15" />
+                        <Entry x:Name="FullNameEntry" Placeholder="Nombres completos" />
+                        <Entry x:Name="CedulaEntry" Placeholder="Cédula" Keyboard="Numeric" MaxLength="10" />
+                        <Entry x:Name="EmailEntry" Placeholder="Correo electrónico" Keyboard="Email" />
+                        <Entry x:Name="PhoneEntry" Placeholder="Teléfono" Keyboard="Telephone" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="CaseSection" Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="7">
+                        <Label Text="Clasificación y atención" Style="{StaticResource SectionTitle}" FontSize="15" />
+                        <Label Text="Condición observada" FontSize="11" />
+                        <Picker x:Name="ConditionPicker" Title="Seleccionar" />
+                        <Label Text="Prioridad" FontSize="11" />
+                        <Picker x:Name="PriorityPicker" Title="Seleccionar" />
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Existe riesgo inmediato" VerticalOptions="Center" FontSize="13" />
+                            <Switch x:Name="RiskSwitch" Grid.Column="1" OnColor="{StaticResource Red}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="StatusSection" Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Estado y seguimiento" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Picker x:Name="StatusPicker" Title="Seleccionar estado" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="TaxSection" Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="7">
+                        <Label Text="Obligación tributaria" Style="{StaticResource SectionTitle}" FontSize="15" />
+                        <Entry x:Name="AmountEntry" Placeholder="Valor pendiente" Keyboard="Numeric" />
+                        <Grid ColumnDefinitions="*,Auto"><Label Text="Obligación pagada" VerticalOptions="Center" /><Switch x:Name="PaidSwitch" Grid.Column="1" OnColor="{StaticResource Green}" /></Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="ObservationsSection" Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Observaciones y requisitos" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Editor x:Name="ObservationsEditor" Placeholder="Requisitos, observaciones o información de seguimiento" AutoSize="TextChanges" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="DocumentSection" Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <VerticalStackLayout>
+                            <Label Text="Documento de respaldo" FontFamily="OpenSansSemibold" FontSize="13" />
+                            <Label x:Name="DocumentLabel" Text="No se seleccionó un archivo" Style="{StaticResource CaptionLabel}" LineBreakMode="TailTruncation" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1" Text="Adjuntar" Clicked="OnDocumentClicked" Style="{StaticResource OutlineButton}" HeightRequest="43" />
+                    </Grid>
+                </Border>
+
+                <Border x:Name="ImageSection" Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15" /></Border.StrokeShape>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <VerticalStackLayout>
+                            <Label Text="Imagen o evidencia" FontFamily="OpenSansSemibold" FontSize="13" />
+                            <Label x:Name="ImageLabel" Text="No se seleccionó una imagen" Style="{StaticResource CaptionLabel}" LineBreakMode="TailTruncation" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1" Text="📷 Elegir" Clicked="OnImageClicked" Style="{StaticResource OutlineButton}" HeightRequest="43" />
+                    </Grid>
+                </Border>
+
+                <Label x:Name="ErrorLabel" IsVisible="False" TextColor="{StaticResource Red}" FontSize="12" />
+                <ActivityIndicator x:Name="LoadingIndicator" IsVisible="False" IsRunning="False" Color="{StaticResource SecondaryBlue}" />
+
+                <Button x:Name="SubmitButton" Text="Guardar" Clicked="OnSubmitClicked" Style="{StaticResource PrimaryButton}" />
+                <Button Text="Cancelar y volver" Clicked="OnCancelClicked" Style="{StaticResource OutlineButton}" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.ManagementPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Gestión">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*">
+        <controls:MunicipalHeader Grid.Row="0" ShowBack="True" />
+
+        <Border x:Name="HeroBorder" Grid.Row="1" BackgroundColor="{StaticResource SecondaryBlue}" StrokeThickness="0" Padding="18,16">
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                <VerticalStackLayout Spacing="3">
+                    <Label x:Name="TitleLabel" Text="Gestión municipal" FontFamily="OpenSansSemibold" FontSize="21" TextColor="White" />
+                    <Label x:Name="SubtitleLabel" Text="Crear, consultar, actualizar y eliminar" FontSize="12" TextColor="#E2F0FF" />
+                </VerticalStackLayout>
+                <Button x:Name="NewButton" Grid.Column="1" Text="＋ Nuevo" Clicked="OnNewClicked" BackgroundColor="White" TextColor="{StaticResource SecondaryBlue}" CornerRadius="12" FontFamily="OpenSansSemibold" />
+            </Grid>
+        </Border>
+
+        <Border x:Name="ModeBanner" Grid.Row="2" Margin="16,10,16,4" Padding="12,8" BackgroundColor="{StaticResource YellowSoft}" Stroke="#E6C747">
+            <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+            <Label x:Name="ModeLabel" FontSize="11" TextColor="#745D00" />
+        </Border>
+
+        <Grid Grid.Row="3">
+            <RefreshView x:Name="RefreshControl" Refreshing="OnRefreshing">
+                <CollectionView ItemsSource="{Binding Items}" Margin="16,4,16,22" SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Padding="36" Spacing="10" HorizontalOptions="Center">
+                            <Label Text="▤" FontSize="44" TextColor="{StaticResource Gray300}" HorizontalTextAlignment="Center" />
+                            <Label Text="No hay registros" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
+                            <Label Text="Presiona Nuevo para registrar información o desliza para actualizar." Style="{StaticResource CaptionLabel}" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource CardBorder}" Margin="0,6">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="17" /></Border.StrokeShape>
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                    <Border WidthRequest="46" HeightRequest="46" BackgroundColor="#E9F4FF" StrokeThickness="0">
+                                        <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                                        <Label Text="{Binding Icon}" FontSize="21" HorizontalOptions="Center" VerticalOptions="Center" />
+                                    </Border>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                                            <Label Text="{Binding Title}" FontFamily="OpenSansSemibold" FontSize="15" LineBreakMode="TailTruncation" />
+                                            <Border Grid.Column="1" BackgroundColor="{Binding StatusColor}" StrokeThickness="0" Padding="8,3">
+                                                <Border.StrokeShape><RoundRectangle CornerRadius="9" /></Border.StrokeShape>
+                                                <Label Text="{Binding Status}" FontSize="9" TextColor="White" />
+                                            </Border>
+                                        </Grid>
+                                        <Label Text="{Binding Subtitle}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                                        <Label Text="{Binding Detail}" FontSize="11" TextColor="{StaticResource Gray500}" />
+                                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="7" Margin="0,4,0,0">
+                                            <Button Grid.Column="0" Text="Editar" IsVisible="{Binding CanEdit}" CommandParameter="{Binding .}" Clicked="OnEditClicked" Style="{StaticResource OutlineButton}" HeightRequest="39" FontSize="11" />
+                                            <Button Grid.Column="1" Text="Eliminar" IsVisible="{Binding CanDelete}" CommandParameter="{Binding .}" Clicked="OnDeleteClicked" Style="{StaticResource OutlineButton}" HeightRequest="39" FontSize="11" BorderColor="{StaticResource Red}" TextColor="{StaticResource Red}" />
+                                            <Button Grid.Column="2" Text="{Binding SpecialActionText}" IsVisible="{Binding ShowSpecialAction}" CommandParameter="{Binding .}" Clicked="OnSpecialClicked" Style="{StaticResource OutlineButton}" HeightRequest="39" FontSize="10" BorderColor="{StaticResource Green}" TextColor="{StaticResource Green}" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+
+            <ActivityIndicator x:Name="LoadingIndicator" IsVisible="False" IsRunning="False" Color="{StaticResource SecondaryBlue}" HorizontalOptions="Center" VerticalOptions="Center" />
+        </Grid>
+    </Grid>
+</ContentPage>

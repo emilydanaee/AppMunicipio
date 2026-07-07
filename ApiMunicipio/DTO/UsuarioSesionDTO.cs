@@ -1,17 +1,11 @@
-﻿namespace ApiMunicipio.DTO
+namespace ApiMunicipio.DTO;
+
+public class UsuarioSesionDTO
 {
-    public class UsuarioSesionDTO
-{
-    public string Id { get; set; }
-
-    public string NombreCompleto { get; set; }
-
-    public string Email { get; set; }
-
-    public string Cedula { get; set; }
-
-    public string Sector { get; set; }
-
-    public List<string> Roles { get; set; }
-}
+    public string Id { get; set; } = string.Empty;
+    public string NombreCompleto { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Cedula { get; set; } = string.Empty;
+    public string Sector { get; set; } = string.Empty;
+    public List<string> Roles { get; set; } = [];
 }

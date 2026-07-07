@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.ParticipationPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Participación">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:MunicipalHeader />
+
+        <Grid Grid.Row="1" RowDefinitions="Auto,Auto,Auto,*">
+            <Border Grid.Row="0" BackgroundColor="{StaticResource Purple}" StrokeThickness="0" Padding="18,16">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                    <VerticalStackLayout Spacing="3">
+                        <Label Text="Participación Ciudadana" FontFamily="OpenSansSemibold" FontSize="21" TextColor="White" />
+                        <Label Text="Únete a las actividades de tu comunidad" FontSize="12" TextColor="#F2DCFF" />
+                    </VerticalStackLayout>
+                    <Button Grid.Column="1" Text="Mis cupos" Clicked="OnMyRegistrationsClicked"
+                            BackgroundColor="White" TextColor="{StaticResource Purple}" CornerRadius="12"
+                            FontFamily="OpenSansSemibold" Padding="12,8" />
+                </Grid>
+            </Border>
+
+            <ScrollView Grid.Row="1" Orientation="Horizontal" Padding="16,14,16,8">
+                <HorizontalStackLayout Spacing="10">
+                    <Border BackgroundColor="{StaticResource PurpleSoft}" Stroke="#D8B4FE" Padding="14,10" WidthRequest="110">
+                        <Border.GestureRecognizers><TapGestureRecognizer Tapped="OnCasaSomosTapped" /></Border.GestureRecognizers>
+                        <Border.StrokeShape><RoundRectangle CornerRadius="13" /></Border.StrokeShape>
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="⌂" FontSize="21" TextColor="{StaticResource Purple}" HorizontalTextAlignment="Center" />
+                            <Label Text="Casa Somos" FontSize="11" FontFamily="OpenSansSemibold" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border BackgroundColor="{StaticResource OrangeSoft}" Stroke="#F7C69F" Padding="14,10" WidthRequest="110">
+                        <Border.GestureRecognizers><TapGestureRecognizer Tapped="OnFairsCategoryTapped" /></Border.GestureRecognizers>
+                        <Border.StrokeShape><RoundRectangle CornerRadius="13" /></Border.StrokeShape>
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="▤" FontSize="21" TextColor="{StaticResource Orange}" HorizontalTextAlignment="Center" />
+                            <Label Text="Ferias" FontSize="11" FontFamily="OpenSansSemibold" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border BackgroundColor="{StaticResource GreenSoft}" Stroke="#A7E2C3" Padding="14,10" WidthRequest="110">
+                        <Border.GestureRecognizers><TapGestureRecognizer Tapped="OnWellnessTapped" /></Border.GestureRecognizers>
+                        <Border.StrokeShape><RoundRectangle CornerRadius="13" /></Border.StrokeShape>
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="♡" FontSize="23" TextColor="{StaticResource Green}" HorizontalTextAlignment="Center" />
+                            <Label Text="Bienestar" FontSize="11" FontFamily="OpenSansSemibold" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Border>
+                </HorizontalStackLayout>
+            </ScrollView>
+
+            <ScrollView Grid.Row="2" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <HorizontalStackLayout Padding="16,5,16,9" Spacing="8">
+                    <Button x:Name="EventsButton" Text="Eventos" WidthRequest="112" Style="{StaticResource PillButton}" Clicked="OnEventsClicked" />
+                    <Button x:Name="WorkshopsButton" Text="Talleres" WidthRequest="112" Style="{StaticResource PillButton}" Clicked="OnWorkshopsClicked" />
+                    <Button x:Name="FairsButton" Text="Ferias" WidthRequest="112" Style="{StaticResource PillButton}" Clicked="OnFairsClicked" />
+                    <Button x:Name="WellnessButton" Text="Bienestar" WidthRequest="112" Style="{StaticResource PillButton}" Clicked="OnWellnessClicked" />
+                </HorizontalStackLayout>
+            </ScrollView>
+
+            <RefreshView Grid.Row="3" x:Name="RefreshControl" Refreshing="OnRefreshing">
+                <CollectionView x:Name="ActivitiesCollection"
+                                ItemsSource="{Binding Activities}"
+                                SelectionMode="None"
+                                Margin="16,0,16,18">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Padding="30" Spacing="10" HorizontalOptions="Center">
+                            <Label Text="◌" FontSize="42" HorizontalTextAlignment="Center" TextColor="{StaticResource Gray300}" />
+                            <Label Text="No hay actividades disponibles" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
+                            <Label Text="Desliza hacia abajo para volver a consultar." Style="{StaticResource CaptionLabel}" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource CardBorder}" Padding="0" Margin="0,6">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                                <Grid RowDefinitions="5,Auto">
+                                    <BoxView Grid.Row="0" Color="{Binding AccentColor}" />
+                                    <VerticalStackLayout Grid.Row="1" Padding="15,13,15,15" Spacing="8">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Border BackgroundColor="{Binding BadgeColor}" Padding="8,3" HorizontalOptions="Start" StrokeThickness="0">
+                                                <Border.StrokeShape><RoundRectangle CornerRadius="10" /></Border.StrokeShape>
+                                                <Label Text="{Binding Badge}" FontSize="10" TextColor="White" />
+                                            </Border>
+                                            <Label Grid.Column="1" Text="›" FontSize="28" TextColor="{StaticResource Gray500}" />
+                                        </Grid>
+                                        <Label Text="{Binding Title}" FontFamily="OpenSansSemibold" FontSize="16" />
+                                        <Label Text="{Binding Description}" FontSize="12" TextColor="{StaticResource TextSecondary}" MaxLines="2" LineBreakMode="TailTruncation" />
+                                        <VerticalStackLayout Spacing="4">
+                                            <Label Text="{Binding DateText, StringFormat='▣  {0}'}" FontSize="12" />
+                                            <Label Text="{Binding TimeText, StringFormat='◷  {0}'}" FontSize="12" />
+                                            <Label Text="{Binding LocationText, StringFormat='⌖  {0}'}" FontSize="12" />
+                                            <Label Text="{Binding CapacityText, StringFormat='♙  {0}'}" FontSize="12" />
+                                        </VerticalStackLayout>
+                                        <Button Text="{Binding ButtonText}"
+                                                CommandParameter="{Binding .}"
+                                                Clicked="OnActivityClicked"
+                                                BackgroundColor="{Binding AccentColor}"
+                                                TextColor="White"
+                                                CornerRadius="12"
+                                                HeightRequest="45"
+                                                FontFamily="OpenSansSemibold" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </Grid>
+    </Grid>
+</ContentPage>

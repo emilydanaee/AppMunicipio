@@ -1,125 +1,111 @@
-﻿using ApiMunicipio.Data;
+using ApiMunicipio.Data;
 using ApiMunicipio.DTO;
 using ApiMunicipio.Models;
-using ApiMunicipio.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ApiMunicipio.Controllers
+namespace ApiMunicipio.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class CampaniaController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CampaniaController : ControllerBase
+    private readonly MunicipioContext _context;
+
+    public CampaniaController(MunicipioContext context)
     {
-        private readonly MunicipioContext _context;
+        _context = context;
+    }
 
-        public CampaniaController(MunicipioContext context, IImageService imageService)
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Campania>>> GetCampanias()
+    {
+        return Ok(await _context.Campanias.AsNoTracking()
+            .OrderBy(c => c.FechaInicio)
+            .ThenBy(c => c.HoraInicio)
+            .ToListAsync());
+    }
+
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<Campania>> GetCampaniaById(int id)
+    {
+        var campania = await _context.Campanias.AsNoTracking()
+            .FirstOrDefaultAsync(c => c.IdCampania == id);
+        return campania is null
+            ? NotFound(new { message = "La campaña no existe." })
+            : Ok(campania);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Campania>> AddCampania([FromForm] CampaniaDTO dto)
+    {
+        if (dto.FechaFin < dto.FechaInicio)
+            return BadRequest(new { message = "La fecha final no puede ser anterior a la fecha inicial." });
+        if (dto.HoraFin <= dto.HoraInicio)
+            return BadRequest(new { message = "La hora final debe ser posterior a la hora inicial." });
+
+        var campaign = new Campania
         {
-            _context = context;
-        }
+            NombreCampania = dto.NombreCampania.Trim(),
+            TipoCampania = dto.TipoCampania.Trim(),
+            DescripcionCampania = dto.DescripcionCampania.Trim(),
+            FechaInicio = dto.FechaInicio,
+            FechaFin = dto.FechaFin,
+            HoraInicio = dto.HoraInicio,
+            HoraFin = dto.HoraFin,
+            UbicacionCampania = dto.UbicacionCampania.Trim(),
+            ResponsableCampania = dto.ResponsableCampania.Trim(),
+            ImagenCampania = await SaveImageAsync(dto.Imagen)
+        };
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Campania>>> GetCampanias()
-        {
-            return Ok(await _context.Campanias.ToListAsync());
-        }
+        _context.Campanias.Add(campaign);
+        await _context.SaveChangesAsync();
+        return CreatedAtAction(nameof(GetCampaniaById), new { id = campaign.IdCampania }, campaign);
+    }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Campania>> GetCampaniaByID(int id)
-        {
-            var campania = await _context.Campanias.FindAsync(id);
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdateCampania(int id, Campania updated)
+    {
+        var campaign = await _context.Campanias.FindAsync(id);
+        if (campaign is null)
+            return NotFound(new { message = "La campaña no existe." });
 
-            if (campania == null)
-                return NotFound();
+        campaign.NombreCampania = updated.NombreCampania;
+        campaign.TipoCampania = updated.TipoCampania;
+        campaign.DescripcionCampania = updated.DescripcionCampania;
+        campaign.FechaInicio = updated.FechaInicio;
+        campaign.FechaFin = updated.FechaFin;
+        campaign.HoraInicio = updated.HoraInicio;
+        campaign.HoraFin = updated.HoraFin;
+        campaign.UbicacionCampania = updated.UbicacionCampania;
+        campaign.ResponsableCampania = updated.ResponsableCampania;
+        campaign.ImagenCampania = updated.ImagenCampania;
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
 
-            return Ok(campania);
-        }
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteCampania(int id)
+    {
+        var campaign = await _context.Campanias.FindAsync(id);
+        if (campaign is null)
+            return NotFound(new { message = "La campaña no existe." });
 
-        [HttpPost]
-        public async Task<ActionResult<Campania>> AddCampania([FromForm] CampaniaDTO dto)
-        {
-            string? rutaImagen = null;
+        _context.Campanias.Remove(campaign);
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
 
-            // Guardar imagen si existe
-            if (dto.Imagen != null && dto.Imagen.Length > 0)
-            {
-                // Nombre único para evitar archivos repetidos
-                string nombreArchivo = Guid.NewGuid().ToString() +
-                                       Path.GetExtension(dto.Imagen.FileName);
+    private static async Task<string?> SaveImageAsync(IFormFile? image)
+    {
+        if (image is null || image.Length == 0)
+            return null;
 
-                // Ruta física
-                string carpeta = Path.Combine(
-                    Directory.GetCurrentDirectory(),
-                    "wwwroot",
-                    "images");
-
-                // Crear carpeta si no existe
-                if (!Directory.Exists(carpeta))
-                {
-                    Directory.CreateDirectory(carpeta);
-                }
-
-                string rutaCompleta = Path.Combine(carpeta, nombreArchivo);
-
-                using (var stream = new FileStream(rutaCompleta, FileMode.Create))
-                {
-                    await dto.Imagen.CopyToAsync(stream);
-                }
-
-                // Ruta que se guardará en la BD
-                rutaImagen = "images/" + nombreArchivo;
-            }
-
-            var nuevaCampania = new Campania
-            {
-                NombreCampania = dto.NombreCampania,
-                DescripcionCampania = dto.DescripcionCampania,
-                TipoCampania = dto.TipoCampania,
-                FechaInicio = dto.FechaInicio,
-                FechaFin = dto.FechaFin,
-                HoraInicio = dto.HoraInicio,
-                HoraFin = dto.HoraFin,
-                UbicacionCampania = dto.UbicacionCampania,
-                ResponsableCampania = dto.ResponsableCampania,
-                ImagenCampania = rutaImagen
-            };
-
-            _context.Campanias.Add(nuevaCampania);
-
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(
-                nameof(GetCampaniaByID),
-                new { id = nuevaCampania.IdCampania },
-                nuevaCampania);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCampania(int id, Campania campania)
-        {
-            if (id != campania.IdCampania)
-                return BadRequest();
-
-            _context.Entry(campania).State = EntityState.Modified;
-
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCampania(int id)
-        {
-            var campania = await _context.Campanias.FindAsync(id);
-
-            if (campania == null)
-                return NotFound();
-
-            _context.Campanias.Remove(campania);
-
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
+        var folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "campania");
+        Directory.CreateDirectory(folder);
+        var fileName = $"{Guid.NewGuid():N}{Path.GetExtension(image.FileName)}";
+        await using var stream = System.IO.File.Create(Path.Combine(folder, fileName));
+        await image.CopyToAsync(stream);
+        return $"uploads/campania/{fileName}";
     }
 }

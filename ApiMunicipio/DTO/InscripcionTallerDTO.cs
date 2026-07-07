@@ -1,15 +1,21 @@
-﻿namespace ApiMunicipio.DTO
+using System.ComponentModel.DataAnnotations;
+
+namespace ApiMunicipio.DTO;
+
+public class InscripcionTallerDTO
 {
-    public class InscripcionTallerDTO
-    {
-        public int IdTaller { get; set; }
+    [Range(1, int.MaxValue)]
+    public int IdTaller { get; set; }
 
-        public string Nombre { get; set; }
+    [Required]
+    public string Nombre { get; set; } = string.Empty;
 
-        public string Cedula { get; set; }
+    [Required]
+    public string Cedula { get; set; } = string.Empty;
 
-        public string Correo { get; set; }
+    [Required, EmailAddress]
+    public string Correo { get; set; } = string.Empty;
 
-        public string Telefono { get; set; }
-    }
+    [Required]
+    public string Telefono { get; set; } = string.Empty;
 }

@@ -3,12 +3,34 @@
     x:Class="MauiMunicipio.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:MauiMunicipio"
-    Title="MauiMunicipio">
+    xmlns:pages="clr-namespace:MauiMunicipio.Pages"
+    FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarBackgroundColor="White"
+    Shell.TabBarForegroundColor="{StaticResource PrimaryBlue}"
+    Shell.TabBarTitleColor="{StaticResource PrimaryBlue}"
+    Shell.TabBarUnselectedColor="{StaticResource Gray500}">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+    <TabBar Route="principal">
+        <ShellContent
+            Title="Inicio"
+            Route="inicio"
+            ContentTemplate="{DataTemplate pages:DashboardPage}" />
+        <ShellContent
+            Title="Módulos"
+            Route="modulos"
+            ContentTemplate="{DataTemplate pages:ModulesPage}" />
+        <ShellContent
+            Title="Agenda"
+            Route="participacion"
+            ContentTemplate="{DataTemplate pages:ParticipationPage}" />
+        <ShellContent
+            Title="Reportar"
+            Route="reportar"
+            ContentTemplate="{DataTemplate pages:ReportPage}" />
+        <ShellContent
+            Title="Alertas"
+            Route="alertas"
+            ContentTemplate="{DataTemplate pages:AlertsPage}" />
+    </TabBar>
 </Shell>

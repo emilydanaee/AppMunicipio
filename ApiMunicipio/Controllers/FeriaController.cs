@@ -1,4 +1,4 @@
-﻿using ApiMunicipio.Data;
+using ApiMunicipio.Data;
 using ApiMunicipio.DTO;
 using ApiMunicipio.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +37,7 @@ namespace ApiMunicipio.Controllers
         [HttpPost]
         public async Task<ActionResult<Feria>> AddFeria([FromForm] FeriaDTO dto)
         {
-            string? rutaImagen = null;
+            string rutaImagen = string.Empty;
 
             // Guardar imagen si existe
             if (dto.Imagen != null && dto.Imagen.Length > 0)
