@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.ProfilePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Perfil">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:MunicipalHeader ShowBack="True" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,24,20,32" Spacing="16" MaximumWidthRequest="560" HorizontalOptions="Center">
+                <Border WidthRequest="84" HeightRequest="84" HorizontalOptions="Center" BackgroundColor="{StaticResource PrimaryBlue}" StrokeThickness="0">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="42" /></Border.StrokeShape>
+                    <Label x:Name="InitialsLabel" Text="U" FontFamily="OpenSansSemibold" FontSize="31" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+                </Border>
+                <VerticalStackLayout Spacing="3">
+                    <Label x:Name="NameLabel" Text="Invitado" Style="{StaticResource TitleLabel}" HorizontalTextAlignment="Center" />
+                    <Label x:Name="RoleLabel" Text="Usuario ciudadano" Style="{StaticResource CaptionLabel}" HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+
+                <Border Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="17" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="13">
+                        <Label Text="Datos de la cuenta" Style="{StaticResource SectionTitle}" />
+                        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+                            <Label Grid.Row="0" Text="✉" TextColor="{StaticResource PrimaryBlue}" />
+                            <Label Grid.Row="0" Grid.Column="1" x:Name="EmailLabel" Text="Sin correo" />
+                            <Label Grid.Row="1" Text="#" TextColor="{StaticResource PrimaryBlue}" />
+                            <Label Grid.Row="1" Grid.Column="1" x:Name="IdLabel" Text="Sin cédula" />
+                            <Label Grid.Row="2" Text="⌖" TextColor="{StaticResource PrimaryBlue}" />
+                            <Label Grid.Row="2" Grid.Column="1" x:Name="SectorLabel" Text="Sin sector" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border x:Name="QuickActionsBorder" Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="17" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Mi actividad" Style="{StaticResource SectionTitle}" />
+                        <Button Text="Mis inscripciones" Style="{StaticResource OutlineButton}" Clicked="OnRegistrationsClicked" />
+                        <Button Text="Mis solicitudes y reservas" Style="{StaticResource OutlineButton}" Clicked="OnRequestsClicked" />
+                        <Button Text="Mis reportes" Style="{StaticResource OutlineButton}" BorderColor="{StaticResource Red}" TextColor="{StaticResource Red}" Clicked="OnReportsClicked" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button Text="Configurar dirección de la API" Style="{StaticResource OutlineButton}" Clicked="OnApiSettingsClicked" />
+                <Button x:Name="AuthButton" Text="Cerrar sesión" Style="{StaticResource PrimaryButton}" BackgroundColor="{StaticResource Red}" Clicked="OnAuthClicked" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

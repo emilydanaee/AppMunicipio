@@ -1,8 +1,12 @@
-﻿namespace ApiMunicipio.DTO
+using System.ComponentModel.DataAnnotations;
+
+namespace ApiMunicipio.DTO;
+
+public class LoginDTO
 {
-    public class LoginDTO
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
+    [Required, EmailAddress]
+    public string Email { get; set; } = string.Empty;
+
+    [Required]
+    public string Password { get; set; } = string.Empty;
 }

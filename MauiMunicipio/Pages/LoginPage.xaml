@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Iniciar sesión">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:MunicipalHeader ShowBack="True" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="24,28" Spacing="18" MaximumWidthRequest="520" HorizontalOptions="Center">
+                <Border WidthRequest="74" HeightRequest="74" HorizontalOptions="Center"
+                        BackgroundColor="{StaticResource PrimaryBlue}" StrokeThickness="0">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="37" /></Border.StrokeShape>
+                    <Label Text="Q" TextColor="White" FontSize="34" FontFamily="OpenSansSemibold"
+                           HorizontalOptions="Center" VerticalOptions="Center" />
+                </Border>
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Iniciar sesión" Style="{StaticResource TitleLabel}" HorizontalTextAlignment="Center" />
+                    <Label Text="Accede a todos los servicios municipales" Style="{StaticResource CaptionLabel}" FontSize="13" HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+
+                <Border Style="{StaticResource CardBorder}" Padding="20">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="20" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Correo electrónico" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Border Stroke="{StaticResource BorderColor}" BackgroundColor="White" Padding="12,0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                            <Entry x:Name="EmailEntry" Placeholder="correo@ejemplo.com" Keyboard="Email" />
+                        </Border>
+
+                        <Label Text="Contraseña" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Border Stroke="{StaticResource BorderColor}" BackgroundColor="White" Padding="12,0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Entry x:Name="PasswordEntry" Placeholder="Tu contraseña" IsPassword="True" ReturnType="Go" Completed="OnLoginCompleted" />
+                                <Button Grid.Column="1" Text="👁" Clicked="OnTogglePassword" BackgroundColor="Transparent" WidthRequest="42" TextColor="{StaticResource Gray500}" />
+                            </Grid>
+                        </Border>
+
+                        <ActivityIndicator x:Name="LoadingIndicator" IsVisible="False" IsRunning="False" Color="{StaticResource PrimaryBlue}" />
+                        <Label x:Name="ErrorLabel" IsVisible="False" TextColor="{StaticResource Red}" FontSize="12" />
+
+                        <Button x:Name="LoginButton" Text="Ingresar" Style="{StaticResource PrimaryButton}" Clicked="OnLoginClicked" />
+                        <Button Text="Configurar conexión con la API" Style="{StaticResource OutlineButton}" Clicked="OnApiSettingsClicked" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                    <Label Text="¿No tienes cuenta?" Style="{StaticResource CaptionLabel}" VerticalOptions="Center" />
+                    <Button Text="Regístrate aquí" Clicked="OnRegisterClicked" BackgroundColor="Transparent" TextColor="{StaticResource Green}" FontFamily="OpenSansSemibold" Padding="3" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.MyReportsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Mis reportes">
+
+    <Grid RowDefinitions="Auto,Auto,*">
+        <controls:MunicipalHeader ShowBack="True" />
+        <Border Grid.Row="1" BackgroundColor="{StaticResource Red}" StrokeThickness="0" Padding="18,16">
+            <VerticalStackLayout Spacing="3">
+                <Label Text="Mis reportes" FontFamily="OpenSansSemibold" FontSize="21" TextColor="White" />
+                <Label Text="Consulta el estado de tus reportes ciudadanos" FontSize="12" TextColor="#FFE1DF" />
+            </VerticalStackLayout>
+        </Border>
+
+        <Grid Grid.Row="2">
+            <RefreshView x:Name="RefreshControl" Refreshing="OnRefreshing">
+                <CollectionView ItemsSource="{Binding Reports}" Margin="16,12,16,18" SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Padding="36" Spacing="10" HorizontalOptions="Center">
+                            <Label Text="!" FontSize="44" TextColor="{StaticResource Gray300}" HorizontalTextAlignment="Center" />
+                            <Label Text="No tienes reportes registrados" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
+                            <Label Text="Los reportes no anónimos aparecerán aquí." Style="{StaticResource CaptionLabel}" HorizontalTextAlignment="Center" />
+                            <Button Text="Crear reporte" Style="{StaticResource PrimaryButton}" BackgroundColor="{StaticResource Red}" Clicked="OnNewReportClicked" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource CardBorder}" Margin="0,6">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                                <VerticalStackLayout Spacing="7">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Text="{Binding Type}" FontFamily="OpenSansSemibold" FontSize="15" />
+                                        <Border Grid.Column="1" BackgroundColor="{Binding StatusColor}" StrokeThickness="0" Padding="8,3">
+                                            <Border.StrokeShape><RoundRectangle CornerRadius="9" /></Border.StrokeShape>
+                                            <Label Text="{Binding Status}" FontSize="9" TextColor="White" />
+                                        </Border>
+                                    </Grid>
+                                    <Label Text="{Binding Description}" FontSize="12" TextColor="{StaticResource TextSecondary}" MaxLines="3" />
+                                    <Label Text="{Binding DateText, StringFormat='▣  {0}'}" FontSize="11" />
+                                    <Label Text="{Binding LocationText, StringFormat='⌖  {0}'}" FontSize="11" />
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                        <Label Text="{Binding Id, StringFormat='Seguimiento No. {0}'}" Style="{StaticResource CaptionLabel}" VerticalOptions="Center" />
+                                        <Button Grid.Column="1" Text="Ver mapa" Style="{StaticResource OutlineButton}" HeightRequest="40"
+                                                IsVisible="{Binding HasLocation}" CommandParameter="{Binding .}" Clicked="OnMapClicked" />
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+            <ActivityIndicator x:Name="LoadingIndicator" IsVisible="False" IsRunning="False"
+                               Color="{StaticResource Red}" VerticalOptions="Center" HorizontalOptions="Center" />
+        </Grid>
+    </Grid>
+</ContentPage>

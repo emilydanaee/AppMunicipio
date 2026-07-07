@@ -1,0 +1,9 @@
+APP MUNICIPIO V3 - PASOS
+
+1. Cierra todas las ventanas anteriores de ApiMunicipio y MauiMunicipio.
+2. Abre AppMunicipio.sln.
+3. Ejecuta ApiMunicipio con el perfil http. Debe quedar en http://localhost:5279.
+4. Sin cerrar la API, abre otra ventana de Visual Studio.
+5. Ejecuta MauiMunicipio con Windows Machine.
+
+Esta versión resuelve LocalDB en cada solicitud, por lo que no conserva una canalización antigua cuando LocalDB se reinicia. También crea la base AppMunicipio_Database_v3 y carga talleres, ferias, campañas y alertas de demostración.

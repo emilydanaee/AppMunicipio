@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.RegisterPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Registro">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:MunicipalHeader ShowBack="True" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="22,24,22,34" Spacing="16" MaximumWidthRequest="560" HorizontalOptions="Center">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Crear una cuenta" Style="{StaticResource TitleLabel}" />
+                    <Label Text="Regístrate para inscribirte, reportar y dar seguimiento a solicitudes." Style="{StaticResource CaptionLabel}" FontSize="13" />
+                </VerticalStackLayout>
+
+                <Border Style="{StaticResource CardBorder}" Padding="20">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="20" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="9">
+                        <Label Text="Nombre completo" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Entry x:Name="NameEntry" Placeholder="Nombres y apellidos" />
+
+                        <Label Text="Cédula" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Entry x:Name="IdEntry" Placeholder="10 dígitos" Keyboard="Numeric" MaxLength="10" />
+
+                        <Label Text="Correo electrónico" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Entry x:Name="EmailEntry" Placeholder="correo@ejemplo.com" Keyboard="Email" />
+
+                        <Label Text="Sector" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Entry x:Name="SectorEntry" Placeholder="Ej.: Quitumbe, Calderón, Centro" />
+
+                        <Label Text="Contraseña" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Entry x:Name="PasswordEntry" Placeholder="Mínimo 6 caracteres" IsPassword="True" />
+
+                        <Label Text="Confirmar contraseña" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Entry x:Name="ConfirmEntry" Placeholder="Repite tu contraseña" IsPassword="True" />
+
+                        <ActivityIndicator x:Name="LoadingIndicator" IsVisible="False" IsRunning="False" Color="{StaticResource PrimaryBlue}" />
+                        <Label x:Name="ErrorLabel" IsVisible="False" TextColor="{StaticResource Red}" FontSize="12" />
+
+                        <Button x:Name="RegisterButton" Text="Registrarme" Style="{StaticResource PrimaryButton}" BackgroundColor="{StaticResource Green}" Clicked="OnRegisterClicked" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.DashboardStatsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Estadísticas">
+    <Grid RowDefinitions="Auto,Auto,*">
+        <controls:MunicipalHeader Grid.Row="0" ShowBack="True" />
+        <Border Grid.Row="1" BackgroundColor="{StaticResource PrimaryBlueDark}" StrokeThickness="0" Padding="18,16">
+            <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout>
+                    <Label Text="Panel estadístico MAUI" FontFamily="OpenSansSemibold" FontSize="21" TextColor="White" />
+                    <Label Text="Resumen de participación, casos y solicitudes" FontSize="12" TextColor="#DDEEFF" />
+                </VerticalStackLayout>
+                <Button Grid.Column="1" Text="↻" Clicked="OnRefreshClicked" BackgroundColor="#22FFFFFF" TextColor="White" WidthRequest="44" HeightRequest="44" CornerRadius="22" FontSize="20" />
+            </Grid>
+        </Border>
+        <ScrollView Grid.Row="2">
+            <VerticalStackLayout Padding="16,14,16,28" Spacing="14">
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="10" RowSpacing="10">
+                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource CardBorder}"><VerticalStackLayout><Label Text="Actividades" Style="{StaticResource CaptionLabel}" /><Label x:Name="ActivitiesLabel" Text="0" FontFamily="OpenSansSemibold" FontSize="28" TextColor="{StaticResource Purple}" /></VerticalStackLayout></Border>
+                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource CardBorder}"><VerticalStackLayout><Label Text="Inscripciones" Style="{StaticResource CaptionLabel}" /><Label x:Name="RegistrationsLabel" Text="0" FontFamily="OpenSansSemibold" FontSize="28" TextColor="{StaticResource Purple}" /></VerticalStackLayout></Border>
+                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource CardBorder}"><VerticalStackLayout><Label Text="Reportes" Style="{StaticResource CaptionLabel}" /><Label x:Name="ReportsLabel" Text="0" FontFamily="OpenSansSemibold" FontSize="28" TextColor="{StaticResource Red}" /></VerticalStackLayout></Border>
+                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource CardBorder}"><VerticalStackLayout><Label Text="Alertas y casos" Style="{StaticResource CaptionLabel}" /><Label x:Name="CasesLabel" Text="0" FontFamily="OpenSansSemibold" FontSize="28" TextColor="{StaticResource Red}" /></VerticalStackLayout></Border>
+                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource CardBorder}"><VerticalStackLayout><Label Text="Solicitudes" Style="{StaticResource CaptionLabel}" /><Label x:Name="RequestsLabel" Text="0" FontFamily="OpenSansSemibold" FontSize="28" TextColor="{StaticResource SecondaryBlue}" /></VerticalStackLayout></Border>
+                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource CardBorder}"><VerticalStackLayout><Label Text="Obras barriales" Style="{StaticResource CaptionLabel}" /><Label x:Name="WorksLabel" Text="0" FontFamily="OpenSansSemibold" FontSize="28" TextColor="{StaticResource SecondaryBlue}" /></VerticalStackLayout></Border>
+                </Grid>
+
+                <Border Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Estado de reportes ciudadanos" Style="{StaticResource SectionTitle}" />
+                        <Label x:Name="PendingLabel" Text="Pendientes: 0" FontSize="12" />
+                        <ProgressBar x:Name="PendingBar" Progress="0" ProgressColor="{StaticResource Orange}" />
+                        <Label x:Name="InProgressLabel" Text="En atención: 0" FontSize="12" />
+                        <ProgressBar x:Name="InProgressBar" Progress="0" ProgressColor="{StaticResource SecondaryBlue}" />
+                        <Label x:Name="ClosedLabel" Text="Cerrados: 0" FontSize="12" />
+                        <ProgressBar x:Name="ClosedBar" Progress="0" ProgressColor="{StaticResource Green}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource CardBorder}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="7">
+                        <Label Text="Lectura rápida" Style="{StaticResource SectionTitle}" />
+                        <Label x:Name="SummaryLabel" Text="Actualizando información..." FontSize="13" TextColor="{StaticResource TextSecondary}" />
+                    </VerticalStackLayout>
+                </Border>
+                <ActivityIndicator x:Name="LoadingIndicator" IsVisible="False" IsRunning="False" Color="{StaticResource PrimaryBlue}" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

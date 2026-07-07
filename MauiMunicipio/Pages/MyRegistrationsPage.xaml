@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.MyRegistrationsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Mis inscripciones">
+
+    <Grid RowDefinitions="Auto,Auto,*">
+        <controls:MunicipalHeader ShowBack="True" />
+        <Border Grid.Row="1" BackgroundColor="{StaticResource SecondaryBlue}" StrokeThickness="0" Padding="18,16">
+            <VerticalStackLayout Spacing="3">
+                <Label Text="Mis inscripciones" FontFamily="OpenSansSemibold" FontSize="21" TextColor="White" />
+                <Label Text="Consulta o cancela tus cupos reservados" FontSize="12" TextColor="#DDEEFF" />
+            </VerticalStackLayout>
+        </Border>
+
+        <Grid Grid.Row="2">
+            <RefreshView x:Name="RefreshControl" Refreshing="OnRefreshing">
+                <CollectionView ItemsSource="{Binding Registrations}" Margin="16,12,16,18" SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Padding="36" Spacing="10" HorizontalOptions="Center">
+                            <Label Text="▣" FontSize="44" TextColor="{StaticResource Gray300}" HorizontalTextAlignment="Center" />
+                            <Label Text="No tienes inscripciones" Style="{StaticResource SectionTitle}" HorizontalTextAlignment="Center" />
+                            <Label Text="Explora los talleres disponibles y reserva un cupo." Style="{StaticResource CaptionLabel}" HorizontalTextAlignment="Center" />
+                            <Button Text="Explorar talleres" Style="{StaticResource PrimaryButton}" Clicked="OnExploreClicked" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource CardBorder}" Margin="0,6">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                                <VerticalStackLayout Spacing="8">
+                                    <Border BackgroundColor="{StaticResource GreenSoft}" StrokeThickness="0" Padding="8,3" HorizontalOptions="Start">
+                                        <Border.StrokeShape><RoundRectangle CornerRadius="9" /></Border.StrokeShape>
+                                        <Label Text="Cupo confirmado" FontSize="10" TextColor="{StaticResource Green}" />
+                                    </Border>
+                                    <Label Text="{Binding NombreTaller}" FontFamily="OpenSansSemibold" FontSize="16" />
+                                    <Label Text="{Binding DescripcionTaller}" FontSize="12" TextColor="{StaticResource TextSecondary}" MaxLines="2" />
+                                    <Label Text="{Binding DateText, StringFormat='▣  {0}'}" FontSize="12" />
+                                    <Label Text="{Binding TimeText, StringFormat='◷  {0}'}" FontSize="12" />
+                                    <Label Text="{Binding LocationText, StringFormat='⌖  {0}'}" FontSize="12" />
+                                    <Grid ColumnDefinitions="*,*" ColumnSpacing="9">
+                                        <Button Grid.Column="0" Text="Ver detalle" Style="{StaticResource OutlineButton}"
+                                                CommandParameter="{Binding .}" Clicked="OnDetailClicked" />
+                                        <Button Grid.Column="1" Text="Cancelar cupo" Style="{StaticResource OutlineButton}"
+                                                BorderColor="{StaticResource Red}" TextColor="{StaticResource Red}"
+                                                CommandParameter="{Binding .}" Clicked="OnCancelClicked" />
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+
+            <ActivityIndicator x:Name="LoadingIndicator" IsVisible="False" IsRunning="False"
+                               Color="{StaticResource PrimaryBlue}" VerticalOptions="Center" HorizontalOptions="Center" />
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,26 +1,28 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace ApiMunicipio.Models
-{// Reserva de Espacios
-    public class Reserva
-    {
-        // MODULO 3: RESERVA DE ESPACIOS PÚBLICOS
-        [Key]
-        public int IdReserva { get; set; }
-        [Required]
-        public string EspacioReserva { get; set; }
-        [Required]
-        public DateOnly FechaReserva { get; set; }
-        [Required]
-        public TimeOnly HoraInicio { get; set; }
-        [Required]
-        public TimeOnly HoraFin { get; set; }
-        [Required]
-        public string MotivoReserva { get; set; }
-        public string EstadoReserva { get; set; }
-        public string Observaciones { get; set; }
+namespace ApiMunicipio.Models;
 
-        public string DocumentoAdjunto { get; set; }
+public class Reserva
+{
+    [Key]
+    public int IdReserva { get; set; }
 
-    }
+    [Required]
+    public string EspacioReserva { get; set; } = string.Empty;
+
+    [Required]
+    public DateOnly FechaReserva { get; set; }
+
+    [Required]
+    public TimeOnly HoraInicio { get; set; }
+
+    [Required]
+    public TimeOnly HoraFin { get; set; }
+
+    [Required]
+    public string MotivoReserva { get; set; } = string.Empty;
+
+    public string EstadoReserva { get; set; } = "Solicitada";
+    public string Observaciones { get; set; } = string.Empty;
+    public string DocumentoAdjunto { get; set; } = string.Empty;
 }

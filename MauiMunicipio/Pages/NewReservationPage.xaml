@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.NewReservationPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Nueva reserva">
+
+    <Grid RowDefinitions="Auto,*">
+        <controls:MunicipalHeader ShowBack="True" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,22,20,32" Spacing="14" MaximumWidthRequest="620" HorizontalOptions="Center">
+                <Label Text="Reservar espacio público" Style="{StaticResource TitleLabel}" />
+                <Label Text="Envía una solicitud para utilizar un espacio municipal." Style="{StaticResource CaptionLabel}" FontSize="13" />
+
+                <Border Style="{StaticResource CardBorder}" Padding="18">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Espacio" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Picker x:Name="SpacePicker" Title="Selecciona un espacio" SelectedIndexChanged="OnSpaceChanged" />
+                        <Entry x:Name="OtherSpaceEntry" IsVisible="False" Placeholder="Escribe el nombre del espacio" />
+
+                        <Label Text="Motivo" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <Editor x:Name="MotiveEditor" Placeholder="Describe la actividad que realizarás..." AutoSize="TextChanges" />
+
+                        <Label Text="Fecha" FontFamily="OpenSansSemibold" FontSize="13" />
+                        <DatePicker x:Name="ReservationDatePicker" Format="dd/MM/yyyy" />
+
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                            <VerticalStackLayout>
+                                <Label Text="Hora de inicio" FontFamily="OpenSansSemibold" FontSize="13" />
+                                <TimePicker x:Name="StartTimePicker" Format="HH:mm" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1">
+                                <Label Text="Hora de fin" FontFamily="OpenSansSemibold" FontSize="13" />
+                                <TimePicker x:Name="EndTimePicker" Format="HH:mm" />
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <Entry x:Name="NotesEntry" Placeholder="Observaciones adicionales (opcional)" />
+                        <ActivityIndicator x:Name="LoadingIndicator" IsVisible="False" IsRunning="False" Color="{StaticResource SecondaryBlue}" />
+                        <Label x:Name="ErrorLabel" IsVisible="False" TextColor="{StaticResource Red}" FontSize="12" />
+                        <Button x:Name="SubmitButton" Text="Enviar reserva" Style="{StaticResource PrimaryButton}" BackgroundColor="{StaticResource SecondaryBlue}" Clicked="OnSubmitClicked" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

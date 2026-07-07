@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MauiMunicipio.Pages.AttendeesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MauiMunicipio.Controls"
+    Title="Inscritos">
+    <Grid RowDefinitions="Auto,Auto,*">
+        <controls:MunicipalHeader Grid.Row="0" ShowBack="True" />
+        <Border Grid.Row="1" BackgroundColor="{StaticResource Purple}" StrokeThickness="0" Padding="18,16">
+            <VerticalStackLayout Spacing="3">
+                <Label Text="Ciudadanos inscritos" FontFamily="OpenSansSemibold" FontSize="21" TextColor="White" />
+                <Label x:Name="WorkshopLabel" FontSize="12" TextColor="#F4E4FF" />
+            </VerticalStackLayout>
+        </Border>
+        <Grid Grid.Row="2">
+            <CollectionView ItemsSource="{Binding Items}" Margin="16,12,16,20">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout Padding="40" Spacing="8">
+                        <Label Text="No existen inscritos todavía." HorizontalTextAlignment="Center" Style="{StaticResource SectionTitle}" />
+                        <Label Text="Las reservas realizadas desde la agenda aparecerán aquí." HorizontalTextAlignment="Center" Style="{StaticResource CaptionLabel}" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardBorder}" Margin="0,5">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="{Binding Nombre}" FontFamily="OpenSansSemibold" FontSize="15" />
+                                <Label Text="{Binding Cedula, StringFormat='Cédula: {0}'}" FontSize="12" />
+                                <Label Text="{Binding Correo, StringFormat='Correo: {0}'}" FontSize="12" />
+                                <Label Text="{Binding Telefono, StringFormat='Teléfono: {0}'}" FontSize="12" />
+                                <Label Text="{Binding Fecha, StringFormat='Inscripción: {0:dd MMM yyyy HH:mm}'}" Style="{StaticResource CaptionLabel}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <ActivityIndicator x:Name="LoadingIndicator" IsVisible="False" IsRunning="False" Color="{StaticResource Purple}" HorizontalOptions="Center" VerticalOptions="Center" />
+        </Grid>
+    </Grid>
+</ContentPage>

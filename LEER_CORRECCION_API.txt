@@ -1,0 +1,12 @@
+CORRECCION APLICADA
+
+1. Se corrigio el error de inicio en DatabaseSeeder causado por ImagenFeria NULL sobre una columna NOT NULL.
+2. Se corrigio FeriaController para guardar cadena vacia cuando no se adjunta imagen.
+3. Se cambio el perfil http para abrir http://localhost:5279/swagger.
+
+PASOS:
+- Cierre Visual Studio y la API anterior.
+- Abra AppMunicipio.sln de esta carpeta.
+- Establezca ApiMunicipio como proyecto de inicio.
+- Seleccione el perfil http y ejecute.
+- Luego abra MauiMunicipio en otra ventana de Visual Studio.

@@ -1,22 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace ApiMunicipio.Models
+namespace ApiMunicipio.Models;
+
+public class Permiso
 {
-    // Permisos Municipales
-    public class Permiso
-    {
-        // MODULO 3: PERMISOS MUNICIPALES
-        [Key]
-        public int IdPermiso { get; set; }
-        [Required]
-        public string TipoPermiso { get; set; }
-        public string DescripcionPermiso { get; set; }
-        public DateTime FechaPermiso { get; set; } = DateTime.Now;
-        public string EstadoPermiso { get; set; }
+    [Key]
+    public int IdPermiso { get; set; }
 
-        public string DocumentoAdjunto { get; set; }
+    [Required]
+    public string TipoPermiso { get; set; } = string.Empty;
 
-        public string Observaciones { get; set; }
-
-    }
+    public string DescripcionPermiso { get; set; } = string.Empty;
+    public DateTime FechaPermiso { get; set; } = DateTime.Now;
+    public string EstadoPermiso { get; set; } = "Ingresado";
+    public string DocumentoAdjunto { get; set; } = string.Empty;
+    public string Observaciones { get; set; } = string.Empty;
 }
